@@ -4,26 +4,26 @@ import './App.css';
 // Import your components
 import Navbar from './components/Navbar';
 import Landing from './components/Landing';
-// import About from './components/About';
-// import Skills from './components/Skills';
-// import Resume from './components/Resume';
-// import Projects from './components/Projects';
-// import Testimonials from './components/Testimonials';
-// import Contact from './components/Contact';
-// import Footer from './components/Footer';
+import Timeline from './components/Timeline';
+
+const timelineData = [
+  {
+      year: "2019",
+      achievements: ["Achievement 1", "Achievement 2", "Achievement 3"]
+  },
+  {
+      year: "2020",
+      achievements: ["Achievement 1", "Achievement 2", "Achievement 3"]
+  },
+  // Add more years and achievements here...
+];
 
 function App() {
   return (
     <div className="App">
       <Navbar />
       <Landing />
-      {/* <About />
-      <Skills />
-      <Resume />
-      <Projects />
-      <Testimonials />
-      <Contact />
-      <Footer />  */}
+      <Timeline data={timelineData} />
     </div>
   );
 }

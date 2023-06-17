@@ -1,0 +1,47 @@
+.timeline {
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px 0;
+}
+
+.node {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 50px; /* Space between nodes */
+    position: relative;
+}
+
+.node::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    border-left: 2px solid #fff; /* The line connecting the nodes */
+    z-index: -1;
+}
+
+.node-year {
+    background-color: #000;
+    color: #fff;
+    margin-right: 50px;
+    z-index: 1;
+    font-size: 2rem;
+    padding: 10px;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.node-achievements {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}

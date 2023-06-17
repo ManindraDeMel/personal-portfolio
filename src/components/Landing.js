@@ -8,7 +8,6 @@ const Landing = () => {
         <section id="introduction" className="landing">
             <div className="landing-content">
                 <h1>Manindra de Mel</h1>
-                <p className="profession-text">I'm a Full stack developer</p>
                 <p className="short-description">
                 Based in the heart of Canberra, I bring over 5 years of extensive experience in the IT industry, where I have honed my skills in various domains. 
                 What truly drives me is the thrill of solving complex computer science problems, designing innovative and effective solutions, 
