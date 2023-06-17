@@ -1,4 +1,12 @@
 /* Landing.css */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@300;400;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Lato', sans-serif;
+}
 
 .landing {
     display: flex;
@@ -6,38 +14,45 @@
     align-items: center;
     height: 100vh;
     padding: 0 50px;
-    color: #fff;  /* changed to white for a b&w theme */
-    background-color: #000;  /* changed to black for a b&w theme */
+    color: #fff;
+    background-color: #000;
 }
 
 .landing-content {
     flex: 1;
     padding-right: 50px;
+    animation: fadeIn 2s ease-out;
 }
 
 .landing-image {
     flex: 1;
-    text-align: right;
+    text-align: center;
+    animation: fadeIn 2s ease-out;
 }
 
 .landing-image img {
-    max-width: 100%;
+    width: 20vw;
     height: auto;
+    border-radius: 20%;
+    border: 2px solid #2c2c2c; /* Light gray border */
+    box-shadow: 0px 0px 10px #3b3b3b; /* Light gray shadow with less spread */
+    animation: fadeIn 2s ease-out;
 }
+
 
 .h1 {
     font-size: 2.5rem;
     font-weight: bold;
-    color: #fff;  /* changed to white for a b&w theme */
+    color: #fff;
 }
 
 .profession-text {
     font-size: 1.5rem;
-    color: #fff;  /* changed to white for a b&w theme */
+    color: #fff;
 }
 
 .short-description {
-    color: #fff;  /* changed to white for a b&w theme */
+    color: #fff;
     font-size: 1.2rem;
     margin-top: 20px;
 }
@@ -50,18 +65,26 @@
     display: inline-block;
     padding: 10px 20px;
     font-size: 1.2rem;
-    color: #000;  /* changed to black for contrast with the button color */
-    background-color: #fff;  /* changed to white for contrast with the bg color */
+    color: #000;
+    background-color: #fff;
     text-decoration: none;
     transition: background-color 0.3s ease-in-out;
 }
 
 .cta-btn:hover {
-    background-color: #666;  /* changed to a lighter gray for the hover effect */
+    background-color: #666;
 }
 
-.landing-image img {
-    width: 20vw;  /* adjust as needed */
-    height: auto;
-    border-radius: 20%;  /* makes the image circular, remove if not needed */
+.social-links a {
+    margin: 0 10px;
+}
+
+.social-links a:first-child {
+    margin-left: 0;
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
 }
