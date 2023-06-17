@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 50px 0;
+    margin: 50vh 0;  /* Increased vertical margins */
     position: relative;
 }
 
@@ -20,25 +20,49 @@
     color: white;
     position: absolute;
     padding: 20px;
+    display: flex; /* this allows align-items to have an effect */
+    padding-top: 0;
+    flex-direction: column;  
 }
 
 .node-content.left {
     text-align: right;
-    padding-right: 50px;  /* Adjusts the padding as per your requirement */
+    padding-right: 30vw;
+    align-items: flex-start;
 }
 
 .node-content.right {
     text-align: left;
-    padding-left: 50px;  /* Adjusts the padding as per your requirement */
+    padding-left: 30vw;
 }
 
 .node-year {
-    font-size: 1.2rem;
+    font-size: 5vw;  /* Increased font size */
     margin-bottom: 10px;
+    margin-top: 0;
+}
+
+.node-year.left {
+    padding-right: 80px;
+}
+
+.node-year.right {
+    padding-left: 50px;
 }
 
 .node-achievements {
     list-style-type: none;
     padding: 0;
+    text-align: left;
+    font-size: 1.5rem;  /* Increased font size */
+}
+
+.node-achievements.left {
+    padding-right: 50px;
+    text-align: right;
+}
+
+.node-achievements.right {
+    padding-left: 50px;
     text-align: left;
 }

@@ -5,8 +5,8 @@ const Node = ({ data, index }) => (
     <div className="node">
         <div className="node-circle"></div>
         <div className={`node-content ${index % 2 === 0 ? 'left' : 'right'}`}>
-            <h3 className="node-year">{data.year}</h3>
-            <ul className="node-achievements">
+            <h3 className={`node-year ${index % 2 === 0 ? 'left' : 'right'}`}>{data.year}</h3>
+            <ul className={`node-achievements ${index % 2 === 0 ? 'left' : 'right'}`}>
                 {data.achievements.map((achievement, i) => (
                     <li key={i}>{achievement}</li>
                 ))}
