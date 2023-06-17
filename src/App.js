@@ -3,7 +3,7 @@ import './App.css';
 
 // Import your components
 import Navbar from './components/Navbar';
-// import Introduction from './components/Introduction';
+import Landing from './components/Landing';
 // import About from './components/About';
 // import Skills from './components/Skills';
 // import Resume from './components/Resume';
@@ -16,14 +16,14 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-      {/* <Introduction />
-      <About />
+      <Landing />
+      {/* <About />
       <Skills />
       <Resume />
       <Projects />
       <Testimonials />
       <Contact />
-      <Footer /> */}
+      <Footer />  */}
     </div>
   );
 }
