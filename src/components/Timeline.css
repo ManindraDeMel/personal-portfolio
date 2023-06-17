@@ -24,27 +24,39 @@
     padding: 20px 0;
 }
 
-.node-year {
-    background-color: #000;
-    color: #fff;
-    margin: 0 20px;
-    z-index: 1;
-    font-size: 2rem;
-    padding: 10px;
+.node-circle {
+    width: 30px;
+    height: 30px;
+    background-color: #fff;
     border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid #fff;
+    z-index: 1;
+}
+
+.node-content {
+    position: absolute;
+    width: 40%; /* adjust as per requirement */
+    color: #fff;
+}
+
+.node-content.left {
+    right: 50%;
+    text-align: right;
+}
+
+.node-content.right {
+    left: 50%;
+    text-align: left;
+}
+
+.node-year {
+    font-size: 4em; /* increase the font size */
+    font-weight: bold; /* make it bold */
+    margin-bottom: 1em;
 }
 
 .node-achievements {
-    flex-grow: 1;
-    margin: 0;
-    padding: 0;
     list-style-type: none;
+    padding: 0;
+    text-align: left;
     line-height: 1.5;
-    font-size: 1.2rem;
 }

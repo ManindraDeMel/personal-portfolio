@@ -9,9 +9,10 @@ const Landing = () => {
             <div className="landing-content">
                 <h1>Manindra de Mel</h1>
                 <p className="short-description">
-                Based in the heart of Canberra, I bring over 5 years of extensive experience in the IT industry, where I have honed my skills in various domains. 
-                What truly drives me is the thrill of solving complex computer science problems, designing innovative and effective solutions, 
-                and continuously learning and growing in this dynamic field. In my free time, I love exploring new tech trends and expanding my skill set..
+                Based in the heart of Canberra, I bring over 5 years of comprehensive experience in the IT industry. 
+                My spectrum of expertise spans from data science to website creation, from low-level programming to Haskell and functional programming - there's no challenge I won't take on. 
+                The diversity of this field ignites my passion, and it's in the weaving of complex computer science problems and innovative solutions where I truly thrive. 
+                Continual learning and growth are the core of my professional journey, as I relentlessly explore new tech trends and expand my skills.
                 </p>
                 <div className="social-links">
                     <a href="[your LinkedIn URL]" target="_blank" rel="noopener noreferrer">

@@ -14,4 +14,5 @@ const Node = ({ data, index }) => (
         </div>
     </div>
 );
+
 export default Node;
