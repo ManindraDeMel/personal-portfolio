@@ -1,0 +1,48 @@
+.project-card {
+    background: #ddd;
+    margin-bottom: 20px;
+    width: 200px;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    display: flex;  /* Added */
+    flex-direction: column;  /* Added */
+    justify-content: center;  /* Added */
+    align-items: center;  /* Added */
+}
+
+.project-card h3,
+.project-card p,
+.project-card a {
+    width: 100%;  /* Ensure these elements take up the full width of the card */
+    text-align: center;  /* Center the text within these elements */
+}
+
+.project-card p,
+.project-card a {
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.project-card:hover {
+    background-color: #ccc;
+}
+
+.project-card:hover p,
+.project-card:hover a {
+    opacity: 1;
+}
+
+.project-grid {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.project-section h2 {
+    text-align: center;
+}

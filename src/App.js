@@ -8,6 +8,7 @@ import Navbar from './components/Navbar';
 import Landing from './components/Landing';
 import Timeline from './components/Timeline';
 import Resume from './components/Resume';
+import Projects from './components/Projects';
 
 const timelineData = [
   {
@@ -77,6 +78,7 @@ function App() {
       <Landing />
       <Timeline data={timelineData} />
       <Resume/>
+      <Projects/>
     </div>
   );
 }
