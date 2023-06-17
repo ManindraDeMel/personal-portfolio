@@ -4,7 +4,7 @@ import './Node.css';
 const Node = ({ data, index }) => (
     <div className="node">
         <div className="node-circle"></div>
-        <div className={`node-content ${index % 2 === 0 ? 'left' : 'right'}`}>
+        <div className={`node-content ${index % 2 === 0 ? 'left' : 'right'}`} data-aos="fade-up">
             <h3 className={`node-year ${index % 2 === 0 ? 'left' : 'right'}`}>{data.year}</h3>
             <ul className={`node-achievements ${index % 2 === 0 ? 'left' : 'right'}`}>
                 {data.achievements.map((achievement, i) => (
