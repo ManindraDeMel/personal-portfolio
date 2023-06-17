@@ -3,7 +3,6 @@
 
 * {
     box-sizing: border-box;
-    margin: 0;
     padding: 0;
     font-family: 'Lato', sans-serif;
 }
@@ -76,7 +75,7 @@
 }
 
 .social-links a {
-    margin: 0 10px;
+    margin: 0px 10px;
 }
 
 .social-links a:first-child {
@@ -84,7 +83,13 @@
 }
 
 /* Fade in animation */
-@keyframes fadeIn {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);  /* Starts 20px below the final position */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);  /* Ends at the final position */
+    }
 }
