@@ -2,6 +2,10 @@ import React, { useEffect } from "react";
 import './App.css';
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+
+
 
 // Import
 import Navbar from './components/Navbar';
@@ -9,6 +13,8 @@ import Landing from './components/Landing';
 import Timeline from './components/Timeline';
 import Resume from './components/Resume';
 import Projects from './components/Projects';
+import Testimonials from './components/Testimonials';
+import Contact from './components/Contact';  // import your Contact component
 
 const timelineData = [
   {
@@ -66,19 +72,34 @@ const timelineData = [
 ];
 
 
+function MainPage() {
+  return (
+    <>
+      <Navbar />
+      <Landing />
+      <Timeline data={timelineData} />
+      <Resume/>
+      <Projects/>
+      <Testimonials/>
+    </>
+  );
+}
+
 function App() {
   useEffect(() => {
     AOS.init({
       duration : 2000
     });
   }, []);
+
   return (
     <div className="App">
-      <Navbar />
-      <Landing />
-      <Timeline data={timelineData} />
-      <Resume/>
-      <Projects/>
+      <Router>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
+      </Router>
     </div>
   );
 }

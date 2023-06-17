@@ -10,9 +10,12 @@ const Landing = () => {
                 <h1 data-aos="fade-up">Manindra de Mel</h1>
                 <p className="short-description" data-aos="fade-up">
                 Based in the heart of Canberra, I bring over 5 years of comprehensive experience in the IT industry. 
-                My spectrum of expertise spans from data science and deep machine learning with <b>Python</b> to website creation with <b>React/Vue/Svelte</b>, from low-level programming with <b>Assembly/C/C++</b> to <b>Haskell</b> and functional programming - there's no challenge I won't take on. 
-                The diversity of this field ignites my passion, and it's in the weaving of complex computer science problems and innovative solutions where I truly thrive. 
-                Continual learning and growth are the core of my professional journey, as I relentlessly explore new tech trends and expand my skills.
+                My expertise ranges from data science and deep machine learning with <b>Python</b>, to website creation with <b>React/Vue/Svelte</b>, 
+                and from low-level programming with <b>Assembly/C/C++</b>, to <b>Haskell</b> and functional programming. 
+                I have also worked extensively with <b>Firebase, Android Studio, Google Cloud, AWS</b>, and other cloud infrastructure services. 
+                The diversity of this field fuels my passion, and I thrive in the challenge of untangling complex computer science problems and weaving innovative, effective solutions. 
+                My professional journey is driven by continuous learning and growth, as I relentlessly explore new tech trends and broaden my skill set. 
+                In this dynamic industry, there's no challenge I won't embrace.
                 </p>
                 <div className="social-links" data-aos="fade-up">
                     <a href="[your LinkedIn URL]" target="_blank" rel="noopener noreferrer">
