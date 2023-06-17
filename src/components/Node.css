@@ -50,7 +50,7 @@
 }
 
 .node-achievements {
-    list-style-type: none;
+    list-style-type: circle;
     padding: 0;
     text-align: left;
     font-size: 1.5rem;  /* Increased font size */
@@ -58,7 +58,8 @@
 
 .node-achievements.left {
     padding-right: 50px;
-    text-align: right;
+    text-align: left;
+    padding-bottom: 10px;
 }
 
 .node-achievements.right {
@@ -68,11 +69,14 @@
 
 .node-subtitle.left {
     padding-right: 50px;
-    text-align: right;
+    text-align: left;
 }
 
 .node-subtitle.right {
     padding-left: 50px;
     text-align: left;
+}
+.node-achievements li {
+    margin-bottom: 30px;
 }
 
