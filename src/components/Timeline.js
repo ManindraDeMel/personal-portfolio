@@ -4,7 +4,7 @@ import './Timeline.css';
 
 const Timeline = ({ data }) => (
     <div className="timeline">
-        {data.map((node, index) => <Node key={index} data={node} />)}
+        {data.map((node, index) => <Node key={index} data={node} index={index} />)}
     </div>
 );
 
