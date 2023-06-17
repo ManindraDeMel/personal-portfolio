@@ -3,10 +3,11 @@ import './App.css';
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-// Import your components
+// Import
 import Navbar from './components/Navbar';
 import Landing from './components/Landing';
 import Timeline from './components/Timeline';
+import Resume from './components/Resume';
 
 const timelineData = [
   {
@@ -75,6 +76,7 @@ function App() {
       <Navbar />
       <Landing />
       <Timeline data={timelineData} />
+      <Resume/>
     </div>
   );
 }
