@@ -18,7 +18,6 @@
     width: 50%;
     text-align: center;
     color: white;
-    position: absolute;
     padding: 20px;
     display: flex; /* this allows align-items to have an effect */
     padding-top: 0;
@@ -66,3 +65,14 @@
     padding-left: 50px;
     text-align: left;
 }
+
+.node-subtitle.left {
+    padding-right: 50px;
+    text-align: right;
+}
+
+.node-subtitle.right {
+    padding-left: 50px;
+    text-align: left;
+}
+

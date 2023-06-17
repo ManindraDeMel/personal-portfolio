@@ -10,30 +10,15 @@ import Timeline from './components/Timeline';
 
 const timelineData = [
   {
-      year: "2018",
-      achievements: ["Achievement 1", "Achievement 2", "Achievement 3"]
-  },
-  {
-      year: "2019",
-      achievements: ["Achievement 1", "Achievement 2", "Achievement 3"]
-  },
-  {
-    year: "2020",
+    year: "2018",
+    subtitle: "Sub-heading 1",
     achievements: ["Achievement 1", "Achievement 2", "Achievement 3"]
-  },
-  {
-      year: "2021",
-      achievements: ["Achievement 1", "Achievement 2", "Achievement 3"]
-  },
-  {
-    year: "2022",
+},
+{
+    year: "2019",
+    subtitle: "Sub-heading 2",
     achievements: ["Achievement 1", "Achievement 2", "Achievement 3"]
-  },
-  {
-      year: "2023",
-      achievements: ["Achievement 1", "Achievement 2", "Achievement 3"]
-  },
-  // Add more years and achievements here...
+},
 ];
 
 function App() {
