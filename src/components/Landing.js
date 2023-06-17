@@ -3,7 +3,6 @@ import './Landing.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithubSquare, faLinkedin, faInstagramSquare } from "@fortawesome/free-brands-svg-icons";
 
-
 const Landing = () => {
     return (
         <section id="introduction" className="landing">
@@ -31,7 +30,7 @@ const Landing = () => {
                 </div>
             </div>
             <div className="landing-image">
-                <img src="/assets/profile.jpg" alt="A portrait of me" />
+                <img src="/assets/profile.jpg" alt="A portrait of Manindra" />
             </div>
         </section>
     );
