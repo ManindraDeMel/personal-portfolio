@@ -1,34 +1,33 @@
 .timeline {
     background-color: #000;
     color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    position: relative;
     padding: 50px 0;
 }
 
-.node {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 50px; /* Space between nodes */
-    position: relative;
-}
-
-.node::before {
+.timeline:before {
     content: '';
     position: absolute;
     top: 0;
-    bottom: 0;
     left: 50%;
-    border-left: 2px solid #fff; /* The line connecting the nodes */
-    z-index: -1;
+    width: 2px;
+    height: 100%;
+    background: #fff;
+}
+
+.node {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px 0;
 }
 
 .node-year {
     background-color: #000;
     color: #fff;
-    margin-right: 50px;
+    margin: 0 20px;
     z-index: 1;
     font-size: 2rem;
     padding: 10px;
@@ -38,10 +37,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 2px solid #fff;
 }
 
 .node-achievements {
+    flex-grow: 1;
     margin: 0;
     padding: 0;
     list-style-type: none;
+    line-height: 1.5;
+    font-size: 1.2rem;
 }
