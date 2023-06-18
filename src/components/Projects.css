@@ -65,6 +65,20 @@ body {
     hyphens: auto;
 }
 
+.view-more-button {
+    display: block;
+    width: 200px;
+    height: 40px;
+    margin: 50px auto;
+    background: #111;
+    text-align: center;
+    border-radius: 5px;
+    color: #fff;
+    line-height: 40px;
+    text-decoration: none;
+}
+
+
 @media (max-width: 760px) {
     .project-card {
         background-color: #111;

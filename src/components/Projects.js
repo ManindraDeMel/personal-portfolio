@@ -6,6 +6,7 @@ import 'aos/dist/aos.css'; // You can also use <link> for styles
 
 function Projects() {
     const [repos, setRepos] = useState([]);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 760);
 
     useEffect(() => {
         fetch('https://api.github.com/user/repos', {
@@ -15,19 +16,23 @@ function Projects() {
         })
             .then(response => response.json())
             .then(data => {
-                // Check if it's a mobile device
-                if (window.innerWidth <= 760) {
-                    // If yes, then limit to 5 repos
+                if (isMobile) {
                     setRepos(data.slice(0, 5));
                 } else {
-                    // If not, then show all repos
                     setRepos(data);
                 }
             });
+    }, [isMobile]);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 760);
+        }
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
     }, []);
     
-    
-
     useEffect(() => {
         AOS.refresh();
     }, [repos]);
@@ -56,6 +61,7 @@ function Projects() {
                     </div>
                 ))}
             </div>
+            {isMobile && <a href="https://github.com/ManindraDeMel" target="_blank" rel="noopener noreferrer" className="view-more-button">View More on GitHub</a>}
         </div>
     );
 }
