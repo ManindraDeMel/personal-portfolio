@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 50vh 0;  /* Increased vertical margins */
+    margin: 50vh 0;
     position: relative;
 }
 
@@ -19,9 +19,9 @@
     text-align: center;
     color: white;
     padding: 20px;
-    display: flex; /* this allows align-items to have an effect */
+    display: flex;
     padding-top: 0;
-    flex-direction: column;  
+    flex-direction: column;
 }
 
 .node-content.left {
@@ -33,10 +33,11 @@
 .node-content.right {
     text-align: left;
     padding-left: 30vw;
+    align-items: flex-start;
 }
 
 .node-year {
-    font-size: 5vw;  /* Increased font size */
+    font-size: 5vw;
     margin-bottom: 10px;
     margin-top: 0;
 }
@@ -53,18 +54,16 @@
     list-style-type: circle;
     padding: 0;
     text-align: left;
-    font-size: 1.5rem;  /* Increased font size */
+    font-size: 1.5rem;
 }
 
 .node-achievements.left {
     padding-right: 50px;
-    text-align: left;
     padding-bottom: 10px;
 }
 
 .node-achievements.right {
     padding-left: 50px;
-    text-align: left;
 }
 
 .node-subtitle.left {
@@ -76,7 +75,41 @@
     padding-left: 50px;
     text-align: left;
 }
+
 .node-achievements li {
     margin-bottom: 30px;
 }
 
+@media screen and (max-width: 768px) {
+    .node-content {
+        width: 90%;
+    }
+
+    .node-content.left, .node-content.right {
+        text-align: left;
+        padding-right: 10vw;
+        padding-left: 10vw;
+    }
+
+    .node-year {
+        font-size: 3em;
+    }
+
+    .node-year.left, .node-year.right, .node-achievements.left, .node-achievements.right, .node-subtitle.left, .node-subtitle.right   {
+        padding-right: 0;
+        padding-left: 10vw;
+    }
+    .node-subtitle.left, .node-subtitle.right {
+        font-size: 1em;
+        font-style: italic;
+    }
+
+    .node-achievements {
+        font-size: 1.5rem;
+    }
+    
+    .node-circle {
+        left: 6.5%; /* adjust this as needed */
+        position: absolute;
+    }
+}

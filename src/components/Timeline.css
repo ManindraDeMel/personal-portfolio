@@ -14,3 +14,10 @@
     height: 100%;
     background: #fff;
 }
+
+/* Media query for smaller screens */
+@media screen and (max-width: 768px) {
+    .timeline:before {
+        left: 10%; /* adjust this as needed */
+    }
+}
