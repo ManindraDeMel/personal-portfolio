@@ -2,6 +2,7 @@ import React from 'react';
 import './Landing.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithubSquare, faLinkedin, faInstagramSquare } from "@fortawesome/free-brands-svg-icons";
+import { Link } from 'react-router-dom';
 
 const Landing = () => {
     return (
@@ -18,18 +19,18 @@ const Landing = () => {
                 In this dynamic industry, there's no challenge I won't embrace.
                 </p>
                 <div className="social-links" data-aos="fade-up">
-                    <a href="[your LinkedIn URL]" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.linkedin.com/in/manindra-de-mel-413a79160/" target="_blank" rel="noopener noreferrer">
                         <FontAwesomeIcon icon={faLinkedin} size="2x" color="white"/>
                     </a>
-                    <a href="[your GitHub URL]" target="_blank" rel="noopener noreferrer">
+                    <a href="https://github.com/ManindraDeMel" target="_blank" rel="noopener noreferrer">
                         <FontAwesomeIcon icon={faGithubSquare} size="2x" color="white"/>
                     </a>
-                    <a href="[your Instagram URL]" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.instagram.com/mani.programming/" target="_blank" rel="noopener noreferrer">
                         <FontAwesomeIcon icon={faInstagramSquare} size="2x" color="white"/>
                     </a>
                 </div>
                 <div className="cta-container" data-aos="fade-up"> 
-                    <a href="#contact" className="cta-btn">Get in Touch</a>
+                    <Link to="/contact" className="cta-btn">Contact</Link>
                 </div>
             </div>
             <div className="landing-image" data-aos="fade-left">

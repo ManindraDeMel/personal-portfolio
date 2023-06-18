@@ -1,19 +1,33 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLinkedin, faGithubSquare, faInstagramSquare } from '@fortawesome/free-brands-svg-icons';
 import './Contact.css';
-import { Link } from 'react-router-dom'; // import Link from react-router-dom
 
 function Contact() {
     return (
-        <div className="contact-section">
-            <Link to="/" className="back-arrow">←</Link> {/* This is the back arrow, linking to the homepage */}
-            <h1>Get in Touch</h1> {/* Make this a h1 for a larger heading */}
-            <div className="left-column">
-                <h3>Professional Inquiry</h3>
-                <p>manindrademel@yahoo.com.au</p>
-                {/* Include your social media icons here */}
+        <div className="contact-section" data-aos="fade-up">
+            <h1>Let's work together</h1>
+            <div className="contact-info">
+                <div className="info-column">
+                    <h2>Inquire</h2>
+                    <p>manindrademel@yahoo.com.au</p>
+                </div>
+                <div className="info-column">
+                    <h2>Contact</h2>
+                    <p> +61 498 842 763</p>
+                    <p>Gunghalin Area, Canberra ACT, 2914 AUSTRALIA</p>
+                </div>
             </div>
-            <div className="right-column">
-                {/* Include your phone number here */}
+            <div className="social-links" data-aos="fade-up">
+                <a href="https://www.linkedin.com/in/manindra-de-mel-413a79160/" target="_blank" rel="noopener noreferrer">
+                    <FontAwesomeIcon icon={faLinkedin} size="2x" color="white"/>
+                </a>
+                <a href="https://github.com/ManindraDeMel" target="_blank" rel="noopener noreferrer">
+                    <FontAwesomeIcon icon={faGithubSquare} size="2x" color="white"/>
+                </a>
+                <a href="https://www.instagram.com/mani.programming/" target="_blank" rel="noopener noreferrer">
+                    <FontAwesomeIcon icon={faInstagramSquare} size="2x" color="white"/>
+                </a>
             </div>
         </div>
     );
