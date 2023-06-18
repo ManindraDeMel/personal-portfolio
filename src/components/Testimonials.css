@@ -34,3 +34,13 @@
     font-size: 3em;
     font-style: italic;
 }
+
+@media screen and (max-width: 600px) {
+    .testimonial h3 {
+        font-size: 1.2em;
+    }
+
+    .testimonial p {
+        font-size: 1.5em;
+    }
+}
