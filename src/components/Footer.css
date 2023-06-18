@@ -7,11 +7,11 @@
 
 .footer p {
     margin: 0;
+    text-align: center;
 }
 
 @media (max-width: 760px) {
     .footer p {
         font-size: 0.5em;
-        text-align: center;
     }
 }

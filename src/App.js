@@ -60,17 +60,27 @@ const timelineData = [
   {
     year: "2022",
     subtitle: "Embarking on the University Adventure",
-    achievements: ["Studied Functional Programming with Haskell",
-                   "Studied Object-oriented programming with Java",
-                   "Began working at Stomble as a Backend Engineer with AWS"]
-  },
+    achievements: [
+      "Studied Functional Programming with Haskell",
+      "Studied Object-oriented programming with Java",
+      "Began working at Stomble as a Backend Engineer with AWS",
+      "Began working as a freelance web designer & web developer (Full stack)",
+      "Began working as a freelance data scientist & data analyst",
+      "Learnt fundamental computer science concepts including program proofs, logic programming, array programming, and other paradigms"
+    ]
+  },  
   {
     year: "2023",
     subtitle: "Expanding Horizons as a Freelancer",
-    achievements: ["Founded Canberrawebsites.org",
-                   "Worked as a freelance website designer & web developer (Full Stack)",
-                   "Worked as a freelance data scientist & data analyst"]
-  }
+    achievements: [
+      "Founded Canberrawebsites.org",
+      "Continued working as a freelance website designer & web developer (Full Stack)",
+      "Continued working as a freelance data scientist & data analyst",
+      "Joined a university-based club called ANU Formula Sport, where we are developing and building an autonomous racing car from scratch, handling both the software and hardware aspects",
+      "Started researching and developing a deep neural network model for stock market trading",
+      "Became a freelance stock trading bot developer for US stocks"
+    ]
+  }  
 ];
 
 
