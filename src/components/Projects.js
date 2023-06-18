@@ -34,8 +34,13 @@ function Projects() {
     }, []);
     
     useEffect(() => {
-        AOS.refresh();
+        const timer = setTimeout(() => {
+            AOS.refresh();
+        }, 500); // Wait for 500ms before refreshing AOS
+    
+        return () => clearTimeout(timer); // Clear the timer when the component unmounts or before next run
     }, [repos]);
+    
     
 
     useEffect(() => {
