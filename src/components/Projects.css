@@ -1,5 +1,13 @@
+body {
+    background: #000;
+}
+.project-section {
+    min-height: 150vh;
+}
 .project-card {
-    background: #ddd;
+    background: #fff;
+    border: 3px solid #fff; 
+    color: #000;
     margin-bottom: 20px;
     width: 200px;
     padding: 20px;
@@ -7,17 +15,18 @@
     border-radius: 10px;
     transition: all 0.3s ease;
     overflow: hidden;
-    display: flex;  /* Added */
-    flex-direction: column;  /* Added */
-    justify-content: center;  /* Added */
-    align-items: center;  /* Added */
+    display: flex;  
+    flex-direction: column;  
+    justify-content: center;  
+    align-items: center;  
 }
 
 .project-card h3,
 .project-card p,
 .project-card a {
-    width: 100%;  /* Ensure these elements take up the full width of the card */
-    text-align: center;  /* Center the text within these elements */
+    width: 100%;  
+    text-align: center;  
+    color: #fff;  
 }
 
 .project-card p,
@@ -27,7 +36,7 @@
 }
 
 .project-card:hover {
-    background-color: #ccc;
+    background-color: #111;
 }
 
 .project-card:hover p,
@@ -43,6 +52,15 @@
     align-items: center;
     flex-wrap: wrap;
 }
+
 .project-section h2 {
     text-align: center;
+    color: #fff;
+    padding-bottom: 50px;
+}
+
+.project-card h3 {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
 }
