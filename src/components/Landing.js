@@ -6,10 +6,10 @@ import { Link } from 'react-router-dom';
 
 const Landing = () => {
     return (
-        <section id="introduction" className="landing">
+        <section id="introduction" className="landing" data-aos="fade-up">
             <div className="landing-content">
                 <h1 data-aos="fade-up">Manindra de Mel</h1>
-                <p className="short-description" data-aos="fade-up">
+                <p className="short-description">
                 Based in the heart of Canberra, I bring over 5 years of comprehensive experience in the IT industry. 
                 My expertise ranges from data science and deep machine learning with <b>Python</b>, to website creation with <b>React/Vue/Svelte</b>, 
                 and from low-level programming with <b>Assembly/C/C++</b>, to <b>Haskell</b> and functional programming. 
@@ -18,7 +18,7 @@ const Landing = () => {
                 My professional journey is driven by continuous learning and growth, as I relentlessly explore new tech trends and broaden my skill set. 
                 In this dynamic industry, there's no challenge I won't embrace.
                 </p>
-                <div className="social-links-landing" data-aos="fade-up">
+                <div className="social-links-landing" >
                     <a href="https://www.linkedin.com/in/manindra-de-mel-413a79160/" target="_blank" rel="noopener noreferrer">
                         <FontAwesomeIcon icon={faLinkedin} size="2x" color="white"/>
                     </a>
@@ -29,7 +29,7 @@ const Landing = () => {
                         <FontAwesomeIcon icon={faInstagramSquare} size="2x" color="white"/>
                     </a>
                 </div>
-                <div className="cta-container" data-aos="fade-up"> 
+                <div className="cta-container"> 
                     <Link to="/contact" className="cta-btn">Contact</Link>
                 </div>
             </div>
