@@ -18,7 +18,7 @@ const Landing = () => {
                 My professional journey is driven by continuous learning and growth, as I relentlessly explore new tech trends and broaden my skill set. 
                 In this dynamic industry, there's no challenge I won't embrace.
                 </p>
-                <div className="social-links" data-aos="fade-up">
+                <div className="social-links-landing" data-aos="fade-up">
                     <a href="https://www.linkedin.com/in/manindra-de-mel-413a79160/" target="_blank" rel="noopener noreferrer">
                         <FontAwesomeIcon icon={faLinkedin} size="2x" color="white"/>
                     </a>

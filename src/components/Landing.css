@@ -69,11 +69,11 @@
     background-color: #666;
 }
 
-.social-links a {
+.social-links-landing a {
     margin: 0px 10px;
     border-radius: 30px;
 }
 
-.social-links a:first-child {
+.social-links-landing a:first-child {
     margin-left: 0;
 }
