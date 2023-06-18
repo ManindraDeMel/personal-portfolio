@@ -1,16 +1,18 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { Link as ScrollLink } from 'react-scroll';
 import './Navbar.css';
 
 const Navbar = () => {
     return (
         <nav className="navbar">
             <ul>
-                <li><a href="#introduction">Home</a></li>
-                <li><a href="#journey">Journey</a></li>
-                <li><a href="#resume">Resume</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#testimonials">Testimonials</a></li>
-                <li><a href="/contact">Contact</a></li> {/* This is changed to navigate to the Contact page */}
+                <li><ScrollLink to="introduction" smooth={true} duration={1000} offset={-70}>Home</ScrollLink></li>
+                <li><ScrollLink to="journey" smooth={true} duration={1000} offset={70}>Journey</ScrollLink></li>
+                <li><ScrollLink to="resume" smooth={true} duration={1000} offset={-250}>Resume</ScrollLink></li>
+                <li><ScrollLink to="projects" smooth={true} duration={1000} offset={-70}>Projects</ScrollLink></li>
+                <li><ScrollLink to="testimonials" smooth={true} duration={1000} offset={-70}>Testimonials</ScrollLink></li>
+                <li><Link to="/contact">Contact</Link></li>
             </ul>
         </nav>
     );
