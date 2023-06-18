@@ -64,3 +64,9 @@ body {
     word-wrap: break-word;
     hyphens: auto;
 }
+
+@media (max-width: 760px) {
+    .project-card {
+        background-color: #111;
+    }
+}

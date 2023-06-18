@@ -14,8 +14,19 @@ function Projects() {
             }
         })
             .then(response => response.json())
-            .then(data => setRepos(data));
+            .then(data => {
+                // Check if it's a mobile device
+                if (window.innerWidth <= 760) {
+                    // If yes, then limit to 5 repos
+                    setRepos(data.slice(0, 5));
+                } else {
+                    // If not, then show all repos
+                    setRepos(data);
+                }
+            });
     }, []);
+    
+    
 
     useEffect(() => {
         AOS.refresh();
