@@ -1,4 +1,4 @@
-.contact-section {
+.contact-section-main {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -8,10 +8,10 @@
     color: #fff;
 }
 
-.contact-section h2 {
+.contact-section-main h2 {
     font-size: 3em;  /* Make the heading bigger */
     margin-bottom: 20px;
-    color: #000;
+    color: #fff;
 }
 
 .contact-button {

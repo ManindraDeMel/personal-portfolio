@@ -18,7 +18,7 @@ function Contact() {
                     <p>Gunghalin Area, Canberra ACT, 2914 AUSTRALIA</p>
                 </div>
             </div>
-            <div className="social-links" data-aos="fade-up">
+            <div className="social-links">
                 <a href="https://www.linkedin.com/in/manindra-de-mel-413a79160/" target="_blank" rel="noopener noreferrer">
                     <FontAwesomeIcon icon={faLinkedin} size="2x" color="white"/>
                 </a>
