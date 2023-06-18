@@ -77,7 +77,7 @@ const timelineData = [
       "Continued working as a freelance website designer & web developer (Full Stack)",
       "Continued working as a freelance data scientist & data analyst",
       "Joined a university-based club called ANU Formula Sport, where we are developing and building an autonomous racing car from scratch, handling both the software and hardware aspects",
-      "Started researching and developing a deep neural network model for stock market trading",
+      "Started researching and developing a reinforcement learning model (Q Learning) for stock market trading",
       "Became a freelance stock trading bot developer for US stocks"
     ]
   }  
