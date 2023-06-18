@@ -37,7 +37,7 @@ function Projects() {
             <h2>My Projects</h2>
             <div className="project-grid">
                 {repos.map(repo => (
-                    <div className="project-card" key={repo.id} data-aos="fade-up">
+                    <div className="project-card" key={repo.id} data-aos="fade up">
                         <h3>{repo.name}</h3>
                         <p>Last Updated: {new Date(repo.updated_at).toLocaleDateString()}</p>
                         <p>{repo.description || ''}</p>

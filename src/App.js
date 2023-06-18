@@ -14,7 +14,9 @@ import Timeline from './components/Timeline';
 import Resume from './components/Resume';
 import Projects from './components/Projects';
 import Testimonials from './components/Testimonials';
-import Contact from './components/Contact';  // import your Contact component
+import Contact from './components/Contact';
+import Contactmain from './components/Contact-main';
+import Footer from './components/Footer';
 
 const timelineData = [
   {
@@ -81,6 +83,8 @@ function MainPage() {
       <Resume/>
       <Projects/>
       <Testimonials/>
+      <Contactmain/>
+      <Footer/>
     </>
   );
 }
