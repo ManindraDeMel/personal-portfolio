@@ -1,16 +1,20 @@
 import React from 'react';
 import './Contact.css';
+import { Link } from 'react-router-dom'; // import Link from react-router-dom
 
 function Contact() {
     return (
         <div className="contact-section">
-            <h2>Contact Me</h2>
-            <form className="contact-form">
-                <input type="text" name="name" placeholder="Your Name" required />
-                <input type="email" name="email" placeholder="Your Email" required />
-                <textarea name="message" placeholder="Your Message" required></textarea>
-                <button type="submit">Submit</button>
-            </form>
+            <Link to="/" className="back-arrow">←</Link> {/* This is the back arrow, linking to the homepage */}
+            <h1>Get in Touch</h1> {/* Make this a h1 for a larger heading */}
+            <div className="left-column">
+                <h3>Professional Inquiry</h3>
+                <p>manindrademel@yahoo.com.au</p>
+                {/* Include your social media icons here */}
+            </div>
+            <div className="right-column">
+                {/* Include your phone number here */}
+            </div>
         </div>
     );
 }

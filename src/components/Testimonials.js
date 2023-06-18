@@ -11,7 +11,7 @@ function Testimonials() {
     ];
 
     return (
-        <div className="testimonials-section">
+        <div className="testimonials-section" id="testimonials">
             <h2>Testimonials</h2>
             <div className="testimonials-container">
                 {testimonials.map((testimonial, index) => (

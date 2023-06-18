@@ -14,7 +14,7 @@ function Projects() {
     }, []);
 
     return (
-        <div className="project-section">
+        <div className="project-section" id="projects">
             <h2>My Projects</h2>
             <div className="project-grid">
                 <div className="project-card" style={{ height: `${Math.random() * 100 + 150}px` }}>
