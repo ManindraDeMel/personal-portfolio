@@ -77,3 +77,24 @@
 .social-links-landing a:first-child {
     margin-left: 0;
 }
+
+@media screen and (max-width: 768px) {
+    .landing {
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    .landing-content {
+        padding-right: 0;
+        padding-top: 10vh;
+    }
+
+    .landing-image {
+        text-align: left;  /* Align the image to the left */
+        padding: 20px 0;  /* Add some padding to the top and bottom of the image */
+    }
+
+    .landing-image img {
+        visibility: hidden;
+    }
+}
