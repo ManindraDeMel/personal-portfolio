@@ -9,7 +9,7 @@ function Projects() {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 760);
 
     useEffect(() => {
-        fetch('https://api.github.com/user/repos', {
+        fetch('https://api.github.com/user/repos?per_page=100&page=1', {
             headers: {
                 'Authorization': `token ${process.env.REACT_APP_GITHUB_TOKEN}`
             }
