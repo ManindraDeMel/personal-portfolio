@@ -61,8 +61,8 @@ const timelineData = [
       "Participated in the Computer Algorithmic Thinking (CAT) test, further strengthening computer science foundations",
       "Competed in the Oxford University Computing Challenge, solving problems in an international forum",
       "Achieved Runners-up position in the Code Quest by Lockheed Martin, showcasing software skills",
-      "Celebrated as a Regional winner of Young ICT, receiving recognition for technology prowess",
-      "Presented at the Australian National Python Convention (PyCon AU), sharing insights with the Python community",
+      "Celebrated as a <a href='https://www.youngictexplorers.net.au/act-2021/'>Regional winner of Young ICT</a>, receiving recognition for technology prowess",
+      "Presented at the Australian National <a href='https://2021.pycon.org.au/program/KNBLPB/'>Python Convention (PyCon AU)</a>, sharing insights with the Python community",
       "Ventured into the automotive industry as a Freelance Data Analyst for Quintet Automotive",
       "Returned to the Australian Informatics Olympiad (AIO), consistently challenging problem-solving skills"
     ]
@@ -82,11 +82,14 @@ const timelineData = [
     year: "2023",
     subtitle: "Broadening Freelance Services & Exploring Innovative Projects",
     achievements: [
+      "Engage in multifaceted technology roles including Full Stack Development, Database Management, DevOps, and Data Science at mHits AU, part-time.",
       "Founded Canberrawebsites.org, creating custom websites for local businesses",
       "Continued offering freelance services in website design, web development (Full Stack), data science, and data analysis",
       "Participated in ANU Formula Sport, a university-based club aiming to develop an autonomous racing car from scratch, gaining both hardware and software experience",
       "Embarked on a research project to develop a stock market trading model using Proximal Policy Optimization (PPO), a resource-efficient reinforcement learning technique, creating a synergy between finance and AI.",
-      "Expanded freelancing to include stock trading bot development for US stocks, optimizing trading strategies with technology"
+      "Expanded freelancing to include stock trading bot development for US stocks, optimizing trading strategies with technology",
+      "Contributed to the renowned <a href='https://github.com/OpenBMB/ChatDev'>ChatDev</a> project under OpenBmb as a DevOps Specialist.",
+      "Secured 4th place in the <a href='https://www.aihackmelb.com/'>AI Hack Melbourne competition</a> with a pioneering AI-based <a href='http://team101.life/'>surgical scheduling tool.</a>"
     ]
   }  
 ];

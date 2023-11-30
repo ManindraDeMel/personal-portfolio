@@ -1,6 +1,10 @@
 import React from 'react';
 import './Node.css';
 
+const createMarkup = (htmlContent) => {
+  return { __html: htmlContent };
+};
+
 const Node = ({ data, index }) => (
     <div className="node">
         <div className="node-circle"></div>
@@ -9,7 +13,7 @@ const Node = ({ data, index }) => (
             <p className={`node-subtitle ${index % 2 === 0 ? 'left' : 'right'}`}>{data.subtitle}</p>
             <ul className={`node-achievements ${index % 2 === 0 ? 'left' : 'right'}`}>
                 {data.achievements.map((achievement, i) => (
-                    <li key={i}>{achievement}</li>
+                    <li key={i} dangerouslySetInnerHTML={createMarkup(achievement)}></li>
                 ))}
             </ul>
         </div>
