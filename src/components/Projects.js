@@ -14,14 +14,15 @@ function Projects() {
                 'Authorization': `token ${process.env.REACT_APP_GITHUB_TOKEN}`
             }
         })
-            .then(response => response.json())
-            .then(data => {
-                if (isMobile) {
-                    setRepos(data.slice(0, 5));
-                } else {
-                    setRepos(data);
-                }
-            });
+        .then(response => response.json())
+        .then(data => {
+            const sortedData = data.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+            if (isMobile) {
+                setRepos(sortedData.slice(0, 4));
+            } else {
+                setRepos(sortedData);
+            }
+        });
     }, [isMobile]);
 
     useEffect(() => {
