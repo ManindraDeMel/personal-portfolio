@@ -63,7 +63,7 @@ const timelineData = [
       "Achieved Runners-up position in the Code Quest by Lockheed Martin, showcasing software skills",
       "Celebrated as a <a href='https://www.youngictexplorers.net.au/act-2021/'>Regional winner of Young ICT</a>, receiving recognition for technology prowess",
       "Presented at the Australian National <a href='https://2021.pycon.org.au/program/KNBLPB/'>Python Convention (PyCon AU)</a>, sharing insights with the Python community",
-      "Ventured into the automotive industry as a Freelance Data Analyst for Quintet Automotive",
+      "Ventured into the automotive industry as a Freelance Data Analyst for <a href='https://local.infobel.com.au/AU105407752/quintet_automotive_contractors-canberra.html'>Quintet Automotive</a>",
       "Returned to the Australian Informatics Olympiad (AIO), consistently challenging problem-solving skills"
     ]
   },
@@ -71,19 +71,19 @@ const timelineData = [
     year: "2022",
     subtitle: "Commencing the University Journey & Expanding Professional Experience",
     achievements: [
-      "Studied Functional Programming using Haskell and Object-oriented programming with Java, diversifying programming paradigms",
-      "Commenced working at Stomble as a Backend Engineer, getting hands-on with AWS and server-side development",
+      "Studied Functional Programming using Haskell and Object-oriented programming with Java, diversifying programming paradigms at the <a href='https://www.anu.edu.au/'>Australian National University</a>",
+      "Commenced working at <a href='https://www.linkedin.com/company/stomble?originalSubdomain=au'>Stomble</a> as a Backend Engineer, getting hands-on with AWS and server-side development",
       "Ventured into the freelancing world, offering services as a Full Stack web developer",
       "Applied data science skills in a freelance capacity as a data scientist & data analyst",
-      "Immersed in fundamental computer science concepts, including program proofs, logic programming, array programming, and other paradigms"
+      "Immersed in fundamental computer science concepts, including program proofs, logic programming, array programming, and other paradigms at the <a href='https://www.anu.edu.au/'>Australian National University</a>"
     ]
   },  
   {
     year: "2023",
     subtitle: "Broadening Freelance Services & Exploring Innovative Projects",
     achievements: [
-      "Engage in multifaceted technology roles including Full Stack Development, Database Management, DevOps, and Data Science at mHits AU, part-time.",
-      "Founded Canberrawebsites.org, creating custom websites for local businesses",
+      "Engage in multifaceted technology roles including Full Stack Development, Database Management, DevOps, and Data Science at <a href='https://www.mhits.com.au/'>mHits AU</a>, part-time.",
+      "Founded <a href='https://canberrawebsites.org/'>Canberrawebsites.org</a>, creating custom websites for local businesses",
       "Continued offering freelance services in website design, web development (Full Stack), data science, and data analysis",
       "Participated in ANU Formula Sport, a university-based club aiming to develop an autonomous racing car from scratch, gaining both hardware and software experience",
       "Embarked on a research project to develop a stock market trading model using Proximal Policy Optimization (PPO), a resource-efficient reinforcement learning technique, creating a synergy between finance and AI.",
