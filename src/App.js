@@ -91,7 +91,14 @@ const timelineData = [
       "Contributed to the renowned <a href='https://github.com/OpenBMB/ChatDev'>ChatDev</a> project under OpenBmb as a DevOps Specialist.",
       "Secured 4th place in the <a href='https://www.aihackmelb.com/'>AI Hack Melbourne competition</a> with a pioneering AI-based <a href='http://team101.life/'>surgical scheduling tool.</a>"
     ]
-  }  
+  },
+  {
+    "year": "2024",
+    "subtitle": "Specializing in Electronic Trading & Low-level Electronics Innovation",
+    "achievements": [
+      "Competed in the Jane Street Electronic Trading Challenge, applying complex quantitative trading strategies in a highly competitive, simulated electronic market. This experience honed my skills in algorithmic trading, financial modeling, and real-time decision-making under pressure.",
+    ]
+  }
 ];
 
 

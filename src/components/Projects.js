@@ -14,16 +14,29 @@ function Projects() {
                 'Authorization': `token ${process.env.REACT_APP_GITHUB_TOKEN}`
             }
         })
-        .then(response => response.json())
-        .then(data => {
-            const sortedData = data.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
-            if (isMobile) {
-                setRepos(sortedData.slice(0, 4));
-            } else {
-                setRepos(sortedData);
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
+            return response.json();
+        })
+        .then(data => {
+            if (Array.isArray(data)) {
+                const sortedData = data.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+                if (isMobile) {
+                    setRepos(sortedData.slice(0, 4));
+                } else {
+                    setRepos(sortedData);
+                }
+            } else {
+                console.error('Expected an array of data, but got:', data);
+            }
+        })
+        .catch(error => {
+            console.error('Failed to fetch repos:', error);
         });
     }, [isMobile]);
+    
 
     useEffect(() => {
         const handleResize = () => {
