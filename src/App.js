@@ -97,6 +97,7 @@ const timelineData = [
     "subtitle": "Specializing in Electronic Trading & Low-level Electronics Innovation",
     "achievements": [
       "Competed in the Jane Street Electronic Trading Challenge, applying complex quantitative trading strategies in a highly competitive, simulated electronic market. This experience honed my skills in algorithmic trading, financial modeling, and real-time decision-making under pressure.",
+      "Developed a research proposal on <a href='https://realtimeenginetuning.web.app/'>Enhancing Engine Efficiency and Performance through Machine Learning - Real-Time Engine Tuning.</a> The project involved using ML algorithms for optimizing engine parameters in real-time, improving performance, efficiency, and environmental impact.",
       "Contributed to Research In <a href='https://aware-mesh-simplification.web.app/'> QEM Based Mesh Simplification, Leveraging Skeletonization & Convolutional Neutral Networks</a> to preserve mesh structure"
     ]
   }
