@@ -3,6 +3,7 @@
     color: #fff;
     position: relative;
     padding: 50px 0;
+    text-align: center; /* Center the content */
 }
 
 .timeline:before {
@@ -13,6 +14,7 @@
     width: 2px;
     height: 100%;
     background: #fff;
+    z-index: 0;
 }
 
 /* Media query for smaller screens */
@@ -23,4 +25,21 @@
 }
 a {
     color: red;
+}
+.timeline button {
+    background-color: #fff;
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    margin: 20px auto; /* Add margin for spacing */
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    display: block; /* Center the button */
+    position: relative; /* Ensure it is positioned correctly */
+    z-index: 1; /* Ensure it appears above other elements */
+}
+
+.timeline button:hover {
+    background-color: #f0f0f0;
 }
