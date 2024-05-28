@@ -11,7 +11,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Landing from './components/Landing';
 import Timeline from './components/Timeline';
-import Resume from './components/Resume';
+//import Resume from './components/Resume';
 import Projects from './components/Projects';
 import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
