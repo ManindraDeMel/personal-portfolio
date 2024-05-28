@@ -111,7 +111,7 @@ function MainPage() {
       <Navbar />
       <Landing />
       <Timeline data={timelineData} />
-      <Resume/>
+      {/* <Resume/> */}
       <Projects/>
       <Testimonials/>
       <Contactmain/>
