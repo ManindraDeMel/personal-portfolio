@@ -13,16 +13,14 @@ const Timeline = ({ data }) => {
         }
     };
 
-    // Reverse the data array and then slice it based on the state
-    const reversedData = data.slice().reverse();
-    const nodesToShow = showAll ? reversedData : reversedData.slice(0, 2);
+    const nodesToShow = showAll ? data : data.slice(0, 2);
 
     return (
         <div className="timeline" id='journey' ref={timelineRef}>
             {nodesToShow.map((node, index) => (
                 <Node key={index} data={node} index={index} />
             ))}
-            {reversedData.length > 2 && (
+            {data.length > 2 && (
                 <button onClick={handleShowMore}>
                     {showAll ? 'Show Less' : 'Explore More Milestones'}
                 </button>
