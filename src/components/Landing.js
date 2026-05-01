@@ -125,7 +125,6 @@ const Landing = () => {
           aspectRatio: '3 / 4',
           maxHeight: isMobile ? 480 : 'none',
           background: "url('/assets/portrait.jpg') center/cover",
-          filter: 'grayscale(1) contrast(1.05)',
         }} />
       </div>
     </section>
