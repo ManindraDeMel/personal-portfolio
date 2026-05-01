@@ -98,12 +98,14 @@ function EmbeddingScatter3D() {
       return seed / 233280;
     };
     const clusters = [
-      { cx: -32, cy: -14, cz:   2, n: 16, spread: 10 },
-      { cx:  22, cy: -28, cz:  18, n: 14, spread:  8 },
-      { cx:  34, cy:  20, cz: -14, n: 18, spread: 12 },
-      { cx: -24, cy:  28, cz:  22, n: 20, spread: 11 },
-      { cx:   2, cy:   2, cz: -24, n: 12, spread:  7 },
-      { cx: -38, cy:  10, cz: -16, n: 11, spread:  7 },
+      { cx: -32, cy: -16, cz:   4, n: 32, spread: 11 },
+      { cx:  24, cy: -30, cz:  20, n: 28, spread:  9 },
+      { cx:  36, cy:  20, cz: -16, n: 36, spread: 13 },
+      { cx: -26, cy:  30, cz:  24, n: 38, spread: 12 },
+      { cx:   4, cy:   4, cz: -26, n: 24, spread:  8 },
+      { cx: -40, cy:  12, cz: -18, n: 22, spread:  8 },
+      { cx:  18, cy:  -8, cz: -28, n: 20, spread:  7 },
+      { cx:  -8, cy: -32, cz:  -6, n: 18, spread:  7 },
     ];
     const pts = [];
     clusters.forEach((cl, ci) => {
@@ -188,8 +190,8 @@ function EmbeddingScatter3D() {
         const denom = camZ + z2;
         const persp = focal / denom;
         return {
-          px: x1 * persp * baseScale * 0.6 + cx,
-          py: y1 * persp * baseScale * 0.6 + cy,
+          px: x1 * persp * baseScale * 0.85 + cx,
+          py: y1 * persp * baseScale * 0.85 + cy,
           z: z2,
           scale: persp / focal,
         };
