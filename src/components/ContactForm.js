@@ -67,7 +67,7 @@ function ContactForm() {
             <div style={{
               marginTop: 32,
               fontFamily: ED_MONO, fontSize: 10, letterSpacing: '0.16em',
-              textTransform: 'uppercase', color: 'rgba(245,243,238,0.35)',
+              textTransform: 'uppercase', color: 'rgba(245,243,238,0.6)',
             }}>
               <KvDashed k="Form ID" v="FRM·001" />
               <KvDashed k="Routing" v={`→ ${PORTFOLIO.email.split('@')[0]}@…`} last />
@@ -184,7 +184,7 @@ function Field({
   const hasValue = !!value;
   const labelColor = focused || hasValue
     ? 'rgba(245,243,238,0.85)'
-    : 'rgba(245,243,238,0.45)';
+    : 'rgba(245,243,238,0.65)';
   return (
     <label style={{
       display: 'block',
@@ -199,7 +199,7 @@ function Field({
         display: 'flex', justifyContent: 'space-between',
       }}>
         <span>{label}</span>
-        <span style={{ color: 'rgba(245,243,238,0.3)' }}>
+        <span style={{ color: 'rgba(245,243,238,0.55)' }}>
           {optional ? 'OPTIONAL' : 'REQUIRED'}
         </span>
       </div>

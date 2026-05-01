@@ -5,18 +5,94 @@
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#0a0a0a" />
+    <meta name="color-scheme" content="dark" />
+
+    <title>Manindra de Mel — Software Engineer & ML Researcher | Portfolio</title>
     <meta
       name="description"
-      content="Manindra de Mel — Software engineer & ML researcher based in Canberra. Portfolio of selected work."
+      content="Manindra de Mel — Software engineer & ML researcher based in Canberra. Selected work across machine-learning research, systems programming, and the web."
     />
+    <meta name="author" content="Manindra de Mel" />
+    <link rel="canonical" href="https://manindra-portfolio.web.app/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://manindra-portfolio.web.app/" />
+    <meta property="og:title" content="Manindra de Mel — Software Engineer & ML Researcher" />
+    <meta
+      property="og:description"
+      content="Selected work across machine-learning research, systems programming, and the web. Based in Canberra, AU."
+    />
+    <meta property="og:image" content="%PUBLIC_URL%/assets/portrait.jpg" />
+    <meta property="og:locale" content="en_AU" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Manindra de Mel — Software Engineer & ML Researcher" />
+    <meta name="twitter:description" content="Selected work across ML research, systems programming, and the web." />
+    <meta name="twitter:image" content="%PUBLIC_URL%/assets/portrait.jpg" />
+
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
-    <title>Manindra de Mel — Portfolio</title>
+
+    <link rel="preload" as="font" type="font/woff2" href="%PUBLIC_URL%/assets/fonts/inter-latin.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="%PUBLIC_URL%/assets/fonts/jetbrainsmono-latin.woff2" crossorigin />
+    <link rel="preload" as="image" href="%PUBLIC_URL%/assets/portrait.jpg" fetchpriority="high" />
+
+    <style>
+      @font-face {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400 700;
+        font-display: swap;
+        src: url('%PUBLIC_URL%/assets/fonts/inter-latin.woff2') format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+          U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+          U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      @font-face {
+        font-family: 'JetBrains Mono';
+        font-style: normal;
+        font-weight: 400 500;
+        font-display: swap;
+        src: url('%PUBLIC_URL%/assets/fonts/jetbrainsmono-latin.woff2') format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+          U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+          U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      html { background: #0a0a0a; color: #f5f3ee; }
+      body { margin: 0; }
+    </style>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Manindra de Mel",
+      "jobTitle": "Software Engineer & Machine-Learning Researcher",
+      "url": "https://manindra-portfolio.web.app/",
+      "image": "https://manindra-portfolio.web.app/assets/portrait.jpg",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Canberra",
+        "addressRegion": "ACT",
+        "addressCountry": "AU"
+      },
+      "alumniOf": {
+        "@type": "CollegeOrUniversity",
+        "name": "Australian National University"
+      },
+      "sameAs": [
+        "https://github.com/ManindraDeMel",
+        "https://www.linkedin.com/in/manindra-de-mel"
+      ]
+    }
+    </script>
   </head>
   <body>
+    <noscript>
+      You need to enable JavaScript to run this app. Manindra de Mel — Software engineer
+      & ML researcher based in Canberra. Selected work across machine-learning research,
+      systems programming, and the web. Contact: manindrademel@yahoo.com.au.
+    </noscript>
     <div id="root"></div>
   </body>
 </html>

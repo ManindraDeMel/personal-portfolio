@@ -62,7 +62,7 @@ const Landing = () => {
         <span style={{
           fontFamily: ED_MONO, fontSize: 14, letterSpacing: '0.1em',
           textTransform: 'uppercase', verticalAlign: 'top',
-          marginLeft: 18, color: 'rgba(245,243,238,0.45)',
+          marginLeft: 18, color: 'rgba(245,243,238,0.65)',
         }}>
           ★
         </span>
@@ -124,8 +124,24 @@ const Landing = () => {
         <div style={{
           aspectRatio: '3 / 4',
           maxHeight: isMobile ? 480 : 'none',
-          background: "url('/assets/portrait.jpg') center/cover",
-        }} />
+          overflow: 'hidden',
+          background: '#1a1a1a',
+        }}>
+          <img
+            src="/assets/portrait.jpg"
+            alt="Portrait of Manindra de Mel"
+            width="600"
+            height="800"
+            fetchpriority="high"
+            decoding="async"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              display: 'block',
+            }}
+          />
+        </div>
       </div>
     </section>
   );

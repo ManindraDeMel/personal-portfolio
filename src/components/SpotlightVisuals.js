@@ -23,7 +23,7 @@ function VisualFrame({ label, tag, aspect, children, borderRight }) {
       <span style={{
         position: 'absolute', right: 14, top: 12,
         fontFamily: ED_MONO, fontSize: 9, letterSpacing: '0.14em',
-        textTransform: 'uppercase', color: 'rgba(245,243,238,0.35)',
+        textTransform: 'uppercase', color: 'rgba(245,243,238,0.6)',
       }}>
         {tag}
       </span>
@@ -310,7 +310,7 @@ function EmbeddingScatter3D() {
         style={{
           position: 'absolute', right: 14, bottom: 12,
           fontFamily: ED_MONO, fontSize: 9, letterSpacing: '0.16em',
-          textTransform: 'uppercase', color: 'rgba(245,243,238,0.45)',
+          textTransform: 'uppercase', color: 'rgba(245,243,238,0.65)',
           pointerEvents: 'none',
           transition: 'opacity 0.6s ease',
         }}

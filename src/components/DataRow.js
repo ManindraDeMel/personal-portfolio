@@ -13,7 +13,7 @@ function DataRow({ k, v, delay }) {
       }),
     }}>
       <span style={{
-        color: 'rgba(245,243,238,0.45)',
+        color: 'rgba(245,243,238,0.65)',
         textTransform: 'uppercase',
         letterSpacing: '0.08em',
       }}>{k}</span>

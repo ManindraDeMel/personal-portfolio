@@ -1,11 +1,20 @@
 import React from 'react';
 
-// Replaces AOS — IntersectionObserver-driven scroll reveal.
+function prefersReducedMotion() {
+  return typeof window !== 'undefined'
+    && window.matchMedia
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
 function FadeUp({ children, delay = 0, distance = 40, duration = 900 }) {
   const ref = React.useRef(null);
-  const [shown, setShown] = React.useState(false);
+  const [shown, setShown] = React.useState(() => prefersReducedMotion());
 
   React.useEffect(() => {
+    if (prefersReducedMotion()) {
+      setShown(true);
+      return;
+    }
     const el = ref.current;
     if (!el) return;
     const io = new IntersectionObserver(

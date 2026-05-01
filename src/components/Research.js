@@ -137,7 +137,7 @@ function ResearchCard({ p, index }) {
               {stack.length > 4 && (
                 <span style={{
                   fontFamily: ED_MONO, fontSize: 10,
-                  letterSpacing: '0.1em', color: 'rgba(245,243,238,0.45)',
+                  letterSpacing: '0.1em', color: 'rgba(245,243,238,0.65)',
                   padding: '4px 4px',
                 }}>
                   +{stack.length - 4}

@@ -42,53 +42,64 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav style={{
-      position: 'sticky', top: 0, zIndex: 50,
-      display: 'grid',
-      gridTemplateColumns: isMobile ? '1fr' : '1fr auto 1fr',
-      alignItems: 'center',
-      padding: isMobile ? '12px 16px' : '20px 40px',
-      borderBottom: `1px solid ${COLORS.border}`,
-      background: 'rgba(10,10,10,0.72)',
-      backdropFilter: 'blur(14px)',
-      WebkitBackdropFilter: 'blur(14px)',
-      fontFamily: ED_MONO, fontSize: 11,
-      letterSpacing: '0.14em', textTransform: 'uppercase',
-    }}>
+    <nav
+      aria-label="Section navigation"
+      style={{
+        position: 'sticky', top: 0, zIndex: 50,
+        display: 'grid',
+        gridTemplateColumns: isMobile ? '1fr' : '1fr auto 1fr',
+        alignItems: 'center',
+        padding: isMobile ? '12px 16px' : '20px 40px',
+        borderBottom: `1px solid ${COLORS.border}`,
+        background: 'rgba(10,10,10,0.72)',
+        backdropFilter: 'blur(14px)',
+        WebkitBackdropFilter: 'blur(14px)',
+        fontFamily: ED_MONO, fontSize: 11,
+        letterSpacing: '0.14em', textTransform: 'uppercase',
+      }}
+    >
       {!isMobile && (
         <div style={{ display: 'flex', gap: 28, color: COLORS.fgMuted }}>
           <span style={{ color: COLORS.fg }}>Manindra de Mel</span>
-          <span>—</span>
+          <span aria-hidden="true">—</span>
           <span>Portfolio / Vol. 02</span>
         </div>
       )}
-      <div style={{
-        display: 'flex',
-        gap: isMobile ? 14 : 28,
-        flexWrap: isMobile ? 'wrap' : 'nowrap',
-        justifyContent: 'center',
-      }}>
-        {LINKS.map((l, i) => (
-          <button
-            key={l.label}
-            onClick={() => smoothScrollTo(l.href)}
-            style={{
-              background: 'transparent', border: 'none', cursor: 'pointer',
-              padding: 0, font: 'inherit', letterSpacing: 'inherit',
-              textTransform: 'inherit',
-              color: active === l.label ? COLORS.fg : COLORS.fgMuted,
-              transition: 'color 0.2s',
-            }}
-          >
-            {!isMobile && (
-              <span style={{ opacity: 0.4, marginRight: 6 }}>
-                {String(i + 1).padStart(2, '0')}
-              </span>
-            )}
-            {l.label}
-          </button>
-        ))}
-      </div>
+      <ul
+        style={{
+          display: 'flex',
+          gap: isMobile ? 14 : 28,
+          flexWrap: isMobile ? 'wrap' : 'nowrap',
+          justifyContent: 'center',
+          listStyle: 'none', padding: 0, margin: 0,
+        }}
+      >
+        {LINKS.map((l, i) => {
+          const isActive = active === l.label;
+          return (
+            <li key={l.label}>
+              <button
+                onClick={() => smoothScrollTo(l.href)}
+                aria-current={isActive ? 'true' : undefined}
+                style={{
+                  background: 'transparent', border: 'none', cursor: 'pointer',
+                  padding: 0, font: 'inherit', letterSpacing: 'inherit',
+                  textTransform: 'inherit',
+                  color: isActive ? COLORS.fg : COLORS.fgMuted,
+                  transition: 'color 0.2s',
+                }}
+              >
+                {!isMobile && (
+                  <span aria-hidden="true" style={{ opacity: 0.7, marginRight: 6 }}>
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                )}
+                {l.label}
+              </button>
+            </li>
+          );
+        })}
+      </ul>
       {!isMobile && (
         <div style={{ textAlign: 'right', color: COLORS.fgMuted }}>
           Canberra, ACT · 35.28°S

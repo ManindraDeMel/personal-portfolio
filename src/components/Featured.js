@@ -101,7 +101,7 @@ function Featured({ p }) {
               {stack.length > 4 && (
                 <span style={{
                   fontFamily: ED_MONO, fontSize: 10,
-                  letterSpacing: '0.1em', color: 'rgba(245,243,238,0.45)',
+                  letterSpacing: '0.1em', color: 'rgba(245,243,238,0.65)',
                   padding: '4px 4px',
                   opacity: 0,
                   animation: `ed-fade-up 0.45s ${0.1 + 4 * 0.08}s ease forwards`,

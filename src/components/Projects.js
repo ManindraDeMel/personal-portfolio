@@ -245,7 +245,7 @@ function ProjectRow({ p, i, isMobile }) {
       </span>
       <span style={{
         fontFamily: ED_MONO, fontSize: 12,
-        color: 'rgba(245,243,238,0.45)', textAlign: 'right',
+        color: 'rgba(245,243,238,0.65)', textAlign: 'right',
       }}>
         {p.stars != null ? `★ ${p.stars}` : '—'}
       </span>

@@ -44,7 +44,7 @@ function Testimonials() {
           >
             <div style={{
               fontFamily: ED_DISPLAY, fontSize: 72,
-              lineHeight: 0.5, color: 'rgba(245,243,238,0.3)',
+              lineHeight: 0.5, color: 'rgba(245,243,238,0.55)',
               marginBottom: 16,
             }}>
               “

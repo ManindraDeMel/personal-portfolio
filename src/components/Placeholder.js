@@ -28,7 +28,7 @@ function Placeholder({ label, aspect }) {
       <span style={{
         position: 'absolute', right: 16, top: 14,
         fontFamily: ED_MONO, fontSize: 9, letterSpacing: '0.14em',
-        textTransform: 'uppercase', color: 'rgba(245,243,238,0.35)',
+        textTransform: 'uppercase', color: 'rgba(245,243,238,0.6)',
       }}>
         IMG
       </span>

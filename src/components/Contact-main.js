@@ -119,7 +119,7 @@ function SocialCell({ label, handle, href, first, timeCell, isMobile, index }) {
       minWidth: 0,
     }}>
       <div style={{
-        color: 'rgba(245,243,238,0.45)',
+        color: 'rgba(245,243,238,0.65)',
         textTransform: 'uppercase', letterSpacing: '0.14em',
         fontSize: 10, marginBottom: 8,
       }}>
@@ -137,7 +137,7 @@ function SocialCell({ label, handle, href, first, timeCell, isMobile, index }) {
             wordBreak: 'break-all',
           }}
         >
-          {handle} <span style={{ color: 'rgba(245,243,238,0.45)' }}>↗</span>
+          {handle} <span aria-hidden="true" style={{ color: 'rgba(245,243,238,0.65)' }}>↗</span>
         </a>
       )}
     </div>

@@ -30,7 +30,7 @@ function Marquee() {
             <span key={i} style={{
               display: 'inline-flex', alignItems: 'center',
               gap: isMobile ? 28 : 48,
-              color: i % 2 === 0 ? COLORS.fg : 'rgba(245,243,238,0.35)',
+              color: i % 2 === 0 ? COLORS.fg : 'rgba(245,243,238,0.55)',
               ...(isFirstSegment && {
                 opacity: 0,
                 animation: `ed-fade-up 0.55s ${0.08 + i * 0.06}s ease forwards`,
@@ -39,7 +39,7 @@ function Marquee() {
               {x}
               <span style={{
                 fontFamily: ED_MONO, fontSize: 12,
-                color: 'rgba(245,243,238,0.3)', letterSpacing: '0.1em',
+                color: 'rgba(245,243,238,0.55)', letterSpacing: '0.1em',
               }}>+</span>
             </span>
           );
