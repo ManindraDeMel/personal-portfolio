@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { ED_MONO } from '../styles/editorial';
 
 const FRAME_BG =
@@ -82,196 +82,380 @@ function HerbariumGrid() {
   );
 }
 
-// t-SNE-style scatter cluster of points — represents BioCLIP embedding space
-// with separable plant-species clusters.
-function EmbeddingScatter() {
-  const clusters = [
-    { cx: 28, cy: 32, n: 14, spread: 9 },
-    { cx: 64, cy: 22, n: 12, spread: 7 },
-    { cx: 78, cy: 58, n: 16, spread: 11 },
-    { cx: 32, cy: 70, n: 18, spread: 10 },
-    { cx: 52, cy: 50, n: 10, spread: 6 },
-    { cx: 18, cy: 52, n: 9, spread: 6 },
-  ];
-  const dots = [];
-  let seed = 1;
-  const rng = () => {
-    seed = (seed * 9301 + 49297) % 233280;
-    return seed / 233280;
-  };
-  clusters.forEach((cl, ci) => {
-    for (let i = 0; i < cl.n; i++) {
-      const a = rng() * Math.PI * 2;
-      const r = rng() * cl.spread;
-      const x = cl.cx + Math.cos(a) * r;
-      const y = cl.cy + Math.sin(a) * r;
-      const size = 0.6 + rng() * 0.6;
-      const alpha = 0.45 + rng() * 0.5;
-      dots.push({ x, y, size, alpha, ci });
+// Interactive 3D embedding scatter — drag to rotate, auto-rotates when idle.
+// Same monochrome editorial palette as the rest of the spotlight visuals;
+// renders into a canvas with hand-rolled perspective projection (no deps).
+function EmbeddingScatter3D() {
+  const canvasRef = useRef(null);
+  const hintRef = useRef(null);
+  const stateRef = useRef({ rx: -0.35, ry: 0.55, drag: null });
+
+  const pointsRef = useRef(null);
+  if (!pointsRef.current) {
+    let seed = 1;
+    const rng = () => {
+      seed = (seed * 9301 + 49297) % 233280;
+      return seed / 233280;
+    };
+    const clusters = [
+      { cx: -32, cy: -14, cz:   2, n: 16, spread: 10 },
+      { cx:  22, cy: -28, cz:  18, n: 14, spread:  8 },
+      { cx:  34, cy:  20, cz: -14, n: 18, spread: 12 },
+      { cx: -24, cy:  28, cz:  22, n: 20, spread: 11 },
+      { cx:   2, cy:   2, cz: -24, n: 12, spread:  7 },
+      { cx: -38, cy:  10, cz: -16, n: 11, spread:  7 },
+    ];
+    const pts = [];
+    clusters.forEach((cl, ci) => {
+      for (let i = 0; i < cl.n; i++) {
+        const u = rng();
+        const v = rng();
+        const theta = Math.acos(2 * u - 1);
+        const phi = 2 * Math.PI * v;
+        const r = Math.sqrt(rng()) * cl.spread;
+        const x = cl.cx + r * Math.sin(theta) * Math.cos(phi);
+        const y = cl.cy + r * Math.sin(theta) * Math.sin(phi);
+        const z = cl.cz + r * Math.cos(theta);
+        const size = 0.9 + rng() * 0.8;
+        const alpha = 0.55 + rng() * 0.4;
+        pts.push({ x, y, z, ci, size, alpha });
+      }
+    });
+    pointsRef.current = pts;
+  }
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let raf = 0;
+    let lastT = performance.now();
+    let interacted = false;
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = Math.max(1, Math.floor(rect.width * dpr));
+      canvas.height = Math.max(1, Math.floor(rect.height * dpr));
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    resize();
+    const ro = new ResizeObserver(resize);
+    ro.observe(canvas);
+
+    const cubeSize = 48;
+    const corners = [];
+    for (let i = 0; i < 8; i++) {
+      corners.push([
+        (i & 1 ? 1 : -1) * cubeSize,
+        (i & 2 ? 1 : -1) * cubeSize,
+        (i & 4 ? 1 : -1) * cubeSize,
+      ]);
     }
-  });
+    const edges = [
+      [0,1],[2,3],[4,5],[6,7],
+      [0,2],[1,3],[4,6],[5,7],
+      [0,4],[1,5],[2,6],[3,7],
+    ];
+
+    const draw = (t) => {
+      const dt = Math.min(0.05, (t - lastT) / 1000);
+      lastT = t;
+      const s = stateRef.current;
+      if (!s.drag) {
+        s.ry += dt * 0.22;
+      }
+
+      const w = canvas.clientWidth;
+      const h = canvas.clientHeight;
+      ctx.clearRect(0, 0, w, h);
+
+      const cosX = Math.cos(s.rx);
+      const sinX = Math.sin(s.rx);
+      const cosY = Math.cos(s.ry);
+      const sinY = Math.sin(s.ry);
+      const focal = Math.min(w, h) * 1.6;
+      const baseScale = Math.min(w, h) / 160;
+      const cx = w / 2;
+      const cy = h / 2;
+      const camZ = 180;
+
+      const project = (x, y, z) => {
+        const x1 = x * cosY + z * sinY;
+        const z1 = -x * sinY + z * cosY;
+        const y1 = y * cosX - z1 * sinX;
+        const z2 = y * sinX + z1 * cosX;
+        const denom = camZ + z2;
+        const persp = focal / denom;
+        return {
+          px: x1 * persp * baseScale * 0.6 + cx,
+          py: y1 * persp * baseScale * 0.6 + cy,
+          z: z2,
+          scale: persp / focal,
+        };
+      };
+
+      // Wireframe cube
+      ctx.strokeStyle = 'rgba(245,243,238,0.10)';
+      ctx.lineWidth = 0.6;
+      const projCorners = corners.map(([x, y, z]) => project(x, y, z));
+      ctx.beginPath();
+      edges.forEach(([a, b]) => {
+        ctx.moveTo(projCorners[a].px, projCorners[a].py);
+        ctx.lineTo(projCorners[b].px, projCorners[b].py);
+      });
+      ctx.stroke();
+
+      // Axis ticks (D1/D2/D3) anchored at the −,−,− corner
+      const origin = project(-cubeSize, -cubeSize, -cubeSize);
+      const axes = [
+        { v: project(-cubeSize + 16, -cubeSize, -cubeSize), label: 'D1' },
+        { v: project(-cubeSize, -cubeSize + 16, -cubeSize), label: 'D2' },
+        { v: project(-cubeSize, -cubeSize, -cubeSize + 16), label: 'D3' },
+      ];
+      ctx.strokeStyle = 'rgba(245,243,238,0.32)';
+      ctx.lineWidth = 0.8;
+      ctx.beginPath();
+      axes.forEach((a) => {
+        ctx.moveTo(origin.px, origin.py);
+        ctx.lineTo(a.v.px, a.v.py);
+      });
+      ctx.stroke();
+      ctx.font = '9px JetBrains Mono, monospace';
+      ctx.fillStyle = 'rgba(245,243,238,0.5)';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      axes.forEach((a) => ctx.fillText(a.label, a.v.px, a.v.py));
+
+      // Depth-sorted points
+      const projected = pointsRef.current.map((p) => ({ p, q: project(p.x, p.y, p.z) }));
+      projected.sort((a, b) => b.q.z - a.q.z);
+      projected.forEach(({ p, q }) => {
+        const depth = (q.z + cubeSize) / (cubeSize * 2);
+        const fade = 0.55 + Math.max(0, Math.min(1, 1 - depth)) * 0.45;
+        const alpha = Math.max(0.15, Math.min(1, p.alpha * fade));
+        const r = Math.max(0.6, p.size * (0.6 + (1 - depth) * 0.9));
+        ctx.fillStyle = `rgba(245,243,238,${alpha.toFixed(3)})`;
+        ctx.beginPath();
+        ctx.arc(q.px, q.py, r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      raf = requestAnimationFrame(draw);
+    };
+    raf = requestAnimationFrame(draw);
+
+    const dismissHint = () => {
+      if (interacted) return;
+      interacted = true;
+      const el = hintRef.current;
+      if (el) el.style.opacity = '0';
+    };
+
+    const onPointerDown = (e) => {
+      stateRef.current.drag = { x: e.clientX, y: e.clientY };
+      canvas.style.cursor = 'grabbing';
+      try { canvas.setPointerCapture(e.pointerId); } catch (_) {}
+      dismissHint();
+    };
+    const onPointerMove = (e) => {
+      const s = stateRef.current;
+      if (!s.drag) return;
+      const dx = e.clientX - s.drag.x;
+      const dy = e.clientY - s.drag.y;
+      s.ry += dx * 0.008;
+      s.rx += dy * 0.008;
+      const limit = Math.PI / 2 - 0.05;
+      if (s.rx > limit) s.rx = limit;
+      if (s.rx < -limit) s.rx = -limit;
+      s.drag = { x: e.clientX, y: e.clientY };
+    };
+    const onPointerUp = (e) => {
+      stateRef.current.drag = null;
+      canvas.style.cursor = 'grab';
+      try { canvas.releasePointerCapture(e.pointerId); } catch (_) {}
+    };
+    canvas.addEventListener('pointerdown', onPointerDown);
+    canvas.addEventListener('pointermove', onPointerMove);
+    canvas.addEventListener('pointerup', onPointerUp);
+    canvas.addEventListener('pointercancel', onPointerUp);
+    canvas.addEventListener('pointerleave', onPointerUp);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+      canvas.removeEventListener('pointerdown', onPointerDown);
+      canvas.removeEventListener('pointermove', onPointerMove);
+      canvas.removeEventListener('pointerup', onPointerUp);
+      canvas.removeEventListener('pointercancel', onPointerUp);
+      canvas.removeEventListener('pointerleave', onPointerUp);
+    };
+  }, []);
+
   return (
-    <svg
-      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
-      viewBox="0 0 100 100"
-      preserveAspectRatio="xMidYMid meet"
-    >
-      {[20, 40, 60, 80].map((p) => (
-        <line
-          key={`h${p}`}
-          x1="0" x2="100" y1={p} y2={p}
-          stroke="rgba(245,243,238,0.06)"
-          strokeWidth="0.3"
-          vectorEffect="non-scaling-stroke"
-        />
-      ))}
-      {[20, 40, 60, 80].map((p) => (
-        <line
-          key={`v${p}`}
-          y1="0" y2="100" x1={p} x2={p}
-          stroke="rgba(245,243,238,0.06)"
-          strokeWidth="0.3"
-          vectorEffect="non-scaling-stroke"
-        />
-      ))}
-      {dots.map((d, i) => (
-        <circle
-          key={i}
-          cx={d.x} cy={d.y} r={d.size}
-          fill={`rgba(245,243,238,${d.alpha})`}
-        />
-      ))}
-    </svg>
+    <>
+      <canvas
+        ref={canvasRef}
+        style={{
+          position: 'absolute', inset: 0,
+          width: '100%', height: '100%',
+          cursor: 'grab',
+          touchAction: 'none',
+        }}
+      />
+      <span
+        ref={hintRef}
+        style={{
+          position: 'absolute', right: 14, bottom: 12,
+          fontFamily: ED_MONO, fontSize: 9, letterSpacing: '0.16em',
+          textTransform: 'uppercase', color: 'rgba(245,243,238,0.45)',
+          pointerEvents: 'none',
+          transition: 'opacity 0.6s ease',
+        }}
+      >
+        Drag · rotate
+      </span>
+    </>
   );
 }
 
-// Pipeline diagram: tile -> BioCLIP -> multi-label.
+// Pipeline diagram: tile -> BioCLIP encoder -> multi-label.
+// Wide viewBox so it fills a full-width 16:4 strip cleanly.
 function BioClipPipeline() {
+  const labels = [
+    { y: 6,  label: 'Quercus robur',   alpha: 0.95, fill: 0.85 },
+    { y: 18, label: 'Plantago lanc.',  alpha: 0.7,  fill: 0.55 },
+    { y: 30, label: 'Trifolium prat.', alpha: 0.55, fill: 0.4 },
+    { y: 42, label: 'Achillea mille.', alpha: 0.4,  fill: 0.25 },
+  ];
   return (
     <svg
       style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
-      viewBox="0 0 100 100"
+      viewBox="0 0 200 50"
       preserveAspectRatio="xMidYMid meet"
     >
+      {/* tile grid */}
       <rect
-        x="6" y="34" width="22" height="22"
+        x="10" y="10" width="34" height="34"
         fill="none"
         stroke="rgba(245,243,238,0.5)"
         strokeWidth="0.4"
         vectorEffect="non-scaling-stroke"
       />
-      {[0, 1, 2, 3].map((i) => (
+      {[1, 2, 3].map((i) => (
         <line
           key={`tile-h-${i}`}
-          x1="6" x2="28"
-          y1={34 + (22 / 4) * i + 22 / 8}
-          y2={34 + (22 / 4) * i + 22 / 8}
+          x1="10" x2="44"
+          y1={10 + (34 / 4) * i}
+          y2={10 + (34 / 4) * i}
           stroke="rgba(245,243,238,0.2)"
           strokeWidth="0.25"
           vectorEffect="non-scaling-stroke"
         />
       ))}
-      {[0, 1, 2, 3].map((i) => (
+      {[1, 2, 3].map((i) => (
         <line
           key={`tile-v-${i}`}
-          y1="34" y2="56"
-          x1={6 + (22 / 4) * i + 22 / 8}
-          x2={6 + (22 / 4) * i + 22 / 8}
+          y1="10" y2="44"
+          x1={10 + (34 / 4) * i}
+          x2={10 + (34 / 4) * i}
           stroke="rgba(245,243,238,0.2)"
           strokeWidth="0.25"
           vectorEffect="non-scaling-stroke"
         />
       ))}
       <text
-        x="17" y="66"
+        x="27" y="49"
         fontFamily="JetBrains Mono, monospace"
-        fontSize="3.4"
-        fill="rgba(245,243,238,0.6)"
+        fontSize="3"
+        fill="rgba(245,243,238,0.55)"
         textAnchor="middle"
         letterSpacing="0.5"
-      >TILE</text>
+      >01 · TILE</text>
 
+      {/* arrow tile -> encoder */}
       <line
-        x1="28" y1="45" x2="38" y2="45"
-        stroke="rgba(245,243,238,0.4)"
+        x1="44" y1="27" x2="64" y2="27"
+        stroke="rgba(245,243,238,0.35)"
         strokeWidth="0.35"
         vectorEffect="non-scaling-stroke"
       />
       <polygon
-        points="38,45 35.5,43.5 35.5,46.5"
+        points="64,27 61,25.5 61,28.5"
         fill="rgba(245,243,238,0.5)"
       />
 
+      {/* encoder block */}
       <rect
-        x="38" y="32" width="28" height="26"
+        x="64" y="8" width="60" height="38"
         fill="rgba(245,243,238,0.04)"
         stroke="rgba(245,243,238,0.5)"
         strokeWidth="0.4"
         vectorEffect="non-scaling-stroke"
       />
       <text
-        x="52" y="44"
+        x="94" y="24"
         fontFamily="Helvetica Neue, sans-serif"
-        fontSize="4.2"
+        fontSize="5.4"
         fill="rgba(245,243,238,0.95)"
         textAnchor="middle"
         fontWeight="600"
       >BioCLIP</text>
       <text
-        x="52" y="50"
+        x="94" y="32"
+        fontFamily="JetBrains Mono, monospace"
+        fontSize="3.2"
+        fill="rgba(245,243,238,0.55)"
+        textAnchor="middle"
+        letterSpacing="0.4"
+      >ViT-L/14 · 448px</text>
+      <text
+        x="94" y="49"
         fontFamily="JetBrains Mono, monospace"
         fontSize="3"
-        fill="rgba(245,243,238,0.5)"
-        textAnchor="middle"
-      >ViT-L/14</text>
-      <text
-        x="52" y="66"
-        fontFamily="JetBrains Mono, monospace"
-        fontSize="3.4"
-        fill="rgba(245,243,238,0.6)"
+        fill="rgba(245,243,238,0.55)"
         textAnchor="middle"
         letterSpacing="0.5"
-      >ENCODER</text>
+      >02 · ENCODER</text>
 
+      {/* arrow encoder -> labels */}
       <line
-        x1="66" y1="45" x2="76" y2="45"
-        stroke="rgba(245,243,238,0.4)"
+        x1="124" y1="27" x2="144" y2="27"
+        stroke="rgba(245,243,238,0.35)"
         strokeWidth="0.35"
         vectorEffect="non-scaling-stroke"
       />
       <polygon
-        points="76,45 73.5,43.5 73.5,46.5"
+        points="144,27 141,25.5 141,28.5"
         fill="rgba(245,243,238,0.5)"
       />
 
-      <g transform="translate(76,32)">
-        {[
-          { y: 2, label: 'Quercus robur', alpha: 0.95, fill: 0.85 },
-          { y: 8, label: 'Plantago lanc.', alpha: 0.7,  fill: 0.55 },
-          { y: 14, label: 'Trifolium prat.', alpha: 0.55, fill: 0.4 },
-          { y: 20, label: 'Achillea mille.', alpha: 0.4, fill: 0.25 },
-        ].map((row, i) => (
+      {/* label probabilities */}
+      <g transform="translate(144,2)">
+        {labels.map((row, i) => (
           <g key={i}>
-            <rect x="0" y={row.y} width={2.2 + row.fill * 16} height="3.5"
-                  fill={`rgba(245,243,238,${row.fill})`} />
             <text
-              x="0" y={row.y - 0.4}
+              x="0" y={row.y - 1}
               fontFamily="JetBrains Mono, monospace"
-              fontSize="2.4"
+              fontSize="2.6"
               fill={`rgba(245,243,238,${row.alpha})`}
               letterSpacing="0.3"
             >{row.label}</text>
+            <rect
+              x="0" y={row.y} width={2 + row.fill * 44} height="4"
+              fill={`rgba(245,243,238,${row.fill})`}
+            />
           </g>
         ))}
       </g>
       <text
-        x="86" y="66"
+        x="170" y="49"
         fontFamily="JetBrains Mono, monospace"
-        fontSize="3.4"
-        fill="rgba(245,243,238,0.6)"
+        fontSize="3"
+        fill="rgba(245,243,238,0.55)"
         textAnchor="middle"
         letterSpacing="0.5"
-      >LABELS</text>
+      >03 · LABELS</text>
     </svg>
   );
 }
@@ -286,8 +470,8 @@ export function HerbariumPanel({ aspect = '16 / 10', borderRight = true }) {
 
 export function EmbeddingPanel({ aspect = '4 / 5', borderRight = true }) {
   return (
-    <VisualFrame label="02 · Embedding space" tag="UMAP" aspect={aspect} borderRight={borderRight}>
-      <EmbeddingScatter />
+    <VisualFrame label="02 · Embedding space" tag="UMAP · 3D" aspect={aspect} borderRight={borderRight}>
+      <EmbeddingScatter3D />
     </VisualFrame>
   );
 }

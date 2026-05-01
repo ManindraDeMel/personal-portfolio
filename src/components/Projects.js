@@ -21,11 +21,11 @@ function mapRepo(repo) {
 
 function Projects() {
   const [repos, setRepos] = useState([]);
-  const [spotlight, setSpotlight] = useState(null);
+  const [spotlights, setSpotlights] = useState([]);
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    fetchSpotlight().then(setSpotlight);
+    fetchSpotlight().then(setSpotlights);
   }, []);
 
   useEffect(() => {
@@ -49,15 +49,17 @@ function Projects() {
         const mapped = data
           .filter((repo) => !repo.private)
           .map(mapRepo)
-          .sort((a, b) => Number(b.year) - Number(a.year));
+          .sort((a, b) => (b.stars ?? 0) - (a.stars ?? 0));
         setRepos(mapped);
       })
       .catch((err) => console.error('Failed to fetch repos:', err));
   }, []);
 
-  const spotlightName = spotlight?.name?.toLowerCase();
-  const filteredRepos = spotlightName
-    ? repos.filter((r) => r.name.toLowerCase() !== spotlightName)
+  const spotlightNames = new Set(
+    spotlights.map((s) => s?.name?.toLowerCase()).filter(Boolean)
+  );
+  const filteredRepos = spotlightNames.size
+    ? repos.filter((r) => !spotlightNames.has(r.name.toLowerCase()))
     : repos;
   const limit = isMobile ? 5 : 10;
   const tableRepos = filteredRepos.slice(0, limit);
@@ -73,7 +75,17 @@ function Projects() {
     >
       <SectionHeader number="03" title="Selected Work" sub="A curated index. Full archive on GitHub." />
 
-      {spotlight && <Featured p={spotlight} />}
+      {spotlights.length > 0 && (
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: isMobile ? 24 : 32,
+        }}>
+          {spotlights.map((s, i) => (
+            <Featured key={s.name || i} p={s} />
+          ))}
+        </div>
+      )}
 
       <div style={{
         marginTop: isMobile ? 32 : 48,

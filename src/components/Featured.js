@@ -149,22 +149,29 @@ function Featured({ p }) {
         </button>
       )}
 
-      {!isMobile && (
-        <div style={{
-          display: 'grid', gridTemplateColumns: '2fr 1fr 1fr',
-          borderBottom: `1px solid ${COLORS.border}`,
-        }}>
-          <HerbariumPanel aspect="16 / 10" />
-          <EmbeddingPanel aspect="4 / 5" />
-          <PipelinePanel aspect="4 / 5" borderRight={false} />
-        </div>
+      {p.visuals === 'herbarium' && !isMobile && (
+        <>
+          <div style={{
+            display: 'grid', gridTemplateColumns: '1.4fr 1fr',
+            borderBottom: `1px solid ${COLORS.border}`,
+          }}>
+            <HerbariumPanel aspect="16 / 10" />
+            <EmbeddingPanel aspect="5 / 4" borderRight={false} />
+          </div>
+          <div style={{ borderBottom: `1px solid ${COLORS.border}` }}>
+            <PipelinePanel aspect="16 / 4" borderRight={false} />
+          </div>
+        </>
       )}
-      {isMobile && (
-        <div style={{
-          borderBottom: `1px solid ${COLORS.border}`,
-        }}>
-          <HerbariumPanel aspect="16 / 9" borderRight={false} />
-        </div>
+      {p.visuals === 'herbarium' && isMobile && (
+        <>
+          <div style={{ borderBottom: `1px solid ${COLORS.border}` }}>
+            <HerbariumPanel aspect="16 / 9" borderRight={false} />
+          </div>
+          <div style={{ borderBottom: `1px solid ${COLORS.border}` }}>
+            <PipelinePanel aspect="16 / 6" borderRight={false} />
+          </div>
+        </>
       )}
 
       {showCaseStudy && (

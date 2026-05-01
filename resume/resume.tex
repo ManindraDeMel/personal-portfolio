@@ -57,13 +57,13 @@
 \newcounter{secnum}
 \newcommand{\edsection}[1]{%
   \stepcounter{secnum}%
-  \par\vspace{8pt}%
+  \par\vspace{5pt}%
   {\monofont\addfontfeatures{LetterSpace=18.0}\scriptsize\textcolor{muted}{¶ \ifnum\value{secnum}<10 0\fi\arabic{secnum}}}%
   \hspace{12pt}%
   {\bfseries\fontsize{14}{16}\selectfont\addfontfeatures{LetterSpace=-2.0}\MakeUppercase{#1}}%
   \par\vspace{1pt}%
   {\color{rule}\hrule height 0.5pt}%
-  \par\vspace{3pt}%
+  \par\vspace{2pt}%
 }
 
 % Tight bullet list
@@ -78,7 +78,7 @@
 {\fontsize{28}{30}\selectfont\bfseries\addfontfeatures{LetterSpace=-4.0}MANINDRA DE MEL\par}
 \vspace{3pt}
 \detail{Applied ML / Software Engineer — Canberra, AU}\par
-\detail{manindrademel@yahoo.com.au · +61 498 842 763 · \href{https://manindra-portfolio.web.app}{manindra-portfolio.web.app}}\par
+\detail{manindrademel@yahoo.com.au · +61 498 842 763 · \href{https://manindra.com.au}{manindra.com.au}}\par
 \detail{\href{https://github.com/ManindraDeMel}{github.com/ManindraDeMel} · \href{https://www.linkedin.com/in/manindra-de-mel-413a79160/}{linkedin.com/in/manindra-de-mel}}\par
 \vspace{6pt}
 {\color{rule}\hrule height 0.5pt}
@@ -90,16 +90,15 @@ Build applied ML systems end-to-end — modeling, GPU data infrastructure, deplo
 %% ---- Selected work --------------------------------------------------
 \edsection{Selected Work}
 
-{\bfseries PlantCLEF 2026 — Lead}\dates{2026 · 8th place, international}\par
-\detail{BioCLIP · PyTorch · NVIDIA DALI · cuDF · W\&B}\par
+{\bfseries PlantCLEF 2026 — Team Lead}\dates{2026 · 8th place, international}\par
+\detail{w/ A. Sharma · R. Mistry · BioCLIP · PyTorch · NVIDIA DALI · cuDF · W\&B}\par
 \begin{itemize}
 \item Multi-label species ID across 7{,}800+ long-tailed classes on 1.4\,M quadrat-scale images.
 \item Fine-tuned BioCLIP ViT-L/14 at 448\,px with bicubic-interpolated positional embeddings; asymmetric loss for extreme class imbalance.
-\item End-to-end GPU pipeline (NVDEC → NVIDIA DALI + cuDF); SAHI-style 512$\times$512 tiled inference with max-pooled probabilities.
-\item Tracked rare-species recall separately so the model couldn't coast on dominant classes.
+\item End-to-end GPU pipeline (NVDEC → NVIDIA DALI + cuDF); SAHI-style 512$\times$512 tiled inference with max-pooled probabilities; rare-species recall tracked separately so the model couldn't coast on dominant classes.
 \end{itemize}
 
-\vspace{3pt}
+\vspace{1pt}
 {\bfseries Rocket Remit — Frontend Developer / Data Analyst}\dates{Aug 2023 — present}\par
 \detail{TypeScript · React · Python · ML · SQL}\par
 \begin{itemize}
@@ -107,7 +106,14 @@ Build applied ML systems end-to-end — modeling, GPU data infrastructure, deplo
 \item Built an ML transaction-monitoring system flagging suspicious activity patterns across remittance corridors — integrated into compliance review.
 \end{itemize}
 
-\vspace{3pt}
+\vspace{1pt}
+{\bfseries Purse — Founder / Engineer}\dates{2025 — present}\par
+\detail{TypeScript · React Native · Firebase · CDR / Open Banking}\par
+\begin{itemize}
+\item Australian finance app: super, bank, and investments aggregated via Open Banking into one net-worth view; daily-spend feeds and budget envelopes with overshoot alerts — mobile-first, transactions auto-categorise on-device.
+\end{itemize}
+
+\vspace{1pt}
 {\bfseries Stomble — Backend Engineer}\dates{Nov 2022 — May 2023}\par
 \detail{Python · AWS · CI/CD}\par
 \begin{itemize}
@@ -115,13 +121,13 @@ Build applied ML systems end-to-end — modeling, GPU data infrastructure, deplo
 \item Owned AWS configuration, deployment, and operations; raised unit-test coverage and onboarded engineers.
 \end{itemize}
 
-\vspace{3pt}
+\vspace{1pt}
 {\bfseries OpenBMB · ChatDev — DevOps Contributor}\dates{2023}\par
 \begin{itemize}
 \item Contributed deployment and CI tooling to ChatDev — a multi-agent LLM software-development framework (\textgreater{}26k stars).
 \end{itemize}
 
-\vspace{3pt}
+\vspace{1pt}
 {\bfseries Freelance / sole trader}\dates{2021 — present}\par
 \begin{itemize}
 \item Full-stack web, data pipelines, scrapers, and AI integrations for Canberra Cloud Kitchen, Our Tutor, Quintet Automotive, Harin's Teas, mHits AU; co-built an AI-driven surgical scheduling tool (\href{https://team101.life}{team101.life}).
@@ -145,13 +151,12 @@ PyCon AU 2021 — Speaker · Young ICT Explorers — Regional Winner (2021) · A
 \begin{tabularx}{\linewidth}{@{}lX@{}}
 \monocaps{Lang}  & Python · Rust · C / C++ · Haskell · TypeScript · APL · Assembly \\
 \monocaps{ML}    & PyTorch · BioCLIP · NVIDIA DALI · cuDF · Weights \& Biases · NumPy \\
-\monocaps{Web}   & React · Svelte · Vue · Firebase · Node \\
-\monocaps{Infra} & AWS · Google Cloud · Linux · Git · CI/CD \\
+\monocaps{Build} & React · Svelte · Vue · React Native · Firebase · Node · AWS · GCP · Linux · CI/CD \\
 \end{tabularx}
 
 %% ---- Education -------------------------------------------------------
 \edsection{Education}
-{\bfseries Australian National University} — Bachelor of Advanced Computing (Computer Science)\dates{2022 — 2025}\par
+{\bfseries Australian National University} — Bachelor of Advanced Computing, Major in Machine Learning, Minor in Mathematics\dates{Jan 2022 — Jun 2026}\par
 \detail{Coursework: functional programming, logic \& proofs, array programming, systems, ML. ANU Extension — Astrophysics (2021).}
 
 \end{document}

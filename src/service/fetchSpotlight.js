@@ -1,16 +1,20 @@
-import { collection, getDocs, query, orderBy, limit, where } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy, where } from 'firebase/firestore';
 import { db } from '../firebase';
 
-// Firestore `spotlight` collection — featured project for the Work section.
-// Expected doc shape:
+// Firestore `spotlight` collection — featured projects rendered above the
+// Selected Work table. Each active doc renders as a Featured card, ordered
+// descending by `order`.
+//
+// Doc shape:
 //   {
 //     name: string,
 //     year: string,
 //     lang: string,
 //     stars: number | null,
 //     desc: string,
-//     active: boolean,         // only the latest active doc is shown
-//     order: number,           // tiebreaker, descending
+//     url?: string,
+//     active: boolean,
+//     order: number,
 //     featured: {
 //       status: string,
 //       role: string,
@@ -21,25 +25,22 @@ import { db } from '../firebase';
 //       stack: string[],
 //     }
 //   }
-// Returns null if no active spotlight is configured.
+//
+// Required composite index: (active ASC, order DESC). Firestore prints the
+// index-creation URL in the console the first time the query runs.
 async function fetchSpotlight() {
   try {
     const q = query(
       collection(db, 'spotlight'),
       where('active', '==', true),
-      orderBy('order', 'desc'),
-      limit(1)
+      orderBy('order', 'desc')
     );
     const snap = await getDocs(q);
-    if (snap.empty) return null;
-    const data = snap.docs[0].data();
-    if (!data.featured) return null;
-    return data;
+    if (snap.empty) return [];
+    return snap.docs.map((d) => d.data()).filter((data) => data.featured);
   } catch (error) {
-    // Most common cause: collection doesn't exist yet, or composite index
-    // missing. Don't surface this to the user — just hide the spotlight.
     console.warn('Spotlight not available:', error?.message || error);
-    return null;
+    return [];
   }
 }
 
