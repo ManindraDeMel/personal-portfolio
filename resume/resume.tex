@@ -13,7 +13,7 @@
 \usepackage{enumitem}
 \usepackage{tabularx}
 \usepackage{microtype}
-\usepackage{parskip}
+\usepackage[skip=2pt,indent=0pt]{parskip}
 \usepackage[hidelinks]{hyperref}
 
 %% ---- Fonts (graceful fallback) ----------------------------------------
@@ -91,10 +91,18 @@ Build applied ML systems end-to-end — modeling, GPU data infrastructure, deplo
 {\bfseries PlantCLEF 2026 — Lead}\dates{2026 · 8th place, international}\par
 \meta{BioCLIP · PyTorch · NVIDIA DALI · cuDF · W\&B}\par
 \begin{itemize}
-\item Multi-label species identification across 7{,}800+ long-tailed classes on the 1.4\,M-image train set; quadrat-scale botanical imagery.
-\item Fine-tuned BioCLIP ViT-L/14 at 448\,px with bicubic-interpolated positional embeddings; asymmetric loss to combat extreme class imbalance.
-\item End-to-end GPU pipeline (NVDEC decode through NVIDIA DALI plus cuDF preprocessing); SAHI-style 512$\times$512 tiled inference with max-pooled probabilities.
-\item Tracked rare-species recall as a separate gate so the model couldn't coast on dominant classes.
+\item Multi-label species ID across 7{,}800+ long-tailed classes on 1.4\,M quadrat-scale images.
+\item Fine-tuned BioCLIP ViT-L/14 at 448\,px with bicubic-interpolated positional embeddings; asymmetric loss for extreme class imbalance.
+\item End-to-end GPU pipeline (NVDEC → NVIDIA DALI + cuDF); SAHI-style 512$\times$512 tiled inference with max-pooled probabilities.
+\item Tracked rare-species recall separately so the model couldn't coast on dominant classes.
+\end{itemize}
+
+\vspace{3pt}
+{\bfseries Rocket Remit — Frontend Developer / Data Analyst}\dates{Aug 2023 — present}\par
+\meta{TypeScript · React · Python · ML · SQL}\par
+\begin{itemize}
+\item Frontend work on the customer-facing remittance product; data analysis on transaction flows.
+\item Built an ML transaction-monitoring system flagging suspicious activity patterns across remittance corridors — integrated into compliance review.
 \end{itemize}
 
 \vspace{3pt}
@@ -114,24 +122,18 @@ Build applied ML systems end-to-end — modeling, GPU data infrastructure, deplo
 \vspace{3pt}
 {\bfseries Freelance / sole trader}\dates{2021 — present}\par
 \begin{itemize}
-\item Shipped full-stack web, data pipelines, web scraping, and AI integrations for Canberra Cloud Kitchen, Rocket Remit, Our Tutor, Quintet Automotive, Harin's Teas, mHits AU.
-\item Built a US-equities trading bot for clients on top of a PPO reinforcement-learning policy.
-\item Placed 4th at AI Hack Melbourne (2023) co-building an AI-driven surgical scheduling tool (\href{https://team101.life}{team101.life}).
+\item Full-stack web, data pipelines, scrapers, and AI integrations for Canberra Cloud Kitchen, Our Tutor, Quintet Automotive, Harin's Teas, mHits AU.
+\item US-equities trading bot for clients built on a PPO reinforcement-learning policy; AI-driven surgical scheduling tool (\href{https://team101.life}{team101.life}).
 \end{itemize}
 
 %% ---- Research --------------------------------------------------------
 \edsection{Research}
 
-{\bfseries QEM Mesh Simplification with skeletonization \& CNNs}\dates{2024}\par
-Structure-aware mesh decimation that preserves fine geometric features. \meta{\href{https://aware-mesh-simplification.web.app}{aware-mesh-simplification.web.app}}
-
-\vspace{3pt}
-{\bfseries Real-Time Engine Tuning via ML}\dates{2024}\par
-Live optimisation of internal-combustion engine parameters; efficiency and emissions targets. \meta{\href{https://realtimeenginetuning.web.app}{realtimeenginetuning.web.app}}
-
-\vspace{3pt}
-{\bfseries PPO Reinforcement Learning for Equities Trading}\dates{2023}\par
-Resource-efficient policy-gradient agent; later productised as a freelance trading-bot service.
+{\bfseries QEM Mesh Simplification with skeletonization \& CNNs}\, — structure-aware mesh decimation preserving fine geometric features. \meta{2024 · \href{https://aware-mesh-simplification.web.app}{aware-mesh-simplification.web.app}}\par
+\vspace{2pt}
+{\bfseries Real-Time Engine Tuning via ML}\, — live optimisation of internal-combustion engine parameters for efficiency and emissions. \meta{2024 · \href{https://realtimeenginetuning.web.app}{realtimeenginetuning.web.app}}\par
+\vspace{2pt}
+{\bfseries PPO Reinforcement Learning for Equities Trading}\, — resource-efficient policy-gradient agent; productised as a trading-bot service. \meta{2023}
 
 %% ---- Recognition -----------------------------------------------------
 \edsection{Recognition}
