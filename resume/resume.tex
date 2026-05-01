@@ -1,28 +1,13 @@
-% Manindra de Mel — resume (classic template)
+% Manindra de Mel — resume
 % Compile with: pdflatex resume.tex (run twice for hyperref refs)
 
 \documentclass[11pt,a4paper]{article}
 
 \usepackage[a4paper, top=15mm, bottom=15mm, left=18mm, right=18mm]{geometry}
-\usepackage{xcolor}
 \usepackage{enumitem}
-\usepackage{tabularx}
-\usepackage{multicol}
 \usepackage[hidelinks]{hyperref}
 
-%% ---- Colors ----------------------------------------------------------
-\definecolor{accent}{HTML}{B22222}
-\definecolor{darkbar}{HTML}{0a0a0a}
-
-%% ---- Section heading helper ----------------------------------------
-\newcommand{\edsection}[1]{%
-  \par\vspace{8pt}%
-  {\Large\bfseries #1}\par
-  \vspace{1pt}{\color{accent}\hrule height 0.6pt}\vspace{4pt}%
-}
-
-%% ---- List formatting ------------------------------------------------
-\setlist[itemize]{leftmargin=14pt, itemsep=1pt, topsep=2pt, parsep=0pt}
+\setlist[itemize]{leftmargin=14pt, itemsep=0pt, topsep=1pt, parsep=0pt}
 \renewcommand{\labelitemi}{\textbullet}
 
 \setlength{\parindent}{0pt}
@@ -30,151 +15,115 @@
 
 \pagestyle{empty}
 
-\begin{document}
-
-%% ---- Header ---------------------------------------------------------
-\begin{flushright}
-{\fontsize{30}{34}\selectfont\bfseries MANINDRA \textcolor{accent}{DE MEL}}
-\end{flushright}
-\vspace{2pt}
-
-\noindent\colorbox{darkbar}{%
-  \parbox[c][0.75cm][c]{\dimexpr\textwidth-2\fboxsep\relax}{%
-    \hfill\textcolor{white}{\bfseries Canberra, ACT \textbar\ +61 498 842 763 \textbar\ manindrademel@yahoo.com.au}\hspace{4pt}%
-  }%
+%% Section header: bold + thin underline
+\newcommand{\edsection}[1]{%
+  \par\vspace{6pt}%
+  \textbf{#1}\par
+  \vspace{0pt}\hrule height 0.4pt\vspace{2pt}%
 }
 
-\vspace{6pt}
+%% Entry header: bold name (left) + bold date (right)
+\newcommand{\entry}[2]{\textbf{#1}\hfill\textbf{#2}\par}
 
-%% ---- Website, Portfolio, Profiles -----------------------------------
-\edsection{Website, Portfolio, Profiles}
-\begin{itemize}
-\item Personal site \href{https://manindra.com.au}{[manindra.com.au]}
-\item Github profile \href{https://github.com/ManindraDeMel}{[github.com/ManindraDeMel]}
-\item LinkedIn \href{https://www.linkedin.com/in/manindra-de-mel-413a79160/}{[linkedin.com/in/manindra-de-mel]}
-\end{itemize}
+\begin{document}
 
-%% ---- Education ------------------------------------------------------
+\begin{center}
+{\LARGE\bfseries Manindra de Mel}\\[3pt]
+{\small M: +61 498 842 763 \ \textbar\ \ E: \href{mailto:manindrademel@yahoo.com.au}{manindrademel@yahoo.com.au} \ \textbar\ \ \href{https://www.linkedin.com/in/manindra-de-mel-413a79160/}{LinkedIn} \ \textbar\ \ \href{https://github.com/ManindraDeMel}{GitHub} \ \textbar\ \ \href{https://manindra.com.au}{manindra.com.au}}
+\end{center}
+
 \edsection{Education}
 
-\textbf{Bachelor of Advanced Computing}: Major in Machine Learning, Minor in Mathematics \hfill Jan 2022 -- Jun 2026\\
-\textbf{Australian National University} -- Canberra, ACT
+\entry{Australian National University}{Jan 2022 -- Jun 2026}
+Bachelor of Advanced Computing \textbar\ Major in Machine Learning, Minor in Mathematics
+
+Coursework: functional programming, logic \& proofs, array programming, systems, machine learning. ANU Extension --- Astrophysics (2021).
+
+\edsection{Work Experience}
+
+\entry{Rocket Remit (Frontend Developer / Data Analyst)}{Aug 2023 -- present}
 \begin{itemize}
-\item Coursework: functional programming, logic \& proofs, array programming, systems, machine learning.
+\item Built frontend features for the customer-facing remittance product covering 30+ corridors across Asia, Africa, and the Pacific.
+\item Designed an ML transaction-monitoring system flagging suspicious activity across remittance flows --- integrated into compliance review and reduced manual triage volume by \textasciitilde40\%.
+\item Analysed 100k+ historical transactions to surface corridor-specific risk patterns; outputs used to tune compliance rules.
 \end{itemize}
 
-\textbf{Senior Secondary Certificate} \hfill 12/2021\\
-\textbf{Burgmann Anglican School} -- Canberra, ACT
-
-\textbf{Senior Secondary Certificate} \hfill 09/2021\\
-\textbf{Australian National University} -- Canberra, ACT
+\entry{Purse (Founder / Engineer)}{2025 -- present}
 \begin{itemize}
-\item Completed the ANU Extension Astrophysics course.
+\item Building an Australian finance app aggregating super, banking, and investments from 100+ ADIs via CDR / Open Banking into a single net-worth view.
+\item Mobile-first React Native client; transactions auto-categorise on-device across 20+ categories with daily-spend feeds and budget envelopes.
 \end{itemize}
 
-%% ---- Professional Summary ------------------------------------------
-\edsection{Professional Summary}
-
-Applied ML / software engineer building production systems end-to-end --- modeling, GPU data infrastructure, and deployment. Recent focus on fine-grained vision with foundation models (BioCLIP, ViTs) and reinforcement learning for trading. Production-shipped backends and full-stack products for SMEs since 2021.
-
-%% ---- Accomplishments -----------------------------------------------
-\edsection{Accomplishments}
-
+\entry{Stomble (Backend Engineer)}{Nov 2022 -- May 2023}
 \begin{itemize}
-\item PlantCLEF 2026 --- 8th place internationally (team lead)
-\item Australian National Python Convention (PyCon AU) Presenter (2021)
-\item Young ICT Explorers --- Regional Winner (2021)
-\item AI Hack Melbourne --- 4th place (2023)
-\item Code Quest, Lockheed Martin --- Runners-up (2021)
-\item Jane Street Electronic Trading Challenge (2024)
-\item IMC Global Trading Challenge (2025)
-\item Australian Informatics Olympiad --- Credit (2019--2021)
+\item Led a backend team of 4; designed services connecting native client apps to AWS-hosted infrastructure across 10+ microservices.
+\item Owned AWS configuration, deployment, and operations; raised unit-test coverage to 80\%+ and onboarded 5+ engineers.
 \end{itemize}
 
-%% ---- Skills ---------------------------------------------------------
-\edsection{Skills}
-
-\begin{multicols}{2}
-\begin{itemize}
-\item Machine learning, deep learning, computer vision
-\item PyTorch, BioCLIP, NVIDIA DALI, cuDF, Weights \& Biases
-\item Reinforcement learning (PPO, policy gradients)
-\item Foundation model fine-tuning (ViTs, CLIP variants)
-\item Full-stack web development
-\item React, Svelte, Vue, React Native, Firebase, Node
-\item Python, Rust, C / C++, Haskell, TypeScript, APL, Assembly
-\item AWS, GCP, Linux, CI/CD
-\item Databases: SQL, NoSQL, Firestore
-\item Functional, procedural, logic, OO paradigms
-\item Time-complexity analysis, algorithm design
-\item Web scraping, data pipelines, ETL
-\end{itemize}
-\end{multicols}
-
-%% ---- Work History ---------------------------------------------------
-\edsection{Work History}
-
-\textbf{Rocket Remit} \hfill Aug 2023 -- present\\
-\textbf{Frontend Developer / Data Analyst} -- Australia
-\begin{itemize}
-\item Frontend on the customer-facing remittance product; data analysis on transaction flows.
-\item Built an ML transaction-monitoring system flagging suspicious activity patterns across remittance corridors --- integrated into compliance review.
-\end{itemize}
-
-\textbf{Purse} \hfill 2025 -- present\\
-\textbf{Founder / Engineer} -- Australia
-\begin{itemize}
-\item Australian finance app aggregating super, banking, and investments via Open Banking into one net-worth view.
-\item Daily-spend feeds and budget envelopes with overshoot alerts; mobile-first, transactions auto-categorise on-device.
-\end{itemize}
-
-\textbf{Stomble} \hfill 11/2022 -- 05/2023\\
-\textbf{Backend Engineer} -- Australia
-\begin{itemize}
-\item Led the backend team; designed services connecting native client apps to AWS-hosted infrastructure.
-\item Owned AWS configuration, deployment, and operations; raised unit-test coverage and onboarded engineers.
-\end{itemize}
-
-\textbf{Freelance / Sole Trader} \hfill 2021 -- present
+\entry{Canberra Websites (Founder / Engineer)}{2021 -- present}
 \begin{itemize}
 \item Full-stack web, data pipelines, scrapers, and AI integrations for Canberra Cloud Kitchen, Our Tutor, Quintet Automotive, Harin's Teas, and mHits AU.
 \item Co-built an AI-driven surgical scheduling tool (\href{https://team101.life}{team101.life}).
 \end{itemize}
 
-\textbf{Quintet Automotive} \hfill 06/2021 -- 11/2021\\
-\textbf{Data Analyst, Software Developer} -- Canberra, ACT
+\edsection{Select Projects}
+
+\textbf{PlantCLEF 2026 --- Team Lead [\href{https://www.kaggle.com/competitions/plantclef-2026}{LINK}]}
 \begin{itemize}
-\item Designed and developed schema data models.
-\item Evaluated trends to understand competitive environments and assess current strategies.
-\item Participated in requirements meetings and data mapping sessions to understand business needs.
+\item Multi-label species ID across 7,800+ long-tailed classes on 1.4M quadrat-scale images; 8th place internationally.
+\item Fine-tuned BioCLIP ViT-L/14 at 448px with bicubic-interpolated positional embeddings; asymmetric loss for extreme class imbalance.
+\item End-to-end GPU pipeline (NVDEC \textrightarrow\ NVIDIA DALI + cuDF); SAHI-style 512$\times$512 tiled inference with max-pooled probabilities; rare-species recall tracked separately so the model couldn't coast on dominant classes.
 \end{itemize}
 
-%% ---- Research -------------------------------------------------------
-\edsection{Research}
+\textbf{QEM Mesh Simplification with Skeletonization \& CNNs [\href{https://aware-mesh-simplification.web.app}{LINK}]}
+\begin{itemize}
+\item Structure-aware mesh decimation preserving fine geometric features (2024).
+\end{itemize}
 
-\textbf{PlantCLEF 2026 --- Team Lead} (2026) \\
-Multi-label species ID across 7,800+ long-tailed classes on 1.4M quadrat-scale images. Fine-tuned BioCLIP ViT-L/14 at 448px with bicubic-interpolated positional embeddings. End-to-end GPU pipeline (NVDEC \textrightarrow\ NVIDIA DALI + cuDF); SAHI-style 512$\times$512 tiled inference with max-pooled probabilities.
+\textbf{Real-Time Engine Tuning via ML [\href{https://realtimeenginetuning.web.app}{LINK}]}
+\begin{itemize}
+\item Live optimisation of internal-combustion engine parameters for efficiency and emissions (2024).
+\end{itemize}
 
-\textbf{QEM Mesh Simplification with Skeletonization \& CNNs} (2024) \\
-Structure-aware mesh decimation preserving fine geometric features. \href{https://aware-mesh-simplification.web.app}{aware-mesh-simplification.web.app}
+\textbf{OpenBMB \textperiodcentered\ ChatDev [\href{https://github.com/OpenBMB/ChatDev}{LINK}]}
+\begin{itemize}
+\item Multi-agent LLM software-development framework (26k+ stars); contributed deployment and CI tooling to the open release (2023).
+\end{itemize}
 
-\textbf{Real-Time Engine Tuning via ML} (2024) \\
-Live optimisation of internal-combustion engine parameters for efficiency and emissions. \href{https://realtimeenginetuning.web.app}{realtimeenginetuning.web.app}
+\textbf{PPO Reinforcement Learning for Equities Trading}
+\begin{itemize}
+\item Resource-efficient policy-gradient agent; productised as a trading-bot service (2023).
+\end{itemize}
 
-\textbf{OpenBMB \textperiodcentered\ ChatDev} (2023) \\
-Multi-agent LLM software-development framework; contributed deployment and CI tooling to the open release (26k stars).
-
-\textbf{PPO Reinforcement Learning for Equities Trading} (2023) \\
-Resource-efficient policy-gradient agent; productised as a trading-bot service.
-
-%% ---- Hobbies --------------------------------------------------------
-\edsection{Hobbies}
+\edsection{Achievements}
 
 \begin{itemize}
-\item Building computers
-\item Programming software, websites, and machine learning
-\item Researching mathematical concepts related to computer science
-\item Mechanics \& working on my vehicle
+\item PlantCLEF 2026 --- 8th place internationally (team lead, 2026)
+\item IMC Global Trading Challenge (2025)
+\item Jane Street Electronic Trading Challenge (2024)
+\item AI Hack Melbourne --- 4th place (2023)
+\item Australian National Python Convention (PyCon AU) --- Speaker (2021)
+\item Young ICT Explorers --- Regional Winner (2021)
+\item Code Quest, Lockheed Martin --- Runners-up (2021)
+\item Australian Informatics Olympiad --- Credit (2019--2021)
 \end{itemize}
+
+\edsection{Relevant Skills}
+
+\begin{itemize}
+\item Python, Rust, C / C++, Haskell, TypeScript, APL, Assembly
+\item Machine learning, deep learning, computer vision (PyTorch)
+\item Reinforcement learning (PPO, policy gradients)
+\item Foundation model fine-tuning (ViTs)
+\item Full-stack web (React, Svelte, Vue, React Native, Firebase, Node)
+\item AWS, GCP, Linux, CI/CD
+\item Databases: SQL, NoSQL, Firestore
+\item Functional, procedural, logic, OO paradigms
+\item Web scraping, data pipelines, ETL
+\end{itemize}
+
+\edsection{Relevant Interests}
+
+Building computers; programming software, websites, and machine learning models; researching mathematical concepts related to computer science; mechanics \& working on my vehicle.
 
 \end{document}
