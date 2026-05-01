@@ -8,7 +8,7 @@ const PORTFOLIO = {
   address: "Canberra ACT, AUSTRALIA",
   socials: {
     github: "https://github.com/ManindraDeMel",
-    linkedin: "https://www.linkedin.com/in/manindra-de-mel-413a79160/",
+    linkedin: "https://www.linkedin.com/in/manindra-de-mel/",
     instagram: "https://www.instagram.com/de_manindra_mel/",
   },
   marquee: [
