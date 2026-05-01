@@ -1,42 +1,119 @@
-import React from 'react';
-import './Testimonials.css';
+import React, { useState } from 'react';
+import SectionHeader from './SectionHeader';
+import PORTFOLIO from '../data/portfolio';
+import { ED_DISPLAY, ED_MONO, COLORS } from '../styles/editorial';
+import { useIsMobile } from '../hooks/useMediaQuery';
+import TypeReveal, { splitForTyping } from './TypeReveal';
 
 function Testimonials() {
-    // Array of testimonials (replace these with your own testimonials)
-    const testimonials = [
-        { 
-            name: 'John Sarkis, CEO of Stomble', 
-            comment: 'As a team leader for our backend team, Manindra demonstrated an exemplary level of technical proficiency and leadership skills. His understanding and application of AWS services were instrumental in the successful implementation of our backend operations. Additionally, Manindra\'s communication skills were top-notch. He effectively coordinated tasks between the team and the startup\'s CEO, ensuring smooth operations and timely delivery of our projects. His ability to articulate complex technical concepts in an understandable way greatly facilitated our decision-making process. We highly recommend Manindra for any team that requires a combination of technical expertise and effective leadership.'
-        },
-        { 
-            name: 'Josh Garretson, Extension Astrophysics, ANU', 
-            comment: 'Manindra has consistently demonstrated a strong work ethic and highly developed organisational skills. He is always prepared for class and completes work on time or ahead of schedule. His analytical and problem-solving skills have developed rapidly over the two years that I have taught him, and he has demonstrated an especially strong capability for solving problems which require a mixture of physical and computational thinking. He plans well and knows when and how to ask for help or clarification. His communication skills, cooperative nature, and enthusiasm motivate his peers and make him a strong team player.' 
-        },
-        {
-            name: 'Tom Cook, Founder of Our Tutor',
-            comment: 'Manindra took the time to understand my business and target audience. He translated that understanding into a visually stunning and user-friendly interface that truly represents the essence of my brand. His attention to detail and dedication to the project were evident in every interaction. The website has received numerous positive feedback from our customers and has significantly boosted our online presence.'
-        },        
-        {
-            name: 'Quintet Automotive',
-            comment: 'Manindra provided excellent service in the areas of data analysis and web scraping for our automotive business. His in-depth understanding of data analytics and ability to extract and process relevant information from various web sources was truly impressive. This, combined with his ability to understand and anticipate our needs, greatly contributed to our data-driven decision-making process. His consistent delivery, clear communication, and commitment to meeting our needs was commendable. We strongly recommend Manindra for any organization in need of expert data analysis and web scraping services.'
-        }
-        // Add more testimonials as needed
-    ];
-    
-    
+  const isMobile = useIsMobile();
+  const [showAll, setShowAll] = useState(false);
+  const all = PORTFOLIO.testimonials;
+  const initial = isMobile ? 2 : all.length;
+  const visible = showAll || !isMobile ? all : all.slice(0, initial);
+  const hidden = all.length - visible.length;
 
-    return (
-        <div className="testimonials-section" id="testimonials">
-            <div className="testimonials-container">
-                {testimonials.map((testimonial, index) => (
-                    <div key={index} className={`testimonial ${index % 2 === 0 ? 'left' : 'right'}`} data-aos="fade-up">
-                        <p>"{testimonial.comment}"</p>
-                        <h3>- {testimonial.name}</h3>
-                    </div>
-                ))}
+  return (
+    <section
+      id="words"
+      style={{
+        padding: isMobile ? '56px 18px' : '90px 40px',
+        borderBottom: `1px solid ${COLORS.border}`,
+      }}
+    >
+      <SectionHeader number="06" title="Words" sub="From people I've worked with." />
+
+      <div style={{
+        marginTop: isMobile ? 32 : 60,
+        display: 'grid',
+        gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+        gap: isMobile ? 18 : 32,
+      }}>
+        {visible.map((t, i) => (
+          <figure
+            key={i}
+            style={{
+              margin: 0,
+              padding: isMobile ? 22 : 32,
+              border: '1px solid rgba(245,243,238,0.15)',
+              background: i % 3 === 0 ? 'rgba(245,243,238,0.025)' : 'transparent',
+              display: 'flex', flexDirection: 'column',
+              justifyContent: 'space-between',
+              minHeight: isMobile ? 0 : 260,
+            }}
+          >
+            <div style={{
+              fontFamily: ED_DISPLAY, fontSize: 72,
+              lineHeight: 0.5, color: 'rgba(245,243,238,0.3)',
+              marginBottom: 16,
+            }}>
+              “
             </div>
-        </div>
-    );
+            <blockquote style={{
+              fontFamily: ED_DISPLAY,
+              fontSize: isMobile ? 15.5 : 17,
+              lineHeight: 1.45,
+              fontWeight: 400, margin: 0, letterSpacing: '-0.012em',
+              color: 'rgba(245,243,238,0.92)',
+            }}>
+              {(() => {
+                const [head, tail] = splitForTyping(t.quote);
+                return <TypeReveal prefix={head} tail={tail} speed={22} />;
+              })()}
+            </blockquote>
+            <figcaption style={{
+              marginTop: 24, paddingTop: 16,
+              borderTop: '1px solid rgba(245,243,238,0.15)',
+              display: 'flex',
+              flexDirection: isMobile ? 'column' : 'row',
+              justifyContent: 'space-between',
+              gap: isMobile ? 6 : 0,
+              fontFamily: ED_MONO, fontSize: 11,
+              letterSpacing: '0.1em', textTransform: 'uppercase',
+            }}>
+              <span style={{ color: COLORS.fg }}>— {t.name}</span>
+              <span style={{ color: COLORS.fgMuted }}>{t.role}</span>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+
+      {isMobile && hidden > 0 && (
+        <button
+          onClick={() => setShowAll(true)}
+          style={{
+            marginTop: 20,
+            width: '100%',
+            background: 'transparent',
+            border: '1px solid rgba(245,243,238,0.3)',
+            color: COLORS.fg, cursor: 'pointer',
+            padding: '14px 20px',
+            fontFamily: ED_MONO, fontSize: 11,
+            letterSpacing: '0.16em', textTransform: 'uppercase',
+          }}
+        >
+          + Show {hidden} more
+        </button>
+      )}
+      {isMobile && showAll && all.length > initial && (
+        <button
+          onClick={() => setShowAll(false)}
+          style={{
+            marginTop: 12,
+            width: '100%',
+            background: 'transparent',
+            border: '1px solid rgba(245,243,238,0.18)',
+            color: COLORS.fgMuted, cursor: 'pointer',
+            padding: '12px 20px',
+            fontFamily: ED_MONO, fontSize: 11,
+            letterSpacing: '0.16em', textTransform: 'uppercase',
+          }}
+        >
+          — Collapse
+        </button>
+      )}
+    </section>
+  );
 }
 
 export default Testimonials;

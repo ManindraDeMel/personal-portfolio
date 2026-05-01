@@ -1,58 +1,37 @@
-// App.js
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import './App.css';
-import AOS from "aos";
-import "aos/dist/aos.css";
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Landing from './components/Landing';
+import Marquee from './components/Marquee';
 import Timeline from './components/Timeline';
 import Projects from './components/Projects';
+import Research from './components/Research';
+import Resume from './components/Resume';
 import Testimonials from './components/Testimonials';
-import Contact from './components/Contact';
-import Contactmain from './components/Contact-main';
+import ContactMain from './components/Contact-main';
 import Footer from './components/Footer';
+import FadeUp from './components/FadeUp';
 import fetchTimelineData from './service/fetchTimeline';
-
-function MainPage({ timelineData }) {
-  return (
-    <>
-      <Navbar />
-      <Landing />
-      <Timeline data={timelineData} />
-      {/* <Resume/> */}
-      <Projects/>
-      <Testimonials/>
-      <Contactmain/>
-      <Footer/>
-    </>
-  );
-}
 
 function App() {
   const [timelineData, setTimelineData] = useState([]);
 
   useEffect(() => {
-    async function getData() {
-      const data = await fetchTimelineData();
-      setTimelineData(data);
-      console.log('Data fetched from Firebase:', data);
-    }
-    getData();
-
-    AOS.init({
-      duration: 2000
-    });
+    fetchTimelineData().then(setTimelineData);
   }, []);
 
   return (
     <div className="App">
-      <Router>
-        <Routes>
-          <Route path="/" element={<MainPage timelineData={timelineData} />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
-      </Router>
+      <Navbar />
+      <FadeUp><Landing /></FadeUp>
+      <FadeUp delay={80}><Marquee /></FadeUp>
+      <FadeUp><Timeline data={timelineData} /></FadeUp>
+      <FadeUp><Projects /></FadeUp>
+      <FadeUp><Research /></FadeUp>
+      <FadeUp><Resume /></FadeUp>
+      <FadeUp><Testimonials /></FadeUp>
+      <FadeUp><ContactMain /></FadeUp>
+      <FadeUp><Footer /></FadeUp>
     </div>
   );
 }

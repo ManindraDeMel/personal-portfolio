@@ -1,29 +1,42 @@
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { db } from '../firebase';
 
+// Firestore `timeline` collection.
+// Expected doc shape (new):  { year, subtitle, points: string[] }
+// Backwards-compat (old):    { year, subtitle, achievements: string[] (HTML) }
+// Both shapes are normalized into `{ year, subtitle, points: string[] }`.
 async function fetchTimelineData() {
-    try {
-        const q = query(collection(db, 'timeline'), orderBy('year', 'desc'));
-        const querySnapshot = await getDocs(q);
+  try {
+    const q = query(collection(db, 'timeline'), orderBy('year', 'desc'));
+    const snap = await getDocs(q);
 
-        const seen = new Set();
-        const timelineData = [];
+    const seen = new Set();
+    const out = [];
 
-        querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            const identifier = `${data.year}-${data.subtitle}`;
+    snap.forEach((doc) => {
+      const data = doc.data();
+      const id = `${data.year}-${data.subtitle}`;
+      if (seen.has(id)) return;
+      seen.add(id);
 
-            if (!seen.has(identifier)) {
-                seen.add(identifier);
-                timelineData.push(data);
-            }
-        });
+      const points = Array.isArray(data.points)
+        ? data.points
+        : Array.isArray(data.achievements)
+          ? data.achievements
+          : [];
 
-        return timelineData;
-    } catch (error) {
-        console.error('Error fetching data from Firestore:', error);
-        throw error; // Re-throw the error after logging it
-    }
+      out.push({
+        year: data.year,
+        subtitle: data.subtitle,
+        points,
+      });
+    });
+
+    return out;
+  } catch (error) {
+    console.error('Error fetching timeline from Firestore:', error);
+    return [];
+  }
 }
 
 export default fetchTimelineData;

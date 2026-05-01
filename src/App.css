@@ -1,3 +1,5 @@
-html, body {
-    background-color: black;
+.App {
+  background: #0a0a0a;
+  color: #f5f3ee;
+  min-height: 100vh;
 }
