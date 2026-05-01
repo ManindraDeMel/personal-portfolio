@@ -1,0 +1,160 @@
+% Manindra de Mel — resume
+% Compile with: xelatex resume.tex   (run twice for hyperref refs)
+%
+% Editorial theme mirroring manindra-portfolio.web.app:
+%   display = Helvetica Neue, mono = JetBrains Mono.
+%   Falls back to Helvetica / DejaVu Sans Mono if those aren't installed.
+
+\documentclass[9pt,a4paper]{extarticle}
+
+\usepackage[a4paper, top=10mm, bottom=10mm, left=15mm, right=15mm]{geometry}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{microtype}
+\usepackage{parskip}
+\usepackage[hidelinks]{hyperref}
+
+%% ---- Fonts (graceful fallback) ----------------------------------------
+\IfFontExistsTF{Helvetica Neue}
+  {\setmainfont{Helvetica Neue}}
+  {\IfFontExistsTF{Helvetica}
+    {\setmainfont{Helvetica}}
+    {\IfFontExistsTF{Inter}
+      {\setmainfont{Inter}}
+      {\IfFontExistsTF{Arial}
+        {\setmainfont{Arial}}
+        {\IfFontExistsTF{Segoe UI}
+          {\setmainfont{Segoe UI}}
+          {}}}}}
+
+\IfFontExistsTF{JetBrains Mono}
+  {\newfontfamily\monofont{JetBrains Mono}[Scale=0.92]}
+  {\IfFontExistsTF{DejaVu Sans Mono}
+    {\newfontfamily\monofont{DejaVu Sans Mono}[Scale=0.92]}
+    {\IfFontExistsTF{Consolas}
+      {\newfontfamily\monofont{Consolas}[Scale=0.92]}
+      {\newfontfamily\monofont{Courier New}[Scale=0.92]}}}
+
+%% ---- Colors ----------------------------------------------------------
+\definecolor{ink}{HTML}{0a0a0a}
+\definecolor{muted}{HTML}{6a6a6a}
+\definecolor{rule}{HTML}{1a1a1a}
+\color{ink}
+
+%% ---- Helpers ---------------------------------------------------------
+% Mono-caps metadata (small, tracked, muted)
+\newcommand{\meta}[1]{{\monofont\addfontfeatures{LetterSpace=14.0}\scriptsize\textcolor{muted}{\MakeUppercase{#1}}}}
+% Mono-caps inline label (slightly larger, used in stack table)
+\newcommand{\monocaps}[1]{{\monofont\addfontfeatures{LetterSpace=8.0}\footnotesize\MakeUppercase{#1}}}
+% Right-aligned dates next to a heading
+\newcommand{\dates}[1]{\hfill\meta{#1}}
+
+% Editorial section header: ¶ NN — TITLE  + thin rule
+\newcounter{secnum}
+\newcommand{\edsection}[1]{%
+  \stepcounter{secnum}%
+  \par\vspace{8pt}%
+  {\monofont\addfontfeatures{LetterSpace=18.0}\scriptsize\textcolor{muted}{¶ \ifnum\value{secnum}<10 0\fi\arabic{secnum}}}%
+  \hspace{12pt}%
+  {\bfseries\fontsize{14}{16}\selectfont\addfontfeatures{LetterSpace=-2.0}\MakeUppercase{#1}}%
+  \par\vspace{1pt}%
+  {\color{rule}\hrule height 0.5pt}%
+  \par\vspace{3pt}%
+}
+
+% Tight bullet list
+\setlist[itemize]{leftmargin=12pt, topsep=1pt, parsep=0pt, itemsep=1pt}
+\renewcommand{\labelitemi}{\textcolor{muted}{\scriptsize\textbullet}}
+
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+%% ---- Header ---------------------------------------------------------
+{\fontsize{28}{30}\selectfont\bfseries\addfontfeatures{LetterSpace=-4.0}MANINDRA DE MEL\par}
+\vspace{3pt}
+\meta{Applied ML / Software Engineer — Canberra, AU}\par
+\meta{manindrademel@yahoo.com.au · +61 498 842 763 · \href{https://manindra-portfolio.web.app}{manindra-portfolio.web.app}}\par
+\meta{\href{https://github.com/ManindraDeMel}{github.com/ManindraDeMel} · \href{https://www.linkedin.com/in/manindra-de-mel-413a79160/}{linkedin.com/in/manindra-de-mel}}\par
+\vspace{6pt}
+{\color{rule}\hrule height 0.5pt}
+
+%% ---- Summary --------------------------------------------------------
+\edsection{Summary}
+Build applied ML systems end-to-end — modeling, GPU data infrastructure, deployment. Recent focus on fine-grained vision with foundation models (BioCLIP, ViTs) and reinforcement learning for trading. Production-shipped backends and full-stack products for SMEs since 2021.
+
+%% ---- Selected work --------------------------------------------------
+\edsection{Selected Work}
+
+{\bfseries PlantCLEF 2026 — Lead}\dates{2026 · 8th place, international}\par
+\meta{BioCLIP · PyTorch · NVIDIA DALI · cuDF · W\&B}\par
+\begin{itemize}
+\item Multi-label species identification across 7{,}800+ long-tailed classes on the 1.4\,M-image train set; quadrat-scale botanical imagery.
+\item Fine-tuned BioCLIP ViT-L/14 at 448\,px with bicubic-interpolated positional embeddings; asymmetric loss to combat extreme class imbalance.
+\item End-to-end GPU pipeline (NVDEC decode through NVIDIA DALI plus cuDF preprocessing); SAHI-style 512$\times$512 tiled inference with max-pooled probabilities.
+\item Tracked rare-species recall as a separate gate so the model couldn't coast on dominant classes.
+\end{itemize}
+
+\vspace{3pt}
+{\bfseries Stomble — Backend Engineer}\dates{Nov 2022 — May 2023}\par
+\meta{Python · AWS · CI/CD}\par
+\begin{itemize}
+\item Led the backend team; designed services connecting native client apps to AWS-hosted infrastructure.
+\item Owned AWS configuration, deployment, and operations; raised unit-test coverage and onboarded engineers.
+\end{itemize}
+
+\vspace{3pt}
+{\bfseries OpenBMB · ChatDev — DevOps Contributor}\dates{2023}\par
+\begin{itemize}
+\item Contributed deployment and CI tooling to ChatDev — a multi-agent LLM software-development framework (\textgreater{}26k stars).
+\end{itemize}
+
+\vspace{3pt}
+{\bfseries Freelance / sole trader}\dates{2021 — present}\par
+\begin{itemize}
+\item Shipped full-stack web, data pipelines, web scraping, and AI integrations for Canberra Cloud Kitchen, Rocket Remit, Our Tutor, Quintet Automotive, Harin's Teas, mHits AU.
+\item Built a US-equities trading bot for clients on top of a PPO reinforcement-learning policy.
+\item Placed 4th at AI Hack Melbourne (2023) co-building an AI-driven surgical scheduling tool (\href{https://team101.life}{team101.life}).
+\end{itemize}
+
+%% ---- Research --------------------------------------------------------
+\edsection{Research}
+
+{\bfseries QEM Mesh Simplification with skeletonization \& CNNs}\dates{2024}\par
+Structure-aware mesh decimation that preserves fine geometric features. \meta{\href{https://aware-mesh-simplification.web.app}{aware-mesh-simplification.web.app}}
+
+\vspace{3pt}
+{\bfseries Real-Time Engine Tuning via ML}\dates{2024}\par
+Live optimisation of internal-combustion engine parameters; efficiency and emissions targets. \meta{\href{https://realtimeenginetuning.web.app}{realtimeenginetuning.web.app}}
+
+\vspace{3pt}
+{\bfseries PPO Reinforcement Learning for Equities Trading}\dates{2023}\par
+Resource-efficient policy-gradient agent; later productised as a freelance trading-bot service.
+
+%% ---- Recognition -----------------------------------------------------
+\edsection{Recognition}
+\meta{PyCon AU 2021 — Speaker}\, ·\,
+\meta{Young ICT Explorers — Regional Winner (2021)}\, ·\,
+\meta{AI Hack Melbourne — 4th (2023)}\, ·\,
+\meta{Code Quest, Lockheed Martin — Runners-up (2021)}\, ·\,
+\meta{Jane Street Electronic Trading Challenge (2024)}\, ·\,
+\meta{IMC Global Trading Challenge (2025)}\, ·\,
+\meta{Australian Informatics Olympiad — Credit (2019\,–\,21)}
+
+%% ---- Stack -----------------------------------------------------------
+\edsection{Stack}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\monocaps{Lang}  & Python · Rust · C / C++ · Haskell · TypeScript · APL · Assembly \\
+\monocaps{ML}    & PyTorch · BioCLIP · NVIDIA DALI · cuDF · Weights \& Biases · NumPy \\
+\monocaps{Web}   & React · Svelte · Vue · Firebase · Node \\
+\monocaps{Infra} & AWS · Google Cloud · Linux · Git · CI/CD \\
+\end{tabularx}
+
+%% ---- Education -------------------------------------------------------
+\edsection{Education}
+{\bfseries Australian National University} — Bachelor of Advanced Computing (Computer Science)\dates{2022 — 2025}\par
+\meta{Coursework: functional programming, logic \& proofs, array programming, systems, ML. ANU Extension — Astrophysics (2021).}
+
+\end{document}
