@@ -63,6 +63,28 @@ const RESEARCH = [
     active: true,
     order: 10,
   },
+  {
+    slug: 'openbmb-chatdev',
+    name: 'ChatDev — Multi-Agent LLM Software Dev',
+    year: '2023',
+    status: 'Open source · 26k★',
+    role: 'DevOps Contributor',
+    collaborators: 'OpenBMB',
+    course: '',
+    blurb:
+      'OpenBMB ChatDev simulates a software-development company with role-playing LLM agents — CEO, CTO, programmer, reviewer, and tester collaborate over a chat protocol to ship a working product end-to-end.',
+    problem:
+      'Multi-agent LLM systems are an active research direction, but the engineering required to make them reproducible — containerised environments, CI for the agent protocol, deterministic seeding — is often the bottleneck that stops external researchers from running and extending the framework.',
+    approach:
+      'Contributed deployment and CI tooling to the open-source release: Docker images, GitHub Actions workflows, and reproducibility scripts wrapping the multi-agent runtime, so the framework could be spun up cleanly outside the original lab environment.',
+    outcome:
+      'ChatDev shipped publicly and crossed 26k GitHub stars, becoming one of the most-cited open-source references for multi-agent LLM software development and a baseline for follow-up papers.',
+    stack: ['Python', 'Docker', 'GitHub Actions', 'LLM agents', 'OpenAI API'],
+    liveUrl: '',
+    repoUrl: 'https://github.com/OpenBMB/ChatDev',
+    active: true,
+    order: 5,
+  },
 ];
 
 export default RESEARCH;
