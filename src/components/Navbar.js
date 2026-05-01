@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ED_MONO, COLORS } from '../styles/editorial';
-import { useIsMobile } from '../hooks/useMediaQuery';
+import { useIsMobile, useIsWideDesktop } from '../hooks/useMediaQuery';
 
 const LINKS = [
   { label: 'Index',    href: 'top' },
@@ -24,6 +24,8 @@ function smoothScrollTo(id) {
 const Navbar = () => {
   const [active, setActive] = useState('Index');
   const isMobile = useIsMobile();
+  const isWide = useIsWideDesktop();
+  const showSides = !isMobile && isWide;
 
   useEffect(() => {
     const onScroll = () => {
@@ -47,7 +49,7 @@ const Navbar = () => {
       style={{
         position: 'sticky', top: 0, zIndex: 50,
         display: 'grid',
-        gridTemplateColumns: isMobile ? '1fr' : '1fr auto 1fr',
+        gridTemplateColumns: showSides ? '1fr auto 1fr' : '1fr',
         alignItems: 'center',
         padding: isMobile ? '12px 16px' : '20px 40px',
         borderBottom: `1px solid ${COLORS.border}`,
@@ -58,8 +60,8 @@ const Navbar = () => {
         letterSpacing: '0.14em', textTransform: 'uppercase',
       }}
     >
-      {!isMobile && (
-        <div style={{ display: 'flex', gap: 28, color: COLORS.fgMuted }}>
+      {showSides && (
+        <div style={{ display: 'flex', gap: 28, color: COLORS.fgMuted, minWidth: 0 }}>
           <span style={{ color: COLORS.fg }}>Manindra de Mel</span>
           <span aria-hidden="true">—</span>
           <span>Portfolio / Vol. 02</span>
@@ -100,7 +102,7 @@ const Navbar = () => {
           );
         })}
       </ul>
-      {!isMobile && (
+      {showSides && (
         <div style={{ textAlign: 'right', color: COLORS.fgMuted }}>
           Canberra, ACT · 35.28°S
         </div>

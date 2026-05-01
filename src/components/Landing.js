@@ -95,13 +95,15 @@ const Landing = () => {
             <TypeReveal
               prefix={(
                 <>
-                  Software engineer based in Canberra. I work across{' '}
-                  <Underlined>machine-learning research</Underlined>,{' '}
+                  Software engineer based in Canberra with over five years across{' '}
+                  <Underlined>machine learning research</Underlined>,{' '}
                   <Underlined>systems programming</Underlined>, and the{' '}
-                  <Underlined>web</Underlined>{' '}
+                  <Underlined>web</Underlined>, shipping production work for clients
+                  in fintech, analytics, and hospitality on a stack that spans
+                  PyTorch, Rust, typed React, and AWS.{' '}
                 </>
               )}
-              tail="— currently studying CS at ANU, and taking on a small number of outside engagements each year."
+              tail="Currently reading CS at ANU, and available for a select roster of engagements each year."
               speed={18}
               startDelay={420}
             />
