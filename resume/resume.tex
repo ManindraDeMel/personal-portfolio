@@ -69,11 +69,12 @@ Coursework: functional programming, logic \& proofs, array programming, systems,
 
 \edsection{Select Projects}
 
-\textbf{PlantCLEF 2026 --- Team Lead [\href{https://www.kaggle.com/competitions/plantclef-2026}{LINK}]}
+\textbf{PlantCLEF 2026 --- Co-author, accepted to CLEF 2026 [\href{https://arm-wision.github.io/}{LINK}]}
 \begin{itemize}
-\item Multi-label species ID across 7,800+ long-tailed classes on 1.4M quadrat-scale images; 8th place internationally.
-\item Fine-tuned BioCLIP ViT-L/14 at 448px with bicubic-interpolated positional embeddings; asymmetric loss for extreme class imbalance.
-\item End-to-end GPU pipeline (NVDEC \textrightarrow\ NVIDIA DALI + cuDF); SAHI-style 512$\times$512 tiled inference with max-pooled probabilities; rare-species recall tracked separately so the model couldn't coast on dominant classes.
+\item ANU submission to PlantCLEF 2026 (Raj, de Mel, Wasif, Brake); multi-label species ID across 7,806 long-tailed classes at vegetation-quadrat scale.
+\item Partial fine-tuning of BioCLIP 2.5 ViT-H/14: only the last 4 transformer blocks unfrozen (lower 28 frozen to preserve the Tree-of-Life prior) with auxiliary cross-entropy heads at genus and family levels.
+\item Trained on a 2.65M-image enlarged manifest (PlantCLEF 2024 + research-grade iNaturalist pull); inference uses a 4$\times$4 tile grid at 224 and 336 px, class-prior logit adjustment, and an adaptive probability threshold.
+\item Best public Macro F1 of \textbf{0.41826} (private 0.40283); paper appears in CLEF 2026 proceedings, Jena, September 2026.
 \end{itemize}
 
 \textbf{QEM Mesh Simplification with Skeletonization \& CNNs [\href{https://aware-mesh-simplification.web.app}{LINK}]}
@@ -99,7 +100,7 @@ Coursework: functional programming, logic \& proofs, array programming, systems,
 \edsection{Achievements}
 
 \begin{itemize}
-\item PlantCLEF 2026 --- 8th place internationally (team lead, 2026)
+\item PlantCLEF 2026 --- paper accepted to CLEF 2026 proceedings, Jena (co-author, 2026)
 \item IMC Global Trading Challenge (2025)
 \item Jane Street Electronic Trading Challenge (2024)
 \item AI Hack Melbourne --- 4th place (2023)
