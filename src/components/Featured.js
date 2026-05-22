@@ -222,7 +222,7 @@ function Featured({ p }) {
             rel="noopener noreferrer"
             style={{ color: COLORS.fg, textDecoration: 'none' }}
           >
-            → Open repo
+            → {/github\.com/i.test(p.url) ? 'Open repo' : 'Project site'}
           </a>
         )}
       </div>
