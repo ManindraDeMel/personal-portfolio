@@ -2,17 +2,13 @@ import emailjs from '@emailjs/browser';
 import PORTFOLIO from '../data/portfolio';
 
 // Sends the contact form via EmailJS (browser-side, free tier 200/mo).
-// Setup:
-//   1. https://www.emailjs.com — create account, connect a Gmail service
-//   2. Build a template that consumes: from_name, from_email, subject, message,
-//      reply_to. Set the template's "To Email" to your inbox.
-//   3. Copy Public Key, Service ID, Template ID into .env / CI secrets:
-//        REACT_APP_EMAILJS_PUBLIC_KEY
-//        REACT_APP_EMAILJS_SERVICE_ID
-//        REACT_APP_EMAILJS_TEMPLATE_ID
-const PUBLIC_KEY = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
-const SERVICE_ID = process.env.REACT_APP_EMAILJS_SERVICE_ID;
-const TEMPLATE_ID = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
+// The "public key", service id, and template id are all client-visible by
+// design — EmailJS exposes them in every send request — so they live in
+// source. The env-var overrides are kept for swapping accounts without a
+// code change.
+const PUBLIC_KEY = process.env.REACT_APP_EMAILJS_PUBLIC_KEY || 'RctMzoR5IssFsxF49';
+const SERVICE_ID = process.env.REACT_APP_EMAILJS_SERVICE_ID || 'service_flq2nfh';
+const TEMPLATE_ID = process.env.REACT_APP_EMAILJS_TEMPLATE_ID || 'template_kqd27uq';
 
 export async function sendContactMessage({ name, email, subject, message }) {
   if (!PUBLIC_KEY || !SERVICE_ID || !TEMPLATE_ID) {
