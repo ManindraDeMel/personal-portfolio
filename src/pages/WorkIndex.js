@@ -13,7 +13,9 @@ function WorkIndex() {
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    fetchSpotlight().then(setItems);
+    fetchSpotlight().then((items) =>
+      setItems(items.filter((s) => s.category !== 'research'))
+    );
   }, []);
 
   return (

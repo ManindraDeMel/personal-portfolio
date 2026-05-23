@@ -56,8 +56,11 @@ function WorkTeaser() {
       .catch((err) => console.error('Failed to fetch repos:', err));
   }, []);
 
+  const workSpotlights = spotlights.filter((s) => s.category !== 'research');
+  const lead = workSpotlights[0];
+
   const spotlightNames = new Set(
-    spotlights.map((s) => s?.name?.toLowerCase()).filter(Boolean)
+    workSpotlights.map((s) => s?.name?.toLowerCase()).filter(Boolean)
   );
   const filteredRepos = spotlightNames.size
     ? repos.filter((r) => !spotlightNames.has(r.name.toLowerCase()))
@@ -65,8 +68,6 @@ function WorkTeaser() {
   const limit = isMobile ? 5 : 10;
   const tableRepos = filteredRepos.slice(0, limit);
   const hiddenCount = Math.max(0, filteredRepos.length - tableRepos.length);
-
-  const lead = spotlights[0];
 
   return (
     <section
