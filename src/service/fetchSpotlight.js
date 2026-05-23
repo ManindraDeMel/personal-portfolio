@@ -37,7 +37,9 @@ async function fetchSpotlight() {
     );
     const snap = await getDocs(q);
     if (snap.empty) return [];
-    return snap.docs.map((d) => d.data()).filter((data) => data.featured);
+    return snap.docs
+      .map((d) => ({ slug: d.id, ...d.data() }))
+      .filter((data) => data.featured);
   } catch (error) {
     console.warn('Spotlight not available:', error?.message || error);
     return [];

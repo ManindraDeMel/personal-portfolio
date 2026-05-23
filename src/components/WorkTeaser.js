@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import SectionHeader from './SectionHeader';
-import Featured from './Featured';
+import SpotlightCard from './SpotlightCard';
 import PORTFOLIO from '../data/portfolio';
 import fetchSpotlight from '../service/fetchSpotlight';
-import { ED_DISPLAY, ED_MONO, COLORS } from '../styles/editorial';
+import { ED_MONO, COLORS } from '../styles/editorial';
 import { useIsMobile } from '../hooks/useMediaQuery';
 
 function mapRepo(repo) {
@@ -19,7 +20,7 @@ function mapRepo(repo) {
   };
 }
 
-function Projects() {
+function WorkTeaser() {
   const [repos, setRepos] = useState([]);
   const [spotlights, setSpotlights] = useState([]);
   const isMobile = useIsMobile();
@@ -65,6 +66,8 @@ function Projects() {
   const tableRepos = filteredRepos.slice(0, limit);
   const hiddenCount = Math.max(0, filteredRepos.length - tableRepos.length);
 
+  const lead = spotlights[0];
+
   return (
     <section
       id="work"
@@ -73,19 +76,28 @@ function Projects() {
         borderBottom: `1px solid ${COLORS.border}`,
       }}
     >
-      <SectionHeader number="03" title="Selected Work" sub="A curated index. Full archive on GitHub." />
+      <SectionHeader number="03" title="Selected Work" sub="Featured project plus the active archive." />
 
-      {spotlights.length > 0 && (
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: isMobile ? 24 : 32,
-        }}>
-          {spotlights.map((s, i) => (
-            <Featured key={s.name || i} p={s} />
-          ))}
+      {lead && (
+        <div style={{ marginBottom: isMobile ? 28 : 36 }}>
+          <SpotlightCard p={lead} to={`/work/${lead.slug}`} />
         </div>
       )}
+
+      <Link
+        to="/work"
+        style={{
+          display: 'inline-flex', alignItems: 'center', gap: 10,
+          marginBottom: isMobile ? 28 : 36,
+          fontFamily: ED_MONO, fontSize: 11,
+          letterSpacing: '0.16em', textTransform: 'uppercase',
+          color: COLORS.fg, textDecoration: 'none',
+          borderBottom: `1px solid ${COLORS.fg}`,
+          paddingBottom: 4,
+        }}
+      >
+        ↗ All selected work
+      </Link>
 
       <div style={{
         marginTop: isMobile ? 32 : 48,
@@ -164,7 +176,7 @@ function ProjectRow({ p, i, isMobile }) {
           gap: 12, marginBottom: 8,
         }}>
           <span style={{
-            fontFamily: ED_DISPLAY, fontSize: 22, lineHeight: 1.1,
+            fontFamily: 'inherit', fontSize: 22, lineHeight: 1.1,
             fontWeight: 500, letterSpacing: '-0.02em',
             textTransform: 'lowercase',
             wordBreak: 'break-word',
@@ -224,7 +236,7 @@ function ProjectRow({ p, i, isMobile }) {
         {String(i + 1).padStart(2, '0')}
       </span>
       <span style={{
-        fontFamily: ED_DISPLAY, fontSize: 22, lineHeight: 1.1,
+        fontSize: 22, lineHeight: 1.1,
         fontWeight: 500, letterSpacing: '-0.02em',
         textTransform: 'lowercase',
       }}>
@@ -256,4 +268,4 @@ function ProjectRow({ p, i, isMobile }) {
   );
 }
 
-export default Projects;
+export default WorkTeaser;

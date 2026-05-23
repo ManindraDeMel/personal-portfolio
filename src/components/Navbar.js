@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { ED_MONO, COLORS } from '../styles/editorial';
 import { useIsMobile, useIsWideDesktop } from '../hooks/useMediaQuery';
 
+// Each link is either a section on the home page (kind: 'section') or a
+// dedicated route (kind: 'route').
 const LINKS = [
-  { label: 'Index',    href: 'top' },
-  { label: 'Journey',  href: 'journey' },
-  { label: 'Work',     href: 'work' },
-  { label: 'Research', href: 'research' },
-  { label: 'Resume',   href: 'resume' },
-  { label: 'Words',    href: 'words' },
-  { label: 'Contact',  href: 'contact' },
+  { label: 'Index',    kind: 'section', target: 'top' },
+  { label: 'Journey',  kind: 'section', target: 'journey' },
+  { label: 'Work',     kind: 'route',   target: '/work' },
+  { label: 'Research', kind: 'route',   target: '/research' },
+  { label: 'Resume',   kind: 'section', target: 'resume' },
+  { label: 'Words',    kind: 'section', target: 'words' },
+  { label: 'Contact',  kind: 'section', target: 'contact' },
 ];
 
 function smoothScrollTo(id) {
@@ -26,14 +29,24 @@ const Navbar = () => {
   const isMobile = useIsMobile();
   const isWide = useIsWideDesktop();
   const showSides = !isMobile && isWide;
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isHome = location.pathname === '/';
 
   useEffect(() => {
+    if (!isHome) {
+      if (location.pathname.startsWith('/research')) setActive('Research');
+      else if (location.pathname.startsWith('/work')) setActive('Work');
+      else setActive('');
+      return undefined;
+    }
     const onScroll = () => {
       const y = window.scrollY + 120;
       let current = 'Index';
       for (const l of LINKS) {
-        if (l.href === 'top') continue;
-        const el = document.getElementById(l.href);
+        if (l.kind !== 'section') continue;
+        if (l.target === 'top') continue;
+        const el = document.getElementById(l.target);
         if (el && el.offsetTop <= y) current = l.label;
       }
       setActive(current);
@@ -41,7 +54,20 @@ const Navbar = () => {
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  }, [isHome, location.pathname]);
+
+  const onLinkClick = (link) => (e) => {
+    e.preventDefault();
+    if (link.kind === 'route') {
+      navigate(link.target);
+      return;
+    }
+    if (isHome) {
+      smoothScrollTo(link.target);
+    } else {
+      navigate(link.target === 'top' ? '/' : `/#${link.target}`);
+    }
+  };
 
   return (
     <nav
@@ -62,7 +88,7 @@ const Navbar = () => {
     >
       {showSides && (
         <div style={{ display: 'flex', gap: 28, color: COLORS.fgMuted, minWidth: 0 }}>
-          <span style={{ color: COLORS.fg }}>Manindra de Mel</span>
+          <Link to="/" style={{ color: COLORS.fg, textDecoration: 'none' }}>Manindra de Mel</Link>
           <span aria-hidden="true">—</span>
           <span>Portfolio / Vol. 02</span>
         </div>
@@ -78,16 +104,19 @@ const Navbar = () => {
       >
         {LINKS.map((l, i) => {
           const isActive = active === l.label;
+          const href = l.kind === 'route' ? l.target : (l.target === 'top' ? '/' : `/#${l.target}`);
           return (
             <li key={l.label}>
-              <button
-                onClick={() => smoothScrollTo(l.href)}
+              <a
+                href={href}
+                onClick={onLinkClick(l)}
                 aria-current={isActive ? 'true' : undefined}
                 style={{
                   background: 'transparent', border: 'none', cursor: 'pointer',
                   padding: 0, font: 'inherit', letterSpacing: 'inherit',
                   textTransform: 'inherit',
                   color: isActive ? COLORS.fg : COLORS.fgMuted,
+                  textDecoration: 'none',
                   transition: 'color 0.2s',
                 }}
               >
@@ -97,7 +126,7 @@ const Navbar = () => {
                   </span>
                 )}
                 {l.label}
-              </button>
+              </a>
             </li>
           );
         })}

@@ -9,11 +9,17 @@ jest.mock('./service/fetchTimeline', () => ({
 }));
 jest.mock('./service/fetchSpotlight', () => ({
   __esModule: true,
-  default: () => Promise.resolve(null),
+  default: () => Promise.resolve([]),
+}));
+jest.mock('./service/fetchResearch', () => ({
+  __esModule: true,
+  default: () => Promise.resolve([]),
 }));
 jest.mock('./firebase', () => ({ db: {} }));
 
-test('renders the portfolio name in the navbar', () => {
+test('mounts the app shell', () => {
   render(<App />);
-  expect(screen.getAllByText(/Manindra de Mel/).length).toBeGreaterThan(0);
+  // Skip-to-content link is always present in the shell, regardless of route
+  // or viewport.
+  expect(screen.getByText(/Skip to content/i)).toBeInTheDocument();
 });
