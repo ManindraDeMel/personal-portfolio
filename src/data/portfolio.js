@@ -11,10 +11,53 @@ const PORTFOLIO = {
     linkedin: "https://www.linkedin.com/in/manindra-de-mel/",
     instagram: "https://www.instagram.com/de_manindra_mel/",
   },
-  marquee: [
-    "Python", "Haskell", "C / C++", "Assembly", "TypeScript", "Rust",
-    "APL", "React", "Vue", "Svelte", "AWS", "Google Cloud",
-    "Firebase", "PyTorch", "NumPy", "Linux",
+  // The home page is a four-part story index: products → robotics/CV →
+  // research → systems. Order is a deliberate reading order.
+  story: [
+    {
+      part: "Production products",
+      title: "Plan4Me",
+      desc:
+        "AI travel planner on iOS & Android — itineraries grounded in live place data, streaming generation with schedule repair, payments and subscriptions. Designed and built independently.",
+      metaLines: ["Sole engineer", "Flutter · Python · OpenAI"],
+      linkLabel: "plan4me.ai ↗",
+      href: "https://plan4me.ai",
+      external: true,
+    },
+    {
+      part: "Robotics & computer vision",
+      title: "ARM-Wision",
+      desc:
+        "A vision-guided robotic arm — detection, pose estimation and control, from camera to actuator. Where the software meets the physical world.",
+      metaLines: ["Builder", "PyTorch · Embedded"],
+      linkLabel: "arm-wision.github.io ↗",
+      href: "https://arm-wision.github.io",
+      external: true,
+    },
+    {
+      part: "Machine learning research",
+      title: "PlantCLEF 2026",
+      desc:
+        "Accepted to CLEF 2026 — multi-species plant identification in vegetation quadrats. Method, evaluation and results in the full write-up.",
+      metaLines: ["Author", "PyTorch · ViT"],
+      linkLabel: "Case study →",
+      href: "/research/plantclef-2026",
+      external: false,
+    },
+    {
+      part: "Systems engineering",
+      title: "Client platforms",
+      desc:
+        "Payments data pipelines, ordering platforms and analytics for fintech and hospitality clients — scoped, shipped and operated in production.",
+      metaLines: ["Engineer · Operator", "AWS · React · SQL"],
+      linkLabel: "All work →",
+      href: "/work",
+      external: false,
+    },
+  ],
+  notes: [
+    { title: "Lessons building an AI travel planner", state: "In progress" },
+    { title: "A perception stack for a vision-guided arm", state: "In progress" },
   ],
   testimonials: [
     {

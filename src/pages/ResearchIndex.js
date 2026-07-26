@@ -53,7 +53,7 @@ function ResearchIndex() {
       </Helmet>
 
       <FadeUp>
-        <SectionHeader number="04" title="Research" sub="ML in academia and the wild." />
+        <SectionHeader title="Research" sub="ML in academia and the wild." />
       </FadeUp>
 
       <div style={{

@@ -6,22 +6,17 @@ function Footer() {
   const isMobile = useIsMobile();
   return (
     <footer style={{
-      padding: isMobile ? '24px 18px' : '40px',
-      display: 'grid',
-      gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr 1fr',
-      gap: isMobile ? 8 : 0,
+      padding: isMobile ? '24px 18px' : '28px 40px',
+      display: 'flex',
+      justifyContent: 'space-between',
+      gap: 16,
+      flexWrap: 'wrap',
       fontFamily: ED_MONO, fontSize: 10,
       letterSpacing: '0.16em', textTransform: 'uppercase',
       color: COLORS.fgMuted,
-      textAlign: isMobile ? 'left' : 'left',
     }}>
       <span>© {new Date().getFullYear()} Manindra de Mel</span>
-      <span style={{ textAlign: isMobile ? 'left' : 'center' }}>
-        Set in Helvetica Neue & JetBrains Mono
-      </span>
-      <span style={{ textAlign: isMobile ? 'left' : 'right' }}>
-        Vol. 02 / Issue № 14
-      </span>
+      <span>Set in Helvetica Neue & JetBrains Mono</span>
     </footer>
   );
 }

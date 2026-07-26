@@ -21,7 +21,7 @@ There is no separate lint command; ESLint runs as part of `react-scripts start`/
 
 The app reads these at build time via `process.env.*` and degrades gracefully if missing. Place them in `.env` locally; in CI they come from GitHub Actions secrets (see `.github/workflows/firebase-hosting-*.yml`):
 
-- `REACT_APP_GITHUB_TOKEN` — used in `src/components/Projects.js` to call `https://api.github.com/user/repos`. Token-scoped (the token's owner determines which repos appear; private repos are filtered out client-side). If unset, the project table falls back to an empty state with a console warning — the rest of the page still renders.
+- `REACT_APP_GITHUB_TOKEN` — used in `src/components/RepoArchive.js` (mounted on `/work`) to call `https://api.github.com/user/repos`. Token-scoped (the token's owner determines which repos appear; private repos are filtered out client-side). If unset, the archive table falls back to an empty state with a console warning — the rest of the page still renders.
 - `REACT_APP_FIREBASE_API_KEY`, `REACT_APP_FIREBASE_AUTH_DOMAIN`, `REACT_APP_FIREBASE_PROJECT_ID`, `REACT_APP_FIREBASE_STORAGE_BUCKET`, `REACT_APP_FIREBASE_MESSAGING_SENDER_ID`, `REACT_APP_FIREBASE_APP_ID` — initialize Firestore in `src/firebase.js` for timeline, spotlight, and contact-form data.
 
 ## Deployment
@@ -35,7 +35,13 @@ Firebase Hosting, project `manindra-portfolio` (see `.firebaserc`). Two GitHub A
 
 ## Architecture
 
-Single-page editorial portfolio — one route, a stack of full-width sections rendered top-to-bottom in `src/App.js`. The sections are scroll-anchored by `id` (`journey`, `work`, `resume`, `words`, `contact`) and the `Navbar` smooth-scrolls to those IDs and tracks the active section via a scroll listener (no react-router, no react-scroll).
+Routed editorial portfolio (react-router, lazy-loaded pages in `src/App.js`):
+
+- `/` — `src/pages/Home.js`, the "Index" layout: `Landing` (name + thesis line) → `StoryIndex` (four-part reading order: products / robotics & CV / research / systems, data in `PORTFOLIO.story`) → `FieldNotes` (write-ups, `PORTFOLIO.notes`) → `ContactMain` → `Footer`. Sections `notes` and `contact` are scroll-anchored by `id`.
+- `/work` — `src/pages/WorkIndex.js`: spotlight cards, then `RepoArchive` (GitHub repo table), then `Testimonials`.
+- `/research` — `src/pages/ResearchIndex.js`; `/work/:slug` and `/research/:slug` — `src/pages/ProjectDetail.js`.
+
+The `Navbar` mixes route links (Work, Research) and home-section links (Notes, Contact) via the `LINKS` array (`{ label, kind: 'route' | 'section', target }`). `Timeline.js`, `Resume.js`, and `ContactForm.js` are currently unmounted but kept (content-bearing; the timeline still has Firestore data behind it).
 
 ### Visual system
 
@@ -45,13 +51,13 @@ The design is intentionally inline-styled — every section is a single function
 - `ED_MONO` — JetBrains Mono for metadata, labels, captions
 - `COLORS` — bg `#0a0a0a`, fg `#f5f3ee`, plus muted/dim/faint/border alpha variants
 
-Fonts are loaded via Google Fonts in `public/index.html`. Global keyframes (`ed-marquee`) live in `src/index.css`. There are no per-component `.css` files anymore — the old CSS modules were removed when the design was ported.
+Fonts are loaded via Google Fonts in `public/index.html`. Global keyframes (`ed-fade-up`, `ed-slide-in`) live in `src/index.css`. There are no per-component `.css` files anymore — the old CSS modules were removed when the design was ported. The design is deliberately quiet: `FadeUp` is the only reveal mechanism (the old marquee/typing/number-scramble effects were removed in the declutter redesign).
 
 ### Data sources
 
 Three runtime data sources, all gated behind env vars:
 
-1. **Timeline** (`src/service/fetchTimeline.js`) — Firestore `timeline` collection, ordered by `year` desc.
+1. **Timeline** (`src/service/fetchTimeline.js`) — Firestore `timeline` collection, ordered by `year` desc. Currently unused (the Journey section was removed from the home page in the declutter redesign) but the fetcher, component, and data are intact if it's remounted.
    - Doc shape: `{ year, subtitle, points: string[] }` (new) or `{ year, subtitle, achievements: string[] }` (legacy).
    - The fetcher normalizes both into `{ year, subtitle, points }`. `Timeline.js` strips any HTML tags from `points` before rendering — Firestore is the trusted authoring surface, but raw HTML is no longer rendered.
    - Documents are de-duped client-side by `${year}-${subtitle}`.
@@ -63,9 +69,9 @@ Three runtime data sources, all gated behind env vars:
      { name, year, lang, stars, desc, url?, active: bool, order: number,
        featured: { status, role, collaborators, problem, approach, outcome, stack: string[] } }
      ```
-   - `Projects.js` hides any GitHub repo whose name matches `spotlight.name` (case-insensitive) so the same project isn't shown twice — the featured block is rendered above the table by `Featured.js`.
+   - On `/work`, `RepoArchive` hides any GitHub repo whose name matches a spotlight `name` (case-insensitive) so the same project isn't shown twice — spotlights render as `SpotlightCard`s above the archive table.
 
-3. **GitHub repos** (`src/components/Projects.js`) — `https://api.github.com/user/repos` with the bearer token. Mapped via `mapRepo()` into the editorial table row shape (`{ name, year, lang, stars, desc, url }`), private repos filtered out, sorted by year descending.
+3. **GitHub repos** (`src/components/RepoArchive.js`, mounted on `/work`) — `https://api.github.com/user/repos` with the bearer token. Mapped via `mapRepo()` into the editorial table row shape (`{ name, year, lang, stars, desc, url }`), private repos filtered out, sorted by stars descending.
 
 ### Contact form (Firestore-mediated email)
 
@@ -85,7 +91,13 @@ If the Firestore write fails (offline, rules block, extension not installed), `s
 
 ### Adding a new section
 
-1. Create the component under `src/components/` — own its styles inline using `ED_*` and `COLORS` from `src/styles/editorial.js`. Use `<SectionHeader number title sub>` if it should match the existing section visual.
+1. Create the component under `src/components/` — own its styles inline using `ED_*` and `COLORS` from `src/styles/editorial.js`. Use `<SectionHeader title sub>` if it should match the existing section visual (the `number` prop is optional).
 2. Give the section's root element a stable `id` (this is what the navbar scrolls to).
-3. Mount it in `src/App.js` inside a `<FadeUp>` wrapper.
-4. Add an entry to the `LINKS` array in `src/components/Navbar.js` — `{ label, href }` where `href` is the section id (or `'top'` for the page top).
+3. Mount it in `src/pages/Home.js` inside a `<FadeUp>` wrapper.
+4. Add an entry to the `LINKS` array in `src/components/Navbar.js` — `{ label, kind: 'section', target }` where `target` is the section id (routes use `kind: 'route'` with a path).
+
+The home page is intentionally sparse (thesis → story index → notes → contact). Before adding a section to it, prefer a route page — the declutter redesign moved the repo table, testimonials, timeline, résumé block, and contact form off the home page on purpose.
+
+# Project Rules
+
+Apply the claude-roast skill to every response and show the prompt score.

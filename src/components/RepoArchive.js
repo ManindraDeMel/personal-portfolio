@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import SectionHeader from './SectionHeader';
-import SpotlightCard from './SpotlightCard';
 import PORTFOLIO from '../data/portfolio';
-import fetchSpotlight from '../service/fetchSpotlight';
-import { ED_MONO, COLORS } from '../styles/editorial';
+import { ED_DISPLAY, ED_MONO, COLORS } from '../styles/editorial';
 import { useIsMobile } from '../hooks/useMediaQuery';
 
 function mapRepo(repo) {
@@ -20,14 +16,11 @@ function mapRepo(repo) {
   };
 }
 
-function WorkTeaser() {
+// Full public-repo archive table, shown on /work below the case studies.
+// `excludeNames` hides repos already covered by a spotlight card.
+function RepoArchive({ excludeNames = [] }) {
   const [repos, setRepos] = useState([]);
-  const [spotlights, setSpotlights] = useState([]);
   const isMobile = useIsMobile();
-
-  useEffect(() => {
-    fetchSpotlight().then(setSpotlights);
-  }, []);
 
   useEffect(() => {
     const token = process.env.REACT_APP_GITHUB_TOKEN;
@@ -56,55 +49,39 @@ function WorkTeaser() {
       .catch((err) => console.error('Failed to fetch repos:', err));
   }, []);
 
-  const workSpotlights = spotlights.filter((s) => s.category !== 'research');
-  const lead = workSpotlights[0];
-
-  const spotlightNames = new Set(
-    workSpotlights.map((s) => s?.name?.toLowerCase()).filter(Boolean)
-  );
-  const filteredRepos = spotlightNames.size
-    ? repos.filter((r) => !spotlightNames.has(r.name.toLowerCase()))
+  const exclude = new Set(excludeNames.map((n) => n.toLowerCase()));
+  const visible = exclude.size
+    ? repos.filter((r) => !exclude.has(r.name.toLowerCase()))
     : repos;
-  const limit = isMobile ? 5 : 10;
-  const tableRepos = filteredRepos.slice(0, limit);
-  const hiddenCount = Math.max(0, filteredRepos.length - tableRepos.length);
 
   return (
-    <section
-      id="work"
-      style={{
-        padding: isMobile ? '56px 18px' : '90px 40px',
-        borderBottom: `1px solid ${COLORS.border}`,
-      }}
-    >
-      <SectionHeader number="03" title="Selected Work" sub="Featured project plus the active archive." />
-
-      {lead && (
-        <div style={{ marginBottom: isMobile ? 28 : 36 }}>
-          <SpotlightCard p={lead} to={`/work/${lead.slug}`} />
-        </div>
-      )}
-
-      <Link
-        to="/work"
-        style={{
-          display: 'inline-flex', alignItems: 'center', gap: 10,
-          marginBottom: isMobile ? 28 : 36,
-          fontFamily: ED_MONO, fontSize: 11,
-          letterSpacing: '0.16em', textTransform: 'uppercase',
-          color: COLORS.fg, textDecoration: 'none',
-          borderBottom: `1px solid ${COLORS.fg}`,
-          paddingBottom: 4,
-        }}
-      >
-        ↗ All selected work
-      </Link>
+    <div>
+      <div style={{
+        display: 'flex', justifyContent: 'space-between', alignItems: 'baseline',
+        gap: 24, flexWrap: 'wrap',
+        borderTop: `1px solid ${COLORS.borderStrong}`,
+        paddingTop: isMobile ? 18 : 24,
+      }}>
+        <h2 style={{
+          fontFamily: ED_DISPLAY, fontWeight: 500,
+          fontSize: 'clamp(26px, 5vw, 44px)', lineHeight: 0.95,
+          margin: 0, letterSpacing: '-0.03em', textTransform: 'uppercase',
+        }}>
+          Archive
+        </h2>
+        <span style={{
+          fontFamily: ED_MONO, fontSize: 11, letterSpacing: '0.14em',
+          textTransform: 'uppercase', color: COLORS.fgMuted,
+        }}>
+          Public repositories · via GitHub
+        </span>
+      </div>
 
       <div style={{
-        marginTop: isMobile ? 32 : 48,
+        marginTop: isMobile ? 24 : 36,
         borderTop: `1px solid ${COLORS.borderStrong}`,
       }}>
-        {!isMobile && (
+        {!isMobile && visible.length > 0 && (
           <div style={{
             display: 'grid',
             gridTemplateColumns: '60px 2.4fr 1fr 1fr 80px 4fr',
@@ -123,16 +100,16 @@ function WorkTeaser() {
           </div>
         )}
 
-        {tableRepos.map((p, i) => (
+        {visible.map((p, i) => (
           <ProjectRow key={p.id} p={p} i={i} isMobile={isMobile} />
         ))}
 
-        {tableRepos.length === 0 && (
+        {visible.length === 0 && (
           <div style={{
             padding: '32px 0', fontFamily: ED_MONO, fontSize: 12,
             color: COLORS.fgMuted, letterSpacing: '0.08em',
           }}>
-            No repositories loaded yet. Check that REACT_APP_GITHUB_TOKEN is set.
+            No repositories loaded yet.
           </div>
         )}
       </div>
@@ -143,7 +120,7 @@ function WorkTeaser() {
         rel="noopener noreferrer"
         style={{
           display: 'inline-flex', alignItems: 'center', gap: 12,
-          marginTop: isMobile ? 32 : 40,
+          marginTop: isMobile ? 28 : 36,
           padding: '12px 20px',
           border: '1px solid rgba(245,243,238,0.3)',
           color: COLORS.fg, textDecoration: 'none',
@@ -151,10 +128,9 @@ function WorkTeaser() {
           letterSpacing: '0.16em', textTransform: 'uppercase',
         }}
       >
-        {hiddenCount > 0 ? `See full archive · +${hiddenCount} more` : 'See full archive'}{' '}
-        <span style={{ fontSize: 14 }}>→</span>
+        GitHub profile <span style={{ fontSize: 14 }}>→</span>
       </a>
-    </section>
+    </div>
   );
 }
 
@@ -269,4 +245,4 @@ function ProjectRow({ p, i, isMobile }) {
   );
 }
 
-export default WorkTeaser;
+export default RepoArchive;

@@ -43,23 +43,6 @@ main:focus {
   outline: none;
 }
 
-@keyframes ed-marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-33.333%); }
-}
-
-@media (max-width: 640px) {
-  @keyframes ed-marquee {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-33.333%); }
-  }
-}
-
-@keyframes ed-cursor-blink {
-  0%, 49%   { opacity: 1; }
-  50%, 100% { opacity: 0; }
-}
-
 @keyframes ed-fade-up {
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }

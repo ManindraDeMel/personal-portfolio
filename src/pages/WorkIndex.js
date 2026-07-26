@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import SectionHeader from '../components/SectionHeader';
 import SpotlightCard from '../components/SpotlightCard';
+import RepoArchive from '../components/RepoArchive';
+import Testimonials from '../components/Testimonials';
 import FadeUp from '../components/FadeUp';
 import fetchSpotlight from '../service/fetchSpotlight';
 import { ED_MONO, COLORS } from '../styles/editorial';
@@ -29,7 +30,6 @@ function WorkIndex() {
 
       <FadeUp>
         <SectionHeader
-          number="03"
           title="Selected Work"
           sub="Featured projects with full case studies."
         />
@@ -56,24 +56,16 @@ function WorkIndex() {
         )}
       </div>
 
-      <div style={{
-        marginTop: isMobile ? 40 : 60,
-        paddingTop: 24,
-        borderTop: `1px solid ${COLORS.borderStrong}`,
-      }}>
-        <Link
-          to="/#work"
-          style={{
-            display: 'inline-flex', alignItems: 'center', gap: 10,
-            fontFamily: ED_MONO, fontSize: 11,
-            letterSpacing: '0.16em', textTransform: 'uppercase',
-            color: COLORS.fgDim, textDecoration: 'none',
-            borderBottom: `1px solid ${COLORS.border}`,
-            paddingBottom: 4,
-          }}
-        >
-          ← Back to home archive
-        </Link>
+      <div style={{ marginTop: isMobile ? 56 : 90 }}>
+        <FadeUp>
+          <RepoArchive excludeNames={items.map((s) => s?.name).filter(Boolean)} />
+        </FadeUp>
+      </div>
+
+      <div style={{ marginTop: isMobile ? 24 : 40 }}>
+        <FadeUp>
+          <Testimonials />
+        </FadeUp>
       </div>
     </section>
   );

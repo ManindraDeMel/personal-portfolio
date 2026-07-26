@@ -3,7 +3,6 @@ import SectionHeader from './SectionHeader';
 import PORTFOLIO from '../data/portfolio';
 import { ED_DISPLAY, ED_MONO, COLORS } from '../styles/editorial';
 import { useIsMobile } from '../hooks/useMediaQuery';
-import TypeReveal, { splitForTyping } from './TypeReveal';
 
 function Testimonials() {
   const isMobile = useIsMobile();
@@ -14,14 +13,8 @@ function Testimonials() {
   const hidden = all.length - visible.length;
 
   return (
-    <section
-      id="words"
-      style={{
-        padding: isMobile ? '56px 18px' : '90px 40px',
-        borderBottom: `1px solid ${COLORS.border}`,
-      }}
-    >
-      <SectionHeader number="06" title="Words" sub="From people I've worked with." />
+    <section id="words">
+      <SectionHeader title="Words" sub="From people I've worked with." />
 
       <div style={{
         marginTop: isMobile ? 32 : 60,
@@ -56,10 +49,7 @@ function Testimonials() {
               fontWeight: 400, margin: 0, letterSpacing: '-0.012em',
               color: 'rgba(245,243,238,0.92)',
             }}>
-              {(() => {
-                const [head, tail] = splitForTyping(t.quote);
-                return <TypeReveal prefix={head} tail={tail} speed={22} />;
-              })()}
+              {t.quote}
             </blockquote>
             <figcaption style={{
               marginTop: 24, paddingTop: 16,
