@@ -35,7 +35,7 @@ const Landing = () => {
         maxWidth: '21em', margin: `${isMobile ? 40 : 56}px 0 0`,
         textWrap: 'balance',
       }}>
-        I build intelligent systems — from <Underlined>mobile AI products</Underlined>{' '}
+        I build intelligent systems, from <Underlined>mobile AI products</Underlined>{' '}
         to <Underlined>computer vision</Underlined> and <Underlined>robotics</Underlined>.
       </p>
 

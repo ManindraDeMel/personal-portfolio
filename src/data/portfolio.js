@@ -18,7 +18,7 @@ const PORTFOLIO = {
       part: "Production products",
       title: "Plan4Me",
       desc:
-        "AI travel planner on iOS & Android — itineraries grounded in live place data, streaming generation with schedule repair, payments and subscriptions. Designed and built independently.",
+        "AI travel planner on iOS & Android. Itineraries grounded in live place data, streaming generation with schedule repair, payments and subscriptions. Designed and built independently.",
       metaLines: ["Sole engineer", "Flutter · Python · OpenAI"],
       linkLabel: "plan4me.ai ↗",
       href: "https://plan4me.ai",
@@ -28,7 +28,7 @@ const PORTFOLIO = {
       part: "Robotics & computer vision",
       title: "ARM-Wision",
       desc:
-        "A vision-guided robotic arm — detection, pose estimation and control, from camera to actuator. Where the software meets the physical world.",
+        "A vision-guided robotic arm. Detection, pose estimation and control, from camera to actuator. Where the software meets the physical world.",
       metaLines: ["Builder", "PyTorch · Embedded"],
       linkLabel: "arm-wision.github.io ↗",
       href: "https://arm-wision.github.io",
@@ -38,7 +38,7 @@ const PORTFOLIO = {
       part: "Machine learning research",
       title: "PlantCLEF 2026",
       desc:
-        "Accepted to CLEF 2026 — multi-species plant identification in vegetation quadrats. Method, evaluation and results in the full write-up.",
+        "Multi-species plant identification in vegetation quadrats, accepted to CLEF 2026. Method, evaluation and results in the full write-up.",
       metaLines: ["Author", "PyTorch · ViT"],
       linkLabel: "Case study →",
       href: "/research/plantclef-2026",
@@ -48,7 +48,7 @@ const PORTFOLIO = {
       part: "Systems engineering",
       title: "Client platforms",
       desc:
-        "Payments data pipelines, ordering platforms and analytics for fintech and hospitality clients — scoped, shipped and operated in production.",
+        "Payments data pipelines, ordering platforms and analytics for fintech and hospitality clients. Scoped, shipped and operated in production.",
       metaLines: ["Engineer · Operator", "AWS · React · SQL"],
       linkLabel: "All work →",
       href: "/work",
