@@ -27,7 +27,7 @@ function StoryIndex() {
           fontSize: 'clamp(28px, 5vw, 56px)', lineHeight: 0.95,
           letterSpacing: '-0.035em', textTransform: 'uppercase', margin: 0,
         }}>
-          The work,<br />in four parts
+          The work,<br />in three parts
         </h2>
         {!isMobile && (
           <span style={{

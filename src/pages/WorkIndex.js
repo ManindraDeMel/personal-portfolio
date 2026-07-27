@@ -11,12 +11,13 @@ import { useIsMobile } from '../hooks/useMediaQuery';
 
 function WorkIndex() {
   const [items, setItems] = useState([]);
+  const [loaded, setLoaded] = useState(false);
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    fetchSpotlight().then((items) =>
-      setItems(items.filter((s) => s.category !== 'research'))
-    );
+    fetchSpotlight()
+      .then((items) => setItems(items.filter((s) => s.category !== 'research')))
+      .finally(() => setLoaded(true));
   }, []);
 
   return (
@@ -51,7 +52,7 @@ function WorkIndex() {
             fontFamily: ED_MONO, fontSize: 12,
             color: COLORS.fgMuted, letterSpacing: '0.08em',
           }}>
-            Loading featured work…
+            {loaded ? 'No featured work published yet.' : 'Loading featured work…'}
           </div>
         )}
       </div>

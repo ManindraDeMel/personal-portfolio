@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 const Home = lazy(() => import('./pages/Home'));
 const ResearchIndex = lazy(() => import('./pages/ResearchIndex'));
 const WorkIndex = lazy(() => import('./pages/WorkIndex'));
+const SitesIndex = lazy(() => import('./pages/SitesIndex'));
 const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
 
 const ROUTE_FALLBACK = (
@@ -62,6 +63,7 @@ function App() {
                 <Route path="/research/:slug" element={<ProjectDetail context="research" />} />
                 <Route path="/work" element={<WorkIndex />} />
                 <Route path="/work/:slug" element={<ProjectDetail context="work" />} />
+                <Route path="/sites" element={<SitesIndex />} />
                 <Route path="*" element={<Home />} />
               </Routes>
             </Suspense>

@@ -4,6 +4,7 @@ import FadeUp from '../components/FadeUp';
 
 const StoryIndex = lazy(() => import('../components/StoryIndex'));
 const FieldNotes = lazy(() => import('../components/FieldNotes'));
+const Resume = lazy(() => import('../components/Resume'));
 const ContactMain = lazy(() => import('../components/Contact-main'));
 const Footer = lazy(() => import('../components/Footer'));
 
@@ -20,6 +21,7 @@ function Home() {
       <Suspense fallback={SECTION_FALLBACK}>
         <FadeUp><StoryIndex /></FadeUp>
         <FadeUp><FieldNotes /></FadeUp>
+        <FadeUp><Resume /></FadeUp>
         <FadeUp><ContactMain /></FadeUp>
         <FadeUp><Footer /></FadeUp>
       </Suspense>

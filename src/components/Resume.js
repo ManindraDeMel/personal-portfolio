@@ -16,7 +16,7 @@ function Resume() {
         borderBottom: `1px solid ${COLORS.border}`,
       }}
     >
-      <SectionHeader number="05" title="Resume" sub="Want the long version?" />
+      <SectionHeader title="Resume" sub="Want the long version?" />
 
       <div style={{
         marginTop: isMobile ? 32 : 60,
@@ -50,14 +50,14 @@ function Resume() {
             letterSpacing: '-0.005em',
           }}>
             Single-page A4. Selected work, research, recognition, stack, education.
-            Open or download — the file is current as of {new Date().getFullYear()}.
+            Open or download. The file is current as of {new Date().getFullYear()}.
           </p>
 
           <div style={{
             fontFamily: ED_MONO, fontSize: 11, letterSpacing: '0.18em',
             textTransform: 'uppercase', color: COLORS.fgMuted,
           }}>
-            ¶ Document — PDF · 1 page
+            Document · PDF · 1 page
           </div>
 
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
@@ -149,7 +149,7 @@ function DocumentFrame({ isMobile }) {
         letterSpacing: '0.16em', textTransform: 'uppercase',
         color: 'rgba(245,243,238,0.55)',
       }}>
-        <div style={{ padding: '12px 16px' }}>★ Document</div>
+        <div style={{ padding: '12px 16px' }}>Document</div>
         <div style={{
           padding: '12px 16px',
           borderLeft: `1px solid ${COLORS.border}`,

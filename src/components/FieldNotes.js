@@ -25,7 +25,7 @@ function FieldNotes() {
       }}>
         {!isMobile && (
           <span style={{ fontFamily: ED_MONO, fontSize: 12, color: COLORS.fgFaint }}>
-            05
+            04
           </span>
         )}
         <span style={{

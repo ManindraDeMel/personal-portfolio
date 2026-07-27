@@ -22,7 +22,7 @@ There is no separate lint command; ESLint runs as part of `react-scripts start`/
 The app reads these at build time via `process.env.*` and degrades gracefully if missing. Place them in `.env` locally; in CI they come from GitHub Actions secrets (see `.github/workflows/firebase-hosting-*.yml`):
 
 - `REACT_APP_GITHUB_TOKEN` — used in `src/components/RepoArchive.js` (mounted on `/work`) to call `https://api.github.com/user/repos`. Token-scoped (the token's owner determines which repos appear; private repos are filtered out client-side). If unset, the archive table falls back to an empty state with a console warning — the rest of the page still renders.
-- `REACT_APP_FIREBASE_API_KEY`, `REACT_APP_FIREBASE_AUTH_DOMAIN`, `REACT_APP_FIREBASE_PROJECT_ID`, `REACT_APP_FIREBASE_STORAGE_BUCKET`, `REACT_APP_FIREBASE_MESSAGING_SENDER_ID`, `REACT_APP_FIREBASE_APP_ID` — initialize Firestore in `src/firebase.js` for timeline, spotlight, and contact-form data.
+- `REACT_APP_FIREBASE_API_KEY`, `REACT_APP_FIREBASE_AUTH_DOMAIN`, `REACT_APP_FIREBASE_PROJECT_ID`, `REACT_APP_FIREBASE_STORAGE_BUCKET`, `REACT_APP_FIREBASE_MESSAGING_SENDER_ID`, `REACT_APP_FIREBASE_APP_ID` — initialize Firestore in `src/firebase.js` for timeline, spotlight, and contact-form data. `src/firebase.js` hardcodes the (public-by-design) web config as fallbacks because the GitHub Actions secrets were removed at some point and deployed builds otherwise ship with `undefined` config, silently breaking every Firestore fetch.
 
 ## Deployment
 
@@ -37,11 +37,14 @@ Firebase Hosting, project `manindra-portfolio` (see `.firebaserc`). Two GitHub A
 
 Routed editorial portfolio (react-router, lazy-loaded pages in `src/App.js`):
 
-- `/` — `src/pages/Home.js`, the "Index" layout: `Landing` (name + thesis line) → `StoryIndex` (four-part reading order: products / robotics & CV / research / systems, data in `PORTFOLIO.story`) → `FieldNotes` (write-ups, `PORTFOLIO.notes`) → `ContactMain` → `Footer`. Sections `notes` and `contact` are scroll-anchored by `id`.
-- `/work` — `src/pages/WorkIndex.js`: spotlight cards, then `RepoArchive` (GitHub repo table), then `Testimonials`.
+- `/` — `src/pages/Home.js`, the "Index" layout: `Landing` (name + thesis + portrait) → `StoryIndex` (three-part reading order: products / ML research / systems, data in `PORTFOLIO.story`) → `FieldNotes` (write-ups, `PORTFOLIO.notes`) → `Resume` → `ContactMain` → `Footer`. Sections `notes`, `resume`, and `contact` are scroll-anchored by `id`.
+- `/work` — `src/pages/WorkIndex.js`: spotlight cards, then `RepoArchive` (GitHub repo table, capped at 8 rows desktop / 5 mobile with show-more/collapse), then `Testimonials`.
+- `/sites` — `src/pages/SitesIndex.js`: live iframes of shipped websites from `PORTFOLIO.sites`; entries with `embed: false` (sites sending `X-Frame-Options`, e.g. rocketremit.com) render as link cards instead.
 - `/research` — `src/pages/ResearchIndex.js`; `/work/:slug` and `/research/:slug` — `src/pages/ProjectDetail.js`.
 
-The `Navbar` mixes route links (Work, Research) and home-section links (Notes, Contact) via the `LINKS` array (`{ label, kind: 'route' | 'section', target }`). `Timeline.js`, `Resume.js`, and `ContactForm.js` are currently unmounted but kept (content-bearing; the timeline still has Firestore data behind it).
+The `Navbar` mixes route links (Work, Research, Sites) and home-section links (Notes, Resume, Contact) via the `LINKS` array (`{ label, kind: 'route' | 'section', target }`). `Timeline.js` and `ContactForm.js` are currently unmounted but kept (content-bearing; the timeline still has Firestore data behind it).
+
+Note: "ARM-Wision" (arm-wision.github.io) is NOT a separate robotics project — it is the project site for the PlantCLEF 2026 submission and should always be displayed as "PlantCLEF 2026".
 
 ### Visual system
 

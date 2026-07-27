@@ -20,7 +20,9 @@ function mapRepo(repo) {
 // `excludeNames` hides repos already covered by a spotlight card.
 function RepoArchive({ excludeNames = [] }) {
   const [repos, setRepos] = useState([]);
+  const [showAll, setShowAll] = useState(false);
   const isMobile = useIsMobile();
+  const initialLimit = isMobile ? 5 : 8;
 
   useEffect(() => {
     const token = process.env.REACT_APP_GITHUB_TOKEN;
@@ -50,9 +52,11 @@ function RepoArchive({ excludeNames = [] }) {
   }, []);
 
   const exclude = new Set(excludeNames.map((n) => n.toLowerCase()));
-  const visible = exclude.size
+  const filtered = exclude.size
     ? repos.filter((r) => !exclude.has(r.name.toLowerCase()))
     : repos;
+  const visible = showAll ? filtered : filtered.slice(0, initialLimit);
+  const hiddenCount = filtered.length - visible.length;
 
   return (
     <div>
@@ -114,22 +118,56 @@ function RepoArchive({ excludeNames = [] }) {
         )}
       </div>
 
-      <a
-        href={PORTFOLIO.socials.github}
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{
-          display: 'inline-flex', alignItems: 'center', gap: 12,
-          marginTop: isMobile ? 28 : 36,
-          padding: '12px 20px',
-          border: '1px solid rgba(245,243,238,0.3)',
-          color: COLORS.fg, textDecoration: 'none',
-          fontFamily: ED_MONO, fontSize: 11,
-          letterSpacing: '0.16em', textTransform: 'uppercase',
-        }}
-      >
-        GitHub profile <span style={{ fontSize: 14 }}>→</span>
-      </a>
+      <div style={{
+        display: 'flex', flexWrap: 'wrap', gap: 12,
+        marginTop: isMobile ? 28 : 36,
+      }}>
+        {hiddenCount > 0 && (
+          <button
+            onClick={() => setShowAll(true)}
+            style={{
+              background: 'transparent',
+              border: `1px solid ${COLORS.fg}`,
+              color: COLORS.fg, cursor: 'pointer',
+              padding: '12px 20px',
+              fontFamily: ED_MONO, fontSize: 11,
+              letterSpacing: '0.16em', textTransform: 'uppercase',
+            }}
+          >
+            + Show {hiddenCount} more
+          </button>
+        )}
+        {showAll && filtered.length > initialLimit && (
+          <button
+            onClick={() => setShowAll(false)}
+            style={{
+              background: 'transparent',
+              border: '1px solid rgba(245,243,238,0.18)',
+              color: COLORS.fgMuted, cursor: 'pointer',
+              padding: '12px 20px',
+              fontFamily: ED_MONO, fontSize: 11,
+              letterSpacing: '0.16em', textTransform: 'uppercase',
+            }}
+          >
+            — Collapse
+          </button>
+        )}
+        <a
+          href={PORTFOLIO.socials.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: 12,
+            padding: '12px 20px',
+            border: '1px solid rgba(245,243,238,0.3)',
+            color: COLORS.fg, textDecoration: 'none',
+            fontFamily: ED_MONO, fontSize: 11,
+            letterSpacing: '0.16em', textTransform: 'uppercase',
+          }}
+        >
+          GitHub profile <span style={{ fontSize: 14 }}>→</span>
+        </a>
+      </div>
     </div>
   );
 }

@@ -25,21 +25,11 @@ const PORTFOLIO = {
       external: true,
     },
     {
-      part: "Robotics & computer vision",
-      title: "ARM-Wision",
-      desc:
-        "A vision-guided robotic arm. Detection, pose estimation and control, from camera to actuator. Where the software meets the physical world.",
-      metaLines: ["Builder", "PyTorch · Embedded"],
-      linkLabel: "arm-wision.github.io ↗",
-      href: "https://arm-wision.github.io",
-      external: true,
-    },
-    {
       part: "Machine learning research",
       title: "PlantCLEF 2026",
       desc:
-        "Multi-species plant identification in vegetation quadrats, accepted to CLEF 2026. Method, evaluation and results in the full write-up.",
-      metaLines: ["Author", "PyTorch · ViT"],
+        "ANU's submission to PlantCLEF 2026. A partial fine-tune of BioCLIP 2.5 ViT-H/14 with auxiliary taxonomic heads, predicting every species in a vegetation-quadrat image across ~7,800 candidates. Best public Macro F1 of 0.418.",
+      metaLines: ["Co-author, corresponding", "BioCLIP · ViT-H/14"],
       linkLabel: "Case study →",
       href: "/research/plantclef-2026",
       external: false,
@@ -57,7 +47,51 @@ const PORTFOLIO = {
   ],
   notes: [
     { title: "Lessons building an AI travel planner", state: "In progress" },
-    { title: "A perception stack for a vision-guided arm", state: "In progress" },
+    { title: "Fine-tuning BioCLIP 2.5 for PlantCLEF 2026", state: "In progress" },
+  ],
+  // Live sites for the /sites tab. `embed: false` renders a link card for
+  // sites that send X-Frame-Options / frame-ancestors and refuse to iframe.
+  sites: [
+    {
+      name: "Plan4Me",
+      url: "https://plan4me.ai",
+      year: "2026",
+      role: "Founder / Engineer",
+      desc: "Product site for the Plan4Me AI travel planner on iOS & Android.",
+      embed: true,
+    },
+    {
+      name: "Harin's Teas",
+      url: "https://www.harinsteas.com.au/",
+      year: "2024",
+      role: "Founder / Engineer",
+      desc: "Custom Next.js e-commerce storefront for a premium Sri Lankan tea brand spanning Sri Lanka, the US, and Australia.",
+      embed: true,
+    },
+    {
+      name: "Canberra Cloud Kitchen",
+      url: "https://canberracloudkitchen.com.au/",
+      year: "2023",
+      role: "Founder / Engineer",
+      desc: "Direct-to-customer ordering platform for a delivery-only kitchen, replacing third-party marketplace fees.",
+      embed: true,
+    },
+    {
+      name: "PlantCLEF 2026",
+      url: "https://arm-wision.github.io/",
+      year: "2026",
+      role: "Co-author",
+      desc: "Project site for ANU's PlantCLEF 2026 submission.",
+      embed: true,
+    },
+    {
+      name: "Rocket Remit",
+      url: "https://www.rocketremit.com/",
+      year: "2023 · present",
+      role: "Frontend Developer / Data Analyst",
+      desc: "International remittance to 70+ countries. The site declines embedding, so open it directly.",
+      embed: false,
+    },
   ],
   testimonials: [
     {

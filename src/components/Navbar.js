@@ -8,7 +8,9 @@ import { useIsMobile } from '../hooks/useMediaQuery';
 const LINKS = [
   { label: 'Work',     kind: 'route',   target: '/work' },
   { label: 'Research', kind: 'route',   target: '/research' },
+  { label: 'Sites',    kind: 'route',   target: '/sites' },
   { label: 'Notes',    kind: 'section', target: 'notes' },
+  { label: 'Resume',   kind: 'section', target: 'resume' },
   { label: 'Contact',  kind: 'section', target: 'contact' },
 ];
 
@@ -28,6 +30,7 @@ const Navbar = () => {
     if (!isHome) {
       if (location.pathname.startsWith('/research')) setActive('Research');
       else if (location.pathname.startsWith('/work')) setActive('Work');
+      else if (location.pathname.startsWith('/sites')) setActive('Sites');
       else setActive('');
       return undefined;
     }
