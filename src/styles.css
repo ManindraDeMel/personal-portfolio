@@ -161,7 +161,6 @@ html.is-loading .tags a { transform: translateY(-160%); opacity: 0; }
 html.is-loading .ln > span { transform: translateY(14%); }
 @media (hover: hover) { .ln:hover > span { font-style: italic; padding-left: .12em; } }
 .hero h1 .ast { width: .3em; height: .3em; vertical-align: .9em; margin-left: .04em; animation: spin 26s linear infinite; }
-.hero h1 .sup { font: 500 .62rem/1 var(--mono); letter-spacing: .08em; vertical-align: 5.4em; margin-left: 0; }
 .copy-yr { grid-column: 9 / span 4; font: 400 clamp(1.4rem, 2.2vw, 2.1rem)/1 var(--display); }
 
 .hero-row { grid-column: 1 / -1; margin-top: clamp(40px, 6vw, 88px); align-items: start; }
@@ -388,7 +387,6 @@ html.is-loading .ln > span { transform: translateY(14%); }
   .menu-list a { font-size: clamp(2.4rem, 12vw, 3.6rem); }
   .pr p, .pr .mono { grid-column: 1 / -1; text-align: left; }
   .field { aspect-ratio: 4 / 5; }
-  .hero h1 .sup { display: none; }
   .bar { mix-blend-mode: normal; background: var(--paper); color: var(--ink); transition: background .4s, color .4s; }
   html.menu-open .bar { background: var(--night); color: var(--night-fg); }
 }
