@@ -30,7 +30,7 @@
   <meta name="twitter:image:alt" content="Manindra de Mel, software engineer and ML researcher">
 
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
   <link rel="manifest" href="/manifest.json">
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/instrument-serif-latin.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/instrument-sans-latin.woff2" crossorigin>
@@ -107,13 +107,13 @@
     ]
   }
   </script>
-  <script>try{if(!sessionStorage.getItem('mdm-intro')&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('intro','is-loading')}catch(e){}</script>
+  <script>try{if(!sessionStorage.getItem('mdm-intro')&&!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('intro','is-loading');setTimeout(function(){document.documentElement.classList.remove('intro','is-loading')},4000)}}catch(e){}</script>
   <script type="module" src="/src/main.js"></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <symbol id="ast" viewBox="0 0 20 20"><g fill="none" stroke-width="1.6" stroke-linecap="round"><path d="M10 1.5v17"/><path d="M2.6 5.75l14.8 8.5"/><path d="M2.6 14.25l14.8-8.5"/></g></symbol>
-  <symbol id="mark" viewBox="0 0 30 18"><g fill="none" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13 11 4l6 9 9-10"/><path d="M11 4v11"/></g><g stroke="none" style="fill:currentColor"><circle cx="3" cy="13" r="2"/><circle cx="11" cy="4" r="2"/><circle cx="17" cy="13" r="2"/><circle cx="26" cy="3" r="2"/><circle cx="11" cy="15" r="1.4"/></g></symbol>
+  <symbol id="i-mark" viewBox="0 0 30 18"><g fill="none" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13 11 4l6 9 9-10"/><path d="M11 4v11"/></g><g stroke="none" style="fill:currentColor"><circle cx="3" cy="13" r="2"/><circle cx="11" cy="4" r="2"/><circle cx="17" cy="13" r="2"/><circle cx="26" cy="3" r="2"/><circle cx="11" cy="15" r="1.4"/></g></symbol>
   <symbol id="i-swap" viewBox="0 0 26 14"><path d="M2 4h20M18.5 1 22 4l-3.5 3M24 10H4M7.5 7 4 10l3.5 3"/></symbol>
   <symbol id="i-quad" viewBox="0 0 24 24"><g fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M2.8 8.2h13.6v13.4H2.8z"/><path d="M9.6 8.2v13.4M2.8 14.9h13.6" stroke-dasharray="1.4 2"/><g class="sprig"><path d="M12.8 17.6c.2-4.4 2.4-8.6 6.6-12.2"/><path d="M16.6 9.4c2 .1 3.5-.8 4.3-2.6-2-.2-3.5.6-4.3 2.6Z"/><path d="M14.6 13.2c-1.9-.4-3.1-1.6-3.5-3.4 1.9.3 3.1 1.4 3.5 3.4Z"/></g></g></symbol>
 </svg>
@@ -122,19 +122,19 @@
   <pre class="noise n1"></pre>
   <pre class="noise n2"></pre>
   <pre class="noise n3"></pre>
-  <div class="loader-word"><span id="loaderWord" data-text="Manindra de Mel">Manindra de Mel</span><sup class="reg">®</sup></div>
+  <div class="loader-word"><span id="loaderWord" data-text="Manindra de Mel">Manindra de Mel</span></div>
 </div>
 
-<div class="hov" id="hov" aria-hidden="true"><div class="hov-in"><img alt="" decoding="async"></div></div>
+<div class="hov" id="hov" aria-hidden="true"><div class="hov-in"></div></div>
 
 <header class="bar">
-  <a class="brand" href="#top" data-sx aria-label="Manindra de Mel, back to top"><span class="sx">Manindra de Mel</span><sup>®</sup></a>
-  <svg class="mark" id="mark" aria-hidden="true"><use href="#mark"/></svg>
+  <a class="brand" href="#top" data-sx aria-label="Manindra de Mel, back to top"><span class="sx">Manindra de Mel</span></a>
+  <svg class="mark" id="mark" aria-hidden="true"><use href="#i-mark"/></svg>
   <span class="clock">Canberra&nbsp; <span id="clock" class="num">AEDT</span></span>
   <button class="menu-btn" id="menuBtn" type="button" data-sx data-magnet aria-expanded="false" aria-controls="menu"><span class="sx">Menu</span></button>
 </header>
 
-<div class="menu" id="menu" hidden>
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu" hidden>
   <nav aria-label="Main">
     <ol class="menu-list">
       <li><a href="#work"><span>Work</span><span class="mono num">(06)</span></a></li>
@@ -160,12 +160,12 @@
   <!-- Hero -->
   <section class="hero grid" aria-label="Introduction">
     <nav class="tags" id="tags" aria-label="Practices">
-      <a href="#pr-models" data-short="ML" data-full="Models" aria-label="Models">ML</a>
-      <a href="#pr-products" data-short="APP" data-full="Products" aria-label="Products">APP</a>
-      <a href="#pr-systems" data-short="SYS" data-full="Systems" aria-label="Systems">SYS</a>
+      <a href="#pr-models" data-short="ML" data-full="Models" aria-label="ML, models">ML</a>
+      <a href="#pr-products" data-short="APP" data-full="Products" aria-label="APP, products">APP</a>
+      <a href="#pr-systems" data-short="SYS" data-full="Systems" aria-label="SYS, systems">SYS</a>
     </nav>
     <h1>
-      <span class="ln"><span>Manindra de Mel<sup class="reg" aria-hidden="true">®</sup></span></span>
+      <span class="ln"><span>Manindra de Mel</span></span>
       <span class="ln"><span>Software engineer</span></span>
       <span class="ln"><span>&amp; ML researcher<svg class="ast" aria-hidden="true"><use href="#ast"/></svg></span></span>
     </h1>
@@ -219,7 +219,13 @@
           <canvas></canvas>
         </div>
         <div class="rs-side">
-          <div class="rs-step" id="rsSteps" aria-live="polite">
+          <ol class="sr">
+            <li>Quadrat: one field photo of a sampling frame</li>
+            <li>Sixteen tiles: the photo is cut into a 4 by 4 grid</li>
+            <li>Two resolutions: each tile is encoded at 224 and 336 pixels</li>
+            <li>One species set: predictions are averaged, adjusted and thresholded</li>
+          </ol>
+          <div class="rs-step" id="rsSteps" aria-hidden="true">
             <div class="rs-slot is-on"><span class="k num">01</span><b>Quadrat</b></div>
             <div class="rs-slot"><span class="k num">02</span><b>Sixteen tiles</b></div>
             <div class="rs-slot"><span class="k num">03</span><b>Two resolutions</b></div>
@@ -283,9 +289,9 @@
       <li class="q" data-img="rocket"><div class="q-who sx" data-decode>Rocket Remit</div>
         <blockquote>“Strong technical work on our data pipeline and reporting. Manindra understood the regulatory context quickly, asked the right questions, and produced output we could hand straight to the team. Considered, dependable, and easy to work with.”</blockquote></li>
       <li class="q" data-img="kitchen"><div class="q-who sx" data-decode>Canberra Cloud Kitchen</div>
-        <blockquote>“Manindra delivered a clean, reliable ordering platform that fit the way our kitchen actually works. He scoped the brief carefully, kept us in the loop through every iteration, and shipped on time.”</blockquote></li>
+        <blockquote>“Manindra delivered a clean, reliable ordering platform that fit the way our kitchen actually works. He scoped the brief carefully, kept us in the loop through every iteration, and shipped on time. Order flow has been smooth since launch and the back-of-house team picked it up immediately.”</blockquote></li>
       <li class="q"><div class="q-who sx" data-decode>Quintet Automotive</div>
-        <blockquote>“Excellent service in data analysis and web scraping for our automotive business. Deep understanding of analytics, ability to extract and process the relevant information, and clear communication throughout.”</blockquote></li>
+        <blockquote>“Excellent service in data analysis and web scraping for our automotive business. Deep understanding of analytics, ability to extract and process the relevant information, and clear communication throughout. Strongly recommend.”</blockquote></li>
       <li class="q" data-img="cog"><div class="q-who sx" data-decode>Cog &amp; Lever</div>
         <blockquote>“We automate the admin that eats your week, and train machine learning models on your own data for the decisions that matter.”</blockquote></li>
     </ol>
@@ -353,7 +359,7 @@
 
   <div class="addr-wrap" id="addrWrap">
     <div class="waves" id="waves" aria-hidden="true"><canvas></canvas></div>
-    <p class="addr" aria-label="Canberra, ACT, Australia">
+    <p class="addr">
       <svg class="badge" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-quad"/></svg>
       <span>Canberra</span>
       <span class="coords num" aria-hidden="true">

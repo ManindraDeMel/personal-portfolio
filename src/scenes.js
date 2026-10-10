@@ -51,6 +51,7 @@ function whileVisible(el, frame) {
 }
 
 function makeRenderer(host, alpha, onFit) {
+  let redraw = null;
   const renderer = new WebGLRenderer({ canvas: host.querySelector('canvas.gl') || host.querySelector('canvas'), antialias: true, alpha });
   renderer.outputColorSpace = LinearSRGBColorSpace;
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -63,17 +64,18 @@ function makeRenderer(host, alpha, onFit) {
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
     if (onFit) onFit(camera);
+    if (redraw) redraw();
   };
   fit();
   new ResizeObserver(fit).observe(host);
-  return { renderer, camera };
+  return { renderer, camera, onRedraw: (fn) => { redraw = fn; } };
 }
 
 // Hero: one point per species, clustered family > genus, long-tailed family sizes.
 // Hovering a cluster lights it and draws its family-to-genus branches.
 function speciesField({ reduce, onFieldReady }) {
   const host = document.getElementById('field');
-  const { renderer, camera } = makeRenderer(host, false, (cam) => {
+  const { renderer, camera, onRedraw } = makeRenderer(host, false, (cam) => {
     cam.position.z = cameraZ(cam.aspect);
   });
   const scene = new Scene();
@@ -102,7 +104,7 @@ function speciesField({ reduce, onFieldReady }) {
         gl_Position = projectionMatrix * mv;
         float isF = step(abs(fam - uFam), 0.5);
         gl_PointSize = size * uPx * (24.0 / -mv.z) * mix(1.0, mix(0.9, 2.0, isF), uDim);
-        vFade = smoothstep(15.5, 7.0, -mv.z);
+        vFade = 1.0 - smoothstep(7.0, 15.5, -mv.z);
         vBoost = mix(1.0, mix(0.25, 1.6, isF), uDim);
       }`,
     fragmentShader: `
@@ -110,7 +112,7 @@ function speciesField({ reduce, onFieldReady }) {
       void main() {
         float d = length(gl_PointCoord - 0.5);
         if (d > 0.5) discard;
-        gl_FragColor = vec4(uColor, min(1.0, smoothstep(0.5, 0.28, d) * mix(0.16, 0.95, vFade) * vBoost));
+        gl_FragColor = vec4(uColor, min(1.0, (1.0 - smoothstep(0.28, 0.5, d)) * mix(0.16, 0.95, vFade) * vBoost));
       }`,
   });
   const points = new Points(geo, mat);
@@ -190,6 +192,7 @@ function speciesField({ reduce, onFieldReady }) {
     if (reduce) { mat.uniforms.uDim.value = 0; lineMat.opacity = 0; render(); }
   });
   render();
+  onRedraw(render);
   host.classList.add('gl-on');
   if (onFieldReady) onFieldReady();
   if (!reduce) {
@@ -272,16 +275,16 @@ function quadratFigure({ reduce, stageProgress }) {
   });
   host.addEventListener('pointerleave', () => { mxt = 0; myt = 0; });
 
-  let ps = stageProgress(), drawn = -1, dm = 0;
+  let ps = stageProgress(), drawn = -1, dmx = 0, dmy = 0;
   const frame = () => {
     const p = stageProgress();
     ps = reduce ? p : ps + (p - ps) * 0.1;
     if (!reduce) { mxs += (mxt - mxs) * 0.08; mys += (myt - mys) * 0.08; }
-    const moved = Math.abs(mxs - dm) > 0.0005;
+    const moved = Math.abs(mxs - dmx) > 0.0005 || Math.abs(mys - dmy) > 0.0005;
     if (!dirty && !moved && Math.abs(ps - drawn) < 0.0005) return;
     layout(ps);
     renderer.render(scene, camera);
-    drawn = ps; dm = mxs; dirty = false;
+    drawn = ps; dmx = mxs; dmy = mys; dirty = false;
   };
   frame();
   whileVisible(host, frame);
@@ -291,7 +294,7 @@ function quadratFigure({ reduce, stageProgress }) {
 function wavesField({ reduce }) {
   const wrap = document.getElementById('addrWrap');
   const host = document.getElementById('waves');
-  const { renderer, camera } = makeRenderer(host, true, (cam) => {
+  const { renderer, camera, onRedraw } = makeRenderer(host, true, (cam) => {
     cam.position.set(0, 5.2, 14);
     cam.lookAt(0, 0, 0);
   });
@@ -329,14 +332,14 @@ function wavesField({ reduce }) {
         vec4 mv = modelViewMatrix * vec4(p, 1.0);
         gl_Position = projectionMatrix * mv;
         gl_PointSize = uPx * (1.4 + abs(rip) * 1.8) * (16.0 / -mv.z);
-        vA = smoothstep(26.0, 9.0, -mv.z) * (0.4 + abs(rip) * 0.9);
+        vA = (1.0 - smoothstep(9.0, 26.0, -mv.z)) * (0.4 + abs(rip) * 0.9);
       }`,
     fragmentShader: `
       uniform vec3 uColor; varying float vA;
       void main() {
         float d = length(gl_PointCoord - 0.5);
         if (d > 0.5) discard;
-        gl_FragColor = vec4(uColor, smoothstep(0.5, 0.25, d) * min(vA, 1.0));
+        gl_FragColor = vec4(uColor, (1.0 - smoothstep(0.25, 0.5, d)) * min(vA, 1.0));
       }`,
   });
   scene.add(new Points(geo, mat));
@@ -354,6 +357,7 @@ function wavesField({ reduce }) {
   });
   wrap.addEventListener('pointerleave', () => { onTarget = 0; });
   renderer.render(scene, camera);
+  onRedraw(() => renderer.render(scene, camera));
   if (!reduce) {
     whileVisible(host, (dt) => {
       mat.uniforms.uTime.value += dt;
@@ -366,7 +370,7 @@ function wavesField({ reduce }) {
 // Research: a wireframe knot that loses detail as the cursor moves right.
 function meshFigure({ reduce }) {
   const host = document.getElementById('meshfig');
-  const { renderer, camera } = makeRenderer(host, true, (cam) => { cam.position.z = 10.5 * Math.max(1, 1 / cam.aspect); });
+  const { renderer, camera, onRedraw } = makeRenderer(host, true, (cam) => { cam.position.z = 10.5 * Math.max(1, 1 / cam.aspect); });
   const scene = new Scene();
   const mat = new LineBasicMaterial({ color: new Color(css('--ink')), transparent: true, opacity: 0.8 });
   const LEVELS = [[160, 20], [110, 14], [72, 10], [48, 8], [32, 6], [20, 5], [12, 4], [8, 3]];
@@ -386,6 +390,7 @@ function meshFigure({ reduce }) {
   });
   host.addEventListener('pointerleave', () => { hoverX = null; });
   renderer.render(scene, camera);
+  onRedraw(() => renderer.render(scene, camera));
   if (reduce) return;
   whileVisible(host, (dt) => {
     clock += dt;

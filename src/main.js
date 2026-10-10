@@ -82,9 +82,7 @@ function decode(el, dur, set) {
 document.querySelectorAll('[data-sx], [data-img]').forEach((host) => {
   const target = host.querySelector('.sx') || (host.children.length ? null : host);
   if (!target) return;
-  const run = () => decode(target, 420, host.dataset.set);
-  host.addEventListener('mouseenter', run);
-  host.addEventListener('focus', run);
+  host.addEventListener('mouseenter', () => decode(target, 420, host.dataset.set));
 });
 document.querySelectorAll('#workList a').forEach((a) => {
   a.addEventListener('mouseenter', () => a.querySelectorAll('.w-meta').forEach((m) => decode(m, 380)));
@@ -174,10 +172,12 @@ const btn = document.getElementById('menuBtn');
 const btnLabel = btn.querySelector('.sx');
 const menu = document.getElementById('menu');
 const isOpen = () => btn.getAttribute('aria-expanded') === 'true';
+const behindMenu = [document.querySelector('main'), document.querySelector('footer'), document.querySelector('.brand')];
 function setMenu(open) {
   btn.setAttribute('aria-expanded', String(open));
   scramble(btnLabel, open ? 'Close' : 'Menu', 380);
   root.classList.toggle('menu-open', open);
+  behindMenu.forEach((el) => { el.inert = open; });
   if (open) {
     menu.hidden = false;
     requestAnimationFrame(() => requestAnimationFrame(() => menu.classList.add('open')));
@@ -197,7 +197,10 @@ menu.querySelectorAll('.menu-list a').forEach((a) => a.addEventListener('mouseen
 
 // Hover image that follows the cursor (pointer devices only)
 const hov = document.getElementById('hov');
-const hovImg = hov.querySelector('img');
+const hovImg = document.createElement('img');
+hovImg.alt = '';
+hovImg.decoding = 'async';
+hov.querySelector('.hov-in').appendChild(hovImg);
 if (canHover && !reduce) {
   let x = 0, y = 0, tx = 0, ty = 0, raf = 0, on = false;
   const loop = () => {
@@ -278,7 +281,7 @@ if (!reduce && 'IntersectionObserver' in window) {
       const t0 = performance.now(), dur = 1300;
       const step = (now) => {
         const p = Math.min(1, (now - t0) / dur);
-        el.textContent = fmt(to * (1 - Math.pow(1 - p, 3)), dec) + suf;
+        el.textContent = fmt(to * (1 - Math.pow(1 - p, 3)), dec) + (p >= 1 ? suf : '');
         if (p < 1) requestAnimationFrame(step);
       };
       requestAnimationFrame(step);
