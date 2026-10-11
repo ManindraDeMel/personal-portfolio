@@ -190,9 +190,13 @@
     <div class="hero-row grid">
       <p class="hero-cap" data-decode>Corresponding author<br>PlantCLEF 2026<br>7th on the official leaderboard</p>
       <div class="hero-media">
-        <div class="field" id="field" role="img" aria-label="Rotating cloud of 7,806 points, one for each plant species in the PlantCLEF 2026 training set">
+        <div class="field" id="field" role="img" aria-label="Rotating cloud of 7,806 points, one for each plant species in the PlantCLEF 2026 training set, grouped into 181 plant families. Hover or tap a cluster to see its family.">
           <canvas class="poster"></canvas>
           <canvas class="gl"></canvas>
+          <div class="fam-card" id="famCard" aria-hidden="true" hidden>
+            <img alt="" width="96" height="96" decoding="async">
+            <span class="fam-txt"><b class="fam-name"></b><span class="fam-meta num"></span><span class="fam-genera"></span></span>
+          </div>
         </div>
       </div>
     </div>
@@ -435,6 +439,7 @@
 
   <div class="legal">
     <span>© 2026 Manindra de Mel</span>
+    <a href="/credits">Plant photo credits</a>
     <a href="#top">Back to top ↑</a>
   </div>
 </footer>
