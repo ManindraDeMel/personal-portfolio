@@ -1,39 +1,48 @@
 // The hero's species cloud: one point per species in the PlantCLEF 2026 training
-// manifest (7,806), grouped family > genus with long-tailed family sizes. The layout
-// is illustrative. It is seeded so the instant 2D poster (main.js) and the WebGL
-// version (scenes.js) draw exactly the same cloud and can cross-fade seamlessly.
+// manifest (7,806), grouped by their real families and genera (src/taxonomy.js).
+// Seeded so the instant 2D poster (main.js) and the WebGL version (scenes.js) draw
+// exactly the same cloud and can cross-fade seamlessly.
 
-export const SPECIES = 7806;
+import { FAMILIES } from './taxonomy.js';
+
+export const SPECIES = FAMILIES.reduce((a, [, genera]) => a + genera.reduce((b, n) => b + n, 0), 0);
 export const START_TILT = 0.32;
 export const cameraZ = (aspect) => 10.5 * Math.max(1, 1.25 / aspect);
 
+// One point per species, grouped by real family and genus. Positions are seeded
+// (so poster and WebGL match); only the layout is illustrative.
 export function makeSpecies() {
   let seed = 7806;
   const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
   const gauss = () => Math.sqrt(-2 * Math.log(1 - rnd())) * Math.cos(2 * Math.PI * rnd());
-  const N = SPECIES, F = 72;
-  const weight = Array.from({ length: F }, (_, i) => 1 / Math.pow(i + 1, 0.85));
-  const wSum = weight.reduce((a, b) => a + b, 0);
+  const N = SPECIES, F = FAMILIES.length;
   const pos = new Float32Array(N * 3), size = new Float32Array(N), fam = new Float32Array(N);
   const families = [];
   let k = 0;
-  for (let f = 0; f < F && k < N; f++) {
-    const y = 1 - ((f + 0.5) / F) * 2, ring = Math.sqrt(1 - y * y), th = f * 2.39996;
+  for (let f = 0; f < F; f++) {
+    const [name, genera, top, photo] = FAMILIES[f];
+    const count = genera.reduce((a, n) => a + n, 0);
+    // Scatter families round the sphere so the big ones don't bunch at one pole.
+    const slot = (f * 97) % F;
+    const y = 1 - ((slot + 0.5) / F) * 2, ring = Math.sqrt(1 - y * y), th = slot * 2.39996;
     const R = 2.1 + rnd() * 1.2;
     const fc = [Math.cos(th) * ring * R, y * R * 0.82, Math.sin(th) * ring * R];
-    const count = f === F - 1 ? N - k : Math.max(8, Math.round((N * weight[f]) / wSum));
-    const genera = 2 + Math.floor(rnd() * 10);
-    const spread = 0.22 + 0.28 * Math.sqrt(count / 1000);
-    const gc = Array.from({ length: genera }, () => [fc[0] + gauss() * spread, fc[1] + gauss() * spread, fc[2] + gauss() * spread]);
-    families.push({ fc, gc });
-    for (let s = 0; s < count && k < N; s++, k++) {
-      const g = gc[Math.floor(Math.pow(rnd(), 1.7) * genera)];
-      pos[k * 3] = g[0] + gauss() * 0.085;
-      pos[k * 3 + 1] = g[1] + gauss() * 0.085;
-      pos[k * 3 + 2] = g[2] + gauss() * 0.085;
-      size[k] = 0.55 + rnd() * 1.0;
-      fam[k] = f;
-    }
+    const spread = 0.1 + 0.32 * Math.sqrt(count / 1000);
+    const gc = genera.map(() => {
+      const s = spread * (0.45 + 0.55 * rnd());
+      return [fc[0] + gauss() * s, fc[1] + gauss() * s, fc[2] + gauss() * s];
+    });
+    genera.forEach((n, gi) => {
+      const g = gc[gi], tight = 0.045 + 0.03 * Math.sqrt(n / 10);
+      for (let s = 0; s < n; s++, k++) {
+        pos[k * 3] = g[0] + gauss() * tight;
+        pos[k * 3 + 1] = g[1] + gauss() * tight;
+        pos[k * 3 + 2] = g[2] + gauss() * tight;
+        size[k] = 0.55 + rnd() * 1.0;
+        fam[k] = f;
+      }
+    });
+    families.push({ name, fc, gc, count, genera: genera.length, top, photo: !!photo });
   }
   return { pos, size, fam, families };
 }

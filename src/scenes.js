@@ -73,7 +73,7 @@ function makeRenderer(host, alpha, onFit) {
 
 // Hero: one point per species, clustered family > genus, long-tailed family sizes.
 // Hovering a cluster lights it and draws its family-to-genus branches.
-function speciesField({ reduce, onFieldReady }) {
+function speciesField({ reduce, onFieldReady, onFamily }) {
   const host = document.getElementById('field');
   const { renderer, camera, onRedraw } = makeRenderer(host, false, (cam) => {
     cam.position.z = cameraZ(cam.aspect);
@@ -119,7 +119,8 @@ function speciesField({ reduce, onFieldReady }) {
   const group = new Group();
   group.add(points);
 
-  const linePos = new Float32Array(24 * 3);
+  const maxGenera = families.reduce((m, f) => Math.max(m, f.gc.length), 1);
+  const linePos = new Float32Array(maxGenera * 2 * 3);
   const lineGeo = new BufferGeometry();
   lineGeo.setAttribute('position', new BufferAttribute(linePos, 3));
   const lineMat = new LineBasicMaterial({ color: new Color(css('--night-fg')), transparent: true, opacity: 0 });
@@ -129,8 +130,9 @@ function speciesField({ reduce, onFieldReady }) {
   let current = -1, dimTarget = 0;
   function setFamily(f) {
     if (f === current) return;
-    if (f < 0) { dimTarget = 0; current = -1; return; }
+    if (f < 0) { dimTarget = 0; current = -1; if (onFamily) onFamily(null); return; }
     current = f;
+    if (onFamily) onFamily(families[f]);
     dimTarget = 1;
     mat.uniforms.uFam.value = f;
     const fam = families[f];
@@ -159,8 +161,10 @@ function speciesField({ reduce, onFieldReady }) {
     const hit = raycaster.intersectObject(points)[0];
     setFamily(hit ? famAttr[hit.index] : -1);
   };
+  let downAt = null;
   host.addEventListener('pointerdown', (e) => {
     drag = { x: e.clientX, y: e.clientY };
+    downAt = { x: e.clientX, y: e.clientY };
     try { host.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ }
   });
   host.addEventListener('pointermove', (e) => {
@@ -185,9 +189,19 @@ function speciesField({ reduce, onFieldReady }) {
     }
   });
   const end = () => { drag = null; };
-  host.addEventListener('pointerup', end);
-  host.addEventListener('pointercancel', end);
-  host.addEventListener('pointerleave', () => {
+  host.addEventListener('pointerup', (e) => {
+    if (e.pointerType !== 'mouse' && downAt && Math.hypot(e.clientX - downAt.x, e.clientY - downAt.y) < 8) {
+      const b = host.getBoundingClientRect();
+      ndc.set(((e.clientX - b.left) / b.width) * 2 - 1, -(((e.clientY - b.top) / b.height) * 2 - 1));
+      doPick();
+      if (reduce) { mat.uniforms.uDim.value = dimTarget; lineMat.opacity = 0.5 * dimTarget; render(); }
+    }
+    downAt = null;
+    end();
+  });
+  host.addEventListener('pointercancel', () => { downAt = null; end(); });
+  host.addEventListener('pointerleave', (e) => {
+    if (e.pointerType !== 'mouse') return;
     mx = 0; my = 0; setFamily(-1);
     if (reduce) { mat.uniforms.uDim.value = 0; lineMat.opacity = 0; render(); }
   });

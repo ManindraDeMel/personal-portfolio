@@ -554,6 +554,46 @@ paintPoster();
 const posterRO = new ResizeObserver(() => { if (!field.classList.contains('gl-on')) paintPoster(); });
 posterRO.observe(field);
 
+// Family card for the hero cloud: name, species count, top genera and an openly
+// licensed photo (credited on /credits). Follows the cursor; on touch it sits at the tap.
+const famCard = document.getElementById('famCard');
+const famImg = famCard.querySelector('img');
+const famName = famCard.querySelector('.fam-name');
+const famMeta = famCard.querySelector('.fam-meta');
+const famGenera = famCard.querySelector('.fam-genera');
+let famShown = null, famHideTimer = 0;
+function placeFamCard(e) {
+  const b = field.getBoundingClientRect();
+  const w = famCard.offsetWidth || 300, h = famCard.offsetHeight || 112;
+  let x = e.clientX - b.left + 18, y = e.clientY - b.top + 18;
+  if (x + w > b.width - 8) x = e.clientX - b.left - w - 18;
+  if (y + h > b.height - 8) y = e.clientY - b.top - h - 18;
+  famCard.style.transform = 'translate(' + Math.max(8, x).toFixed(0) + 'px,' + Math.max(8, y).toFixed(0) + 'px)';
+}
+function showFamily(f) {
+  clearTimeout(famHideTimer);
+  if (!f) {
+    famShown = null;
+    famCard.classList.remove('on');
+    famHideTimer = setTimeout(() => { if (!famShown) famCard.hidden = true; }, 450);
+    return;
+  }
+  if (f === famShown) return;
+  famShown = f;
+  famCard.classList.toggle('no-photo', !f.photo);
+  if (f.photo) {
+    famImg.src = '/assets/img/families/' + f.name + '.webp';
+    famCard.classList.remove('fresh'); void famCard.offsetWidth; famCard.classList.add('fresh');
+  }
+  scramble(famName, f.name, 320);
+  famMeta.textContent = f.count.toLocaleString('en-AU') + ' species  /  ' + f.genera + (f.genera === 1 ? ' genus' : ' genera');
+  famGenera.textContent = f.top.join(', ');
+  famCard.hidden = false;
+  requestAnimationFrame(() => famCard.classList.add('on'));
+}
+field.addEventListener('pointermove', (e) => { if (e.pointerType === 'mouse') placeFamCard(e); });
+field.addEventListener('pointerup', (e) => { if (e.pointerType !== 'mouse') placeFamCard(e); });
+
 // three.js lives in its own chunk. Pointer devices fetch it when the page goes idle;
 // touch devices wait for the first scroll or tap, so phones never pay for it up front.
 let started = false;
@@ -561,7 +601,7 @@ const load3D = () => {
   if (started) return;
   started = true;
   import('./scenes.js')
-    .then((m) => m.initScenes({ reduce, stageProgress, onFieldReady: () => posterRO.disconnect() }))
+    .then((m) => m.initScenes({ reduce, stageProgress, onFieldReady: () => posterRO.disconnect(), onFamily: showFamily }))
     .catch((e) => console.error('3D failed to start', e));
 };
 if (canHover) {
