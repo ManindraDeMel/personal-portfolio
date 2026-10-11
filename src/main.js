@@ -4,6 +4,7 @@ import { drawPoster } from './species.js';
 const root = document.documentElement;
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+if (!reduce) root.classList.add('js-anim');
 
 const SETS = {
   any: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789#%&*+=/<>',
@@ -23,8 +24,8 @@ const IMAGES = {
   mesh: '/assets/img/shots/mesh.webp',
   engine: '/assets/img/shots/engine.webp',
   quadrat: '/assets/img/quadrat.webp',
-  paper: '/assets/img/paper-plantclef.webp',
-  resume: '/assets/img/resume.webp',
+  paper: '/assets/img/docs/plantclef-3.webp',
+  resume: '/assets/img/docs/resume-1.webp',
 };
 
 // Scramble a single element to a new string (label swaps and the intro).
@@ -290,6 +291,202 @@ if (!reduce && 'IntersectionObserver' in window) {
   document.querySelectorAll('[data-count]').forEach((el) => cio.observe(el));
 }
 
+// Extras lists: rules draw in from the left, one row after another.
+document.querySelectorAll('.x-list').forEach((list) => {
+  Array.from(list.children).forEach((li, k) => li.style.setProperty('--k', k));
+});
+if (!reduce && 'IntersectionObserver' in window) {
+  const lio = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (!e.isIntersecting) return;
+      lio.unobserve(e.target);
+      e.target.classList.add('in');
+    });
+  }, { threshold: 0.25 });
+  document.querySelectorAll('.x-list').forEach((el) => lio.observe(el));
+} else {
+  document.querySelectorAll('.x-list').forEach((el) => el.classList.add('in'));
+}
+
+// Documents: on desktop the deck pins and the stack fans out as you scroll;
+// on narrow screens it becomes a swipeable row whose cards tilt past the centre.
+const docsEl = document.getElementById('docs');
+const deck = document.getElementById('deck');
+const docCards = Array.from(deck.children);
+const STACK_TILT = [-5, 3.5, -2.2, 6, -3.4];
+const fanQuery = window.matchMedia('(min-width: 901px) and (hover: hover)');
+const flowQuery = window.matchMedia('(max-width: 900px)');
+const ease = (x) => (x <= 0 ? 0 : x >= 1 ? 1 : x * x * (3 - 2 * x));
+function layoutDocs() {
+  if (!docsEl.classList.contains('is-fan')) return;
+  const r = docsEl.getBoundingClientRect();
+  const total = docsEl.offsetHeight - window.innerHeight;
+  const p = total > 0 ? Math.min(1, Math.max(0, -r.top / total)) : 0;
+  const f = ease((p - 0.04) / 0.5);
+  const n = docCards.length, mid = (n - 1) / 2;
+  const cw = docCards[0].offsetWidth;
+  const spacing = Math.min(cw * 1.2, (deck.clientWidth - cw) / (n - 1));
+  docCards.forEach((c, i) => {
+    const d = i - mid;
+    const x = d * (36 + (spacing - 36) * f);
+    const y = -i * 5 * (1 - f) + d * d * 16 * f - Math.sin(p * Math.PI) * 10 * f;
+    const rot = STACK_TILT[i % STACK_TILT.length] * (1 - f) + d * 3.4 * f;
+    c.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) rotate(' + rot.toFixed(2) + 'deg)';
+    c.style.setProperty('--r', rot.toFixed(2) + 'deg');
+    c.style.zIndex = String(n - i);
+  });
+  deck.style.setProperty('--f', f.toFixed(3));
+}
+function flowDocs() {
+  if (!flowQuery.matches || reduce) return;
+  const box = deck.getBoundingClientRect();
+  const centre = box.left + box.width / 2;
+  docCards.forEach((c) => {
+    const card = c.querySelector('.doc-card');
+    const b = c.getBoundingClientRect();
+    const d = Math.max(-1, Math.min(1, (b.left + b.width / 2 - centre) / box.width));
+    card.style.transform = 'rotateY(' + (d * -32).toFixed(1) + 'deg) scale(' + (1 - Math.abs(d) * 0.12).toFixed(3) + ')';
+  });
+}
+function setupDocs() {
+  const fan = fanQuery.matches && !reduce;
+  docsEl.classList.toggle('is-fan', fan);
+  docCards.forEach((c) => {
+    if (!fan) { c.style.transform = ''; c.style.zIndex = ''; c.style.removeProperty('--r'); }
+    if (!flowQuery.matches) c.querySelector('.doc-card').style.transform = '';
+  });
+  layoutDocs();
+  flowDocs();
+}
+let flowTick = false;
+deck.addEventListener('scroll', () => {
+  if (flowTick) return;
+  flowTick = true;
+  requestAnimationFrame(() => { flowTick = false; flowDocs(); });
+}, { passive: true });
+fanQuery.addEventListener('change', setupDocs);
+flowQuery.addEventListener('change', setupDocs);
+window.addEventListener('resize', () => requestAnimationFrame(layoutDocs), { passive: true });
+setupDocs();
+docCards.forEach((c) => c.addEventListener('mouseenter', () => decode(c.querySelector('.doc-t'), 420)));
+
+// Riffle: a card flips through its most interesting pages. Each flip loads the next
+// page onto the hidden face first, so the turn always reveals a new page.
+function makeRiffle(li) {
+  const link = li.querySelector('.doc-card');
+  const pages = (link.dataset.pages || '').split(',').filter(Boolean);
+  const faces = [li.querySelector('.doc-front img'), li.querySelector('.doc-back img')];
+  let shown = 0, timer = 0, warmed = false;
+  const flip = (next) => {
+    const flipped = li.classList.contains('is-flipped');
+    faces[flipped ? 0 : 1].src = pages[next];
+    li.classList.toggle('is-flipped', !flipped);
+    shown = next;
+  };
+  return {
+    start(every) {
+      if (pages.length < 2 || timer) return;
+      if (!warmed) { warmed = true; pages.forEach((u) => { const i = new Image(); i.src = u; }); }
+      flip((shown + 1) % pages.length);
+      timer = setInterval(() => flip((shown + 1) % pages.length), every);
+    },
+    stop() {
+      clearInterval(timer);
+      timer = 0;
+      if (shown !== 0) flip(0);
+    },
+  };
+}
+const riffles = docCards.map(makeRiffle);
+if (!reduce) {
+  docCards.forEach((li, i) => {
+    li.addEventListener('mouseenter', () => { if (canHover) riffles[i].start(1150); });
+    li.addEventListener('mouseleave', () => riffles[i].stop());
+    const link = li.querySelector('.doc-card');
+    link.addEventListener('focus', () => riffles[i].start(1400));
+    link.addEventListener('blur', () => riffles[i].stop());
+  });
+  // Phones: once the row settles, the centred card riffles on its own.
+  let settle = 0, active = -1;
+  const riffleCentred = () => {
+    if (!flowQuery.matches) return;
+    const box = deck.getBoundingClientRect();
+    const centre = box.left + box.width / 2;
+    let best = -1, bestD = Infinity;
+    docCards.forEach((c, i) => {
+      const b = c.getBoundingClientRect();
+      const d = Math.abs(b.left + b.width / 2 - centre);
+      if (d < bestD) { bestD = d; best = i; }
+    });
+    if (best === active) return;
+    if (active >= 0) riffles[active].stop();
+    active = best;
+    if (best >= 0) riffles[best].start(1800);
+  };
+  deck.addEventListener('scroll', () => { clearTimeout(settle); settle = setTimeout(riffleCentred, 180); }, { passive: true });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) riffleCentred();
+      else if (active >= 0) { riffles[active].stop(); active = -1; }
+    }, { threshold: 0.5 }).observe(deck);
+  }
+}
+
+// Car film: loads only when near, plays muted while on screen, opens from an
+// inset frame to full bleed as it scrolls in. Sound is opt-in.
+const driveFrame = document.getElementById('driveFrame');
+const driveVideo = document.getElementById('driveVideo');
+const driveSound = document.getElementById('driveSound');
+const driveLabel = driveSound.querySelector('.sx');
+let driveLoaded = false, driveVisible = false;
+const loadDrive = () => {
+  if (driveLoaded) return;
+  driveLoaded = true;
+  const small = window.matchMedia('(max-width: 900px)').matches;
+  driveVideo.poster = '/assets/video/car-poster.webp';
+  driveVideo.src = small ? '/assets/video/car-720.mp4' : '/assets/video/car-1080.mp4';
+  driveVideo.preload = 'auto';
+};
+const playDrive = () => { const p = driveVideo.play(); if (p && p.catch) p.catch(() => {}); };
+// Loop: the element has the loop attribute; this restarts it if a browser ever stops at the end.
+driveVideo.loop = true;
+driveVideo.addEventListener('ended', () => { driveVideo.currentTime = 0; if (driveVisible) playDrive(); });
+if ('IntersectionObserver' in window) {
+  new IntersectionObserver(([e]) => { if (e.isIntersecting) loadDrive(); }, { rootMargin: '700px 0px' }).observe(driveFrame);
+  new IntersectionObserver(([e]) => {
+    driveVisible = e.isIntersecting;
+    if (driveVisible && (!reduce || !driveVideo.muted)) { loadDrive(); playDrive(); }
+    else if (!driveVisible) driveVideo.pause();
+  }, { threshold: 0.35 }).observe(driveFrame);
+} else {
+  loadDrive();
+}
+if (reduce) driveLabel.textContent = 'Play with sound';
+driveSound.addEventListener('click', () => {
+  loadDrive();
+  const on = driveVideo.muted;
+  driveVideo.muted = !on;
+  driveSound.setAttribute('aria-pressed', String(on));
+  scramble(driveLabel, on ? 'Sound on' : (reduce ? 'Play with sound' : 'Sound off'), 300);
+  if (on) playDrive();
+  else if (reduce) driveVideo.pause();
+});
+// Transform-only (scale the frame, counter-zoom the video) so scrolling never
+// repaints the playing video; skipped entirely when off screen or unchanged.
+let driveK = -1;
+function layoutDrive() {
+  if (reduce) return;
+  const r = driveFrame.getBoundingClientRect();
+  const vh = window.innerHeight;
+  if (r.bottom < -50 || r.top > vh + 50) return;
+  const q = Math.min(1, Math.max(0, (vh - r.top) / (vh * 0.85)));
+  const k = Math.round((1 - ease(q)) * 1000) / 1000;
+  if (k === driveK) return;
+  driveK = k;
+  driveFrame.style.setProperty('--s', (1 - k * 0.14).toFixed(3));
+  driveFrame.style.setProperty('--zoom', (1 + k * 0.18).toFixed(3));
+}
+
 // Research scroll stage: one step at a time slides in, plus the progress line
 const stage = document.getElementById('rsStage');
 const steps = Array.from(document.getElementById('rsSteps').children);
@@ -308,6 +505,8 @@ const onScroll = () => {
   requestAnimationFrame(() => {
     ticking = false;
     mark.style.setProperty('--rot', (window.scrollY * 0.06).toFixed(1) + 'deg');
+    layoutDocs();
+    layoutDrive();
     const p = stageProgress();
     const i = p < 0.29 ? 0 : p < 0.53 ? 1 : p < 0.78 ? 2 : 3;
     if (i !== activeStep) {

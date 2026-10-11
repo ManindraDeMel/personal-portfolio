@@ -57,6 +57,13 @@
         "image": "https://manindra-portfolio.web.app/assets/img/portrait.webp",
         "address": { "@type": "PostalAddress", "addressLocality": "Canberra", "addressRegion": "ACT", "addressCountry": "AU" },
         "alumniOf": { "@type": "CollegeOrUniversity", "name": "Australian National University" },
+        "hasCredential": {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Bachelor of Advanced Computing (Honours)",
+          "credentialCategory": "degree",
+          "dateCreated": "2026-08-28",
+          "recognizedBy": { "@type": "CollegeOrUniversity", "name": "Australian National University" }
+        },
         "knowsAbout": ["Machine learning", "Computer vision", "Mobile app development", "Flutter", "Python", "AWS", "React", "Three.js"],
         "sameAs": [
           "https://github.com/ManindraDeMel",
@@ -71,6 +78,15 @@
         "name": "Manindra de Mel",
         "inLanguage": "en-AU",
         "publisher": { "@id": "https://manindra-portfolio.web.app/#person" }
+      },
+      {
+        "@type": "VideoObject",
+        "name": "Inside the purple car",
+        "description": "A short clip inside Manindra de Mel's purple car: Recaro seat, roll cage and the water outside.",
+        "thumbnailUrl": "https://manindra-portfolio.web.app/assets/video/car-poster.webp",
+        "contentUrl": "https://manindra-portfolio.web.app/assets/video/car-1080.mp4",
+        "uploadDate": "2026-10-12",
+        "duration": "PT11S"
       },
       {
         "@type": "ScholarlyArticle",
@@ -141,7 +157,7 @@
       <li><a href="#research"><span>Research</span><span class="mono num">(03)</span></a></li>
       <li><a href="#about"><span>About</span><span class="mono num">(03)</span></a></li>
       <li><a href="#words"><span>Kind words</span><span class="mono num">(04)</span></a></li>
-      <li><a href="#extras"><span>Extras</span><span class="mono num">(11)</span></a></li>
+      <li><a href="#extras"><span>Extras</span><span class="mono num">(14)</span></a></li>
       <li><a href="#contact"><span>Contact</span><span class="mono">Canberra</span></a></li>
     </ol>
   </nav>
@@ -280,6 +296,13 @@
         </div>
       </div>
     </div>
+
+    <figure class="drive" id="drive">
+      <div class="drive-frame" id="driveFrame">
+        <video id="driveVideo" muted loop playsinline preload="none" aria-label="Inside the purple car: a Recaro seat and roll cage, parked by the water"></video>
+        <button class="drive-sound" id="driveSound" type="button" aria-pressed="false"><span class="sx">Sound off</span></button>
+      </div>
+    </figure>
   </section>
 
   <!-- Kind words -->
@@ -299,40 +322,80 @@
 
   <!-- Extras -->
   <section class="sec" id="extras" aria-labelledby="extras-h">
-    <div class="sec-head"><h2 id="extras-h">Extras</h2><span class="count num" data-sx data-set="num">(11)</span></div>
+    <div class="sec-head"><h2 id="extras-h">Extras</h2><span class="count num" data-sx data-set="num">(14)</span></div>
 
-    <div class="x-row grid">
-      <h3 data-decode>Field notes</h3>
-      <ul class="x-list">
-        <li><span class="x-item"><span class="x-t">Lessons building an AI travel planner</span><span class="x-s">In progress</span></span></li>
-        <li><span class="x-item"><span class="x-t">Fine-tuning BioCLIP 2.5 for PlantCLEF 2026</span><span class="x-s">In progress</span></span></li>
-        <li><span class="x-item"><span class="x-t x-dim">Next write-up</span><span class="x-s">Draft</span></span></li>
-      </ul>
+    <div class="docs" id="docs">
+      <div class="docs-pin">
+        <div class="docs-label"><h3 data-decode>Documents</h3><span class="num" data-sx data-set="num">(05)</span></div>
+        <ol class="deck" id="deck">
+          <li class="doc">
+            <a class="doc-card" href="/assets/img/docs/degree-full.webp" aria-label="View the Bachelor of Advanced Computing (Honours) certificate" data-pages="/assets/img/docs/degree-1.webp,/assets/img/docs/degree-seal.webp">
+              <span class="doc-flip">
+                <span class="doc-face doc-front"><img src="/assets/img/docs/degree-1.webp" width="720" height="988" loading="lazy" decoding="async" alt="Australian National University certificate: Bachelor of Advanced Computing with Honours, awarded 28 August 2026"></span>
+                <span class="doc-face doc-back"><img src="/assets/img/docs/degree-seal.webp" width="720" height="1019" loading="lazy" decoding="async" alt=""></span>
+              </span>
+            </a>
+            <p class="doc-cap"><span class="doc-t">Degree (Hons)</span><span class="doc-y num">2026</span></p>
+          </li>
+          <li class="doc">
+            <a class="doc-card" href="https://ceur-ws.org/Vol-4283/paper358.pdf" aria-label="Read the PlantCLEF 2026 paper" data-pages="/assets/img/docs/plantclef-3.webp,/assets/img/docs/plantclef-28.webp,/assets/img/docs/plantclef-12.webp,/assets/img/docs/plantclef-29.webp">
+              <span class="doc-flip">
+                <span class="doc-face doc-front"><img src="/assets/img/docs/plantclef-3.webp" width="720" height="1019" loading="lazy" decoding="async" alt="A page of figures from the PlantCLEF 2026 paper: training images and test quadrats"></span>
+                <span class="doc-face doc-back"><img src="/assets/img/docs/plantclef-28.webp" width="720" height="1019" loading="lazy" decoding="async" alt=""></span>
+              </span>
+            </a>
+            <p class="doc-cap"><span class="doc-t">PlantCLEF 2026</span><span class="doc-y num">2026</span></p>
+          </li>
+          <li class="doc">
+            <a class="doc-card" href="https://aware-mesh-simplification.web.app/" aria-label="Read the mesh simplification paper" data-pages="/assets/img/docs/mesh-6.webp,/assets/img/docs/mesh-8.webp,/assets/img/docs/mesh-7.webp">
+              <span class="doc-flip">
+                <span class="doc-face doc-front"><img src="/assets/img/docs/mesh-6.webp" width="720" height="932" loading="lazy" decoding="async" alt="A page of figures from the mesh simplification paper: simplified meshes compared side by side"></span>
+                <span class="doc-face doc-back"><img src="/assets/img/docs/mesh-8.webp" width="720" height="932" loading="lazy" decoding="async" alt=""></span>
+              </span>
+            </a>
+            <p class="doc-cap"><span class="doc-t">Mesh simplification</span><span class="doc-y num">2024</span></p>
+          </li>
+          <li class="doc">
+            <a class="doc-card" href="https://realtimeenginetuning.web.app/paper.html" aria-label="Read the real-time engine tuning proposal" data-pages="/assets/img/docs/engine-7.webp,/assets/img/docs/engine-2.webp">
+              <span class="doc-flip">
+                <span class="doc-face doc-front"><img src="/assets/img/docs/engine-7.webp" width="720" height="932" loading="lazy" decoding="async" alt="A page from the real-time engine tuning proposal: the project timeline chart"></span>
+                <span class="doc-face doc-back"><img src="/assets/img/docs/engine-2.webp" width="720" height="932" loading="lazy" decoding="async" alt=""></span>
+              </span>
+            </a>
+            <p class="doc-cap"><span class="doc-t">Engine tuning</span><span class="doc-y num">Proposal</span></p>
+          </li>
+          <li class="doc">
+            <a class="doc-card" href="/assets/ManindradeMelResume.pdf" aria-label="Open Manindra de Mel's résumé (PDF)" data-pages="/assets/img/docs/resume-1.webp,/assets/img/docs/resume-2.webp">
+              <span class="doc-flip">
+                <span class="doc-face doc-front"><img src="/assets/img/docs/resume-1.webp" width="720" height="1019" loading="lazy" decoding="async" alt="First page of Manindra de Mel's résumé"></span>
+                <span class="doc-face doc-back"><img src="/assets/img/docs/resume-2.webp" width="720" height="1019" loading="lazy" decoding="async" alt=""></span>
+              </span>
+            </a>
+            <p class="doc-cap"><span class="doc-t">Résumé</span><span class="doc-y num">2026</span></p>
+          </li>
+        </ol>
+      </div>
     </div>
 
-    <div class="x-row grid">
-      <h3 data-decode>Shipped sites</h3>
-      <ul class="x-list">
-        <li><a href="https://cogandlever.com/" data-img="cog"><span class="x-t"><span class="num">(2026)</span> <span class="sx">Cog &amp; Lever</span></span><span class="x-s">↗</span></a></li>
-        <li><a href="https://plan4me.ai" data-img="plan4me"><span class="x-t"><span class="num">(2026)</span> <span class="sx">Plan4Me</span></span><span class="x-s">↗</span></a></li>
-        <li><a href="https://arm-wision.github.io/" data-img="plantclef"><span class="x-t"><span class="num">(2026)</span> <span class="sx">PlantCLEF 2026</span></span><span class="x-s">↗</span></a></li>
-        <li><a href="https://chr0me.au" data-img="chrome"><span class="x-t"><span class="num">(2026)</span> <span class="sx">chr0me.au</span></span><span class="x-s">↗</span></a></li>
-        <li><a href="https://canberracloudkitchen.com.au/" data-img="kitchen"><span class="x-t"><span class="num">(2023)</span> <span class="sx">Canberra Cloud Kitchen</span></span><span class="x-s">↗</span></a></li>
-        <li><a href="https://www.rocketremit.com/" data-img="rocket"><span class="x-t"><span class="num">(2023)</span> <span class="sx">Rocket Remit</span></span><span class="x-s">↗</span></a></li>
-      </ul>
-    </div>
-
-    <div class="x-row grid">
-      <h3 data-decode>Documents</h3>
-      <div class="cards">
-        <article class="card">
-          <div class="card-media" data-tilt><img src="/assets/img/paper-plantclef.webp" width="720" height="1019" loading="lazy" decoding="async" alt="First page of the PlantCLEF 2026 paper"></div>
-          <div class="card-row"><span data-decode>PlantCLEF 2026 paper</span><a href="https://ceur-ws.org/Vol-4283/paper358.pdf" data-sx><span class="sx">Read</span> ↗</a></div>
-        </article>
-        <article class="card">
-          <div class="card-media" data-tilt><img src="/assets/img/resume.webp" width="720" height="1019" loading="lazy" decoding="async" alt="First page of Manindra de Mel's résumé"></div>
-          <div class="card-row"><span data-decode>Résumé</span><a href="/assets/ManindradeMelResume.pdf" data-sx><span class="sx">Open</span> ↗</a></div>
-        </article>
+    <div class="x-cols grid">
+      <div class="x-col">
+        <h3 data-decode>Field notes</h3>
+        <ul class="x-list">
+          <li><span class="x-item"><span class="x-t">Lessons building an AI travel planner</span><span class="x-s">In progress</span></span></li>
+          <li><span class="x-item"><span class="x-t">Fine-tuning BioCLIP 2.5 for PlantCLEF 2026</span><span class="x-s">In progress</span></span></li>
+          <li><span class="x-item"><span class="x-t x-dim">Next write-up<span class="caret" aria-hidden="true"></span></span><span class="x-s">Draft</span></span></li>
+        </ul>
+      </div>
+      <div class="x-col">
+        <h3 data-decode>Shipped sites</h3>
+        <ul class="x-list">
+          <li><a href="https://cogandlever.com/" data-img="cog"><span class="x-t"><span class="num">(2026)</span> <span class="sx">Cog &amp; Lever</span></span><span class="x-s">↗</span></a></li>
+          <li><a href="https://plan4me.ai" data-img="plan4me"><span class="x-t"><span class="num">(2026)</span> <span class="sx">Plan4Me</span></span><span class="x-s">↗</span></a></li>
+          <li><a href="https://arm-wision.github.io/" data-img="plantclef"><span class="x-t"><span class="num">(2026)</span> <span class="sx">PlantCLEF 2026</span></span><span class="x-s">↗</span></a></li>
+          <li><a href="https://chr0me.au" data-img="chrome"><span class="x-t"><span class="num">(2026)</span> <span class="sx">chr0me.au</span></span><span class="x-s">↗</span></a></li>
+          <li><a href="https://canberracloudkitchen.com.au/" data-img="kitchen"><span class="x-t"><span class="num">(2023)</span> <span class="sx">Canberra Cloud Kitchen</span></span><span class="x-s">↗</span></a></li>
+          <li><a href="https://www.rocketremit.com/" data-img="rocket"><span class="x-t"><span class="num">(2023)</span> <span class="sx">Rocket Remit</span></span><span class="x-s">↗</span></a></li>
+        </ul>
       </div>
     </div>
   </section>
