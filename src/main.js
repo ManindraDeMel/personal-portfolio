@@ -448,6 +448,9 @@ const loadDrive = () => {
   driveVideo.preload = 'auto';
 };
 const playDrive = () => { const p = driveVideo.play(); if (p && p.catch) p.catch(() => {}); };
+// Loop: the element has the loop attribute; this restarts it if a browser ever stops at the end.
+driveVideo.loop = true;
+driveVideo.addEventListener('ended', () => { driveVideo.currentTime = 0; if (driveVisible) playDrive(); });
 if ('IntersectionObserver' in window) {
   new IntersectionObserver(([e]) => { if (e.isIntersecting) loadDrive(); }, { rootMargin: '700px 0px' }).observe(driveFrame);
   new IntersectionObserver(([e]) => {
