@@ -36,6 +36,12 @@
         ]
       },
       {
+        "source": "/assets/video/**",
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=2592000" }
+        ]
+      },
+      {
         "source": "/assets/img/**",
         "headers": [
           { "key": "Cache-Control", "value": "public, max-age=2592000" }
