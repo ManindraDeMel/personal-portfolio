@@ -1,8 +1,11 @@
 import {
+  AmbientLight,
   BufferAttribute,
   BufferGeometry,
   Color,
   ColorManagement,
+  DirectionalLight,
+  DynamicDrawUsage,
   EdgesGeometry,
   Group,
   LineBasicMaterial,
@@ -10,6 +13,8 @@ import {
   LinearSRGBColorSpace,
   Mesh,
   MeshBasicMaterial,
+  MeshLambertMaterial,
+  OrthographicCamera,
   PerspectiveCamera,
   Plane,
   PlaneGeometry,
@@ -416,10 +421,107 @@ function meshFigure({ reduce }) {
   });
 }
 
+// About: a low-poly 3D bust of the portrait's head-and-shoulders silhouette
+// (portrait-bust.json, tools/portrait-bust.swift). It stays still, face-on and lined up
+// with the photo. Each time main.js shows it (a 'bust' event) it replays the mesh's edge
+// collapses: vertices glide into their neighbours down to a coarse shell, hold, then
+// split back out to full detail.
+function bustFigure({ reduce }) {
+  if (reduce) return;
+  const scanEl = document.getElementById('portrait');
+  const host = scanEl.querySelector('.scan-bust');
+  const renderer = new WebGLRenderer({ canvas: host.querySelector('canvas'), antialias: true, alpha: true });
+  renderer.outputColorSpace = LinearSRGBColorSpace;
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setClearColor(0x000000, 0);
+  const camera = new OrthographicCamera(-0.8, 0.8, 1, -1, 0.1, 10);
+  camera.position.z = 4;
+  let beat = null, drawn = -1;
+  const fit = () => {
+    const w = host.clientWidth, h = host.clientHeight;
+    if (!w || !h) return;
+    renderer.setSize(w, h, false);
+    camera.left = -w / h; camera.right = w / h;
+    camera.updateProjectionMatrix();
+    drawn = -1;
+  };
+  fit();
+  new ResizeObserver(fit).observe(host);
+  // Lambert divides by π, so intensities are scaled by it to keep the grey light.
+  const scene = new Scene();
+  scene.add(new AmbientLight(0xffffff, 0.42 * Math.PI));
+  const key = new DirectionalLight(0xffffff, 0.72 * Math.PI);
+  key.position.set(-1.4, 1.5, 2.2);
+  scene.add(key);
+  scanEl.addEventListener('bust', (e) => {
+    beat = { t0: performance.now(), ms: e.detail.ms, depth: e.detail.depth };
+    drawn = -1;
+  });
+  fetch('/assets/img/portrait-bust.json').then((r) => r.json()).then(({ v, f, c, m }) => {
+    const n = v.length / 3, pos = new Float32Array(v);
+    const attr = new BufferAttribute(pos, 3).setUsage(DynamicDrawUsage);
+    const geo = new BufferGeometry();
+    geo.setAttribute('position', attr);
+    geo.setIndex(f);
+    // Edges share the same positions, so the wireframe collapses with the surface.
+    const seen = new Set(), edges = [];
+    for (let i = 0; i < f.length; i += 3) {
+      for (let k = 0; k < 3; k++) {
+        const a = f[i + k], b = f[i + ((k + 1) % 3)], key = a < b ? a * n + b : b * n + a;
+        if (!seen.has(key)) { seen.add(key); edges.push(a, b); }
+      }
+    }
+    const lines = new BufferGeometry();
+    lines.setAttribute('position', attr);
+    lines.setIndex(edges);
+    const mesh = new Mesh(geo, new MeshLambertMaterial({ color: 0xc4c4c8, flatShading: true, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 }));
+    const wire = new LineSegments(lines, new LineBasicMaterial({ color: 0x161618 }));
+    mesh.frustumCulled = wire.frustumCulled = false;
+    scene.add(mesh, wire);
+    // When each vertex collapses and into which neighbour; back twins follow the front.
+    const col = new Float64Array(n).fill(Infinity), to = new Int32Array(n);
+    for (let i = 0; i < c.length; i += 2) {
+      const a = c[i], b = c[i + 1];
+      col[a] = i / 2; to[a] = b;
+      if (m[a] !== a) { col[m[a]] = i / 2; to[m[a]] = m[b]; }
+    }
+    // A target always collapses later than its source, so latest-first resolves chains.
+    const order = Array.from({ length: n }, (_, i) => i).sort((a, b) => (col[a] === col[b] ? 0 : col[a] < col[b] ? 1 : -1));
+    const N = c.length / 2, WIN = Math.max(6, N * 0.07);
+    const collapseTo = (x) => {
+      for (const i of order) {
+        const a = i * 3;
+        if (!(x > col[i])) { pos[a] = v[a]; pos[a + 1] = v[a + 1]; pos[a + 2] = v[a + 2]; continue; }
+        let s = Math.min(1, (x - col[i]) / WIN);
+        s = s * s * (3 - 2 * s);
+        const b = to[i] * 3;
+        pos[a] = v[a] + (pos[b] - v[a]) * s;
+        pos[a + 1] = v[a + 1] + (pos[b + 1] - v[a + 1]) * s;
+        pos[a + 2] = v[a + 2] + (pos[b + 2] - v[a + 2]) * s;
+      }
+      attr.needsUpdate = true;
+    };
+    scanEl.classList.add('has-3d');
+    whileVisible(scanEl, () => {
+      if (!beat) return;
+      const { t0, ms, depth } = beat;
+      const t = (performance.now() - t0) / ms;
+      if (t >= 1) beat = null;
+      // full detail at both ends, coarsest through the middle
+      const q = Math.min(1, Math.max(0, Math.min((t - 0.06) / 0.34, (0.94 - t) / 0.34)));
+      const x = q * q * (3 - 2 * q) * depth * (N + WIN);
+      if (x === drawn) return;
+      drawn = x;
+      collapseTo(x);
+      renderer.render(scene, camera);
+    });
+  }).catch(() => {});
+}
+
 export function initScenes(opts) {
   // Each figure starts on its own, and only once it is near the viewport, so one
   // failure cannot take down the others and off-screen work never runs early.
-  const plan = [['field', speciesField], ['rsStage', quadratFigure], ['waves', wavesField], ['meshfig', meshFigure]];
+  const plan = [['field', speciesField], ['rsStage', quadratFigure], ['waves', wavesField], ['meshfig', meshFigure], ['portrait', bustFigure]];
   plan.forEach(([id, fn]) => {
     const el = document.getElementById(id);
     if (!el) return;

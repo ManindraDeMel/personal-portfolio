@@ -278,8 +278,24 @@ html.is-loading .ln > span { transform: translateY(14%); }
 
 .about-grid { margin-top: clamp(56px, 8vw, 120px); row-gap: clamp(40px, 6vw, 80px); align-items: start; }
 .about-media { grid-column: 2 / span 4; overflow: hidden; }
-.about-media img { display: block; width: 100%; max-width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 40%; filter: grayscale(1) contrast(1.05); transition: filter .8s var(--ease), transform 1.2s var(--ease); }
-.about-media:hover img { filter: grayscale(0) contrast(1); transform: scale(1.04); }
+.about-media img { display: block; width: 100%; max-width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 40%; filter: grayscale(1) contrast(1.05); transition: filter .8s var(--ease), transform 1.2s var(--ease); }
+.about-media:hover img { filter: grayscale(0) contrast(1); }
+
+/* Portrait glitch (main.js): every few seconds, at random, jagged black blocks cover
+   part of the photo, a few grayscale slices slip sideways, or the photo cuts to black and
+   the low-poly 3D bust (scenes.js) simplifies and refines. Stepped frames, no fades.
+   main.js sets each layer's clip-path; the slices only load the photo while .live. */
+.scan { position: relative; isolation: isolate; --img: url("/assets/img/portrait.webp"); }
+.scan img { position: relative; z-index: 0; }
+.scan-void, .sh, .gp { position: absolute; inset: 0; pointer-events: none; clip-path: polygon(0 0, 0 0, 0 0); }
+.scan-void { z-index: 1; background: var(--night); }
+.scan-bust { position: absolute; inset: 0; visibility: hidden; }
+.scan-bust canvas { display: block; width: 100%; height: 100%; }
+.scan.bust-on .scan-bust { visibility: visible; }
+.sh { z-index: 2; background: var(--night); }
+.gp { z-index: 3; filter: grayscale(1) contrast(1.05); }
+.scan.live .gp { background: var(--img) 50% 40% / cover no-repeat; }
+.about-media:hover .gp { filter: none; }
 .about-copy { grid-column: 7 / span 5; display: grid; gap: 32px; }
 .about-copy p { font-size: clamp(1.2rem, 1.7vw, 1.55rem); line-height: 1.28; max-width: 34ch; }
 .links { display: grid; }
@@ -439,7 +455,6 @@ html.js-anim .x-list:not(.in) li::after { transform: scaleX(0); }
 }
 @media (max-width: 480px) {
   .about-media { grid-column: 1 / -1; }
-  .about-media img { aspect-ratio: 1; }
   .fc-1, .fc-2, .fc-3, .fc-4 { grid-column: span 6; }
   .quad { height: 46vh; }
 }

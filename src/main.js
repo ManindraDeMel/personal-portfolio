@@ -240,6 +240,109 @@ if (canHover && !reduce) {
   });
 }
 
+// Portrait glitch: while the photo is on screen, every few seconds it plays one beat
+// picked at random: jagged black blocks over part of the photo (sometimes a window onto
+// the 3D bust), a quick slip of grayscale slices, or a cut to black where the bust
+// (scenes.js) simplifies and refines. Shapes, timings and order are all random.
+const scan = document.querySelector('.scan');
+if (scan && !reduce && 'IntersectionObserver' in window) {
+  const voidEl = scan.querySelector('.scan-void');
+  const shards = Array.from(scan.querySelectorAll('.sh'));
+  const slips = Array.from(scan.querySelectorAll('.gp'));
+  const NONE = 'polygon(0 0, 0 0, 0 0)';
+  const rand = (a, b) => a + Math.random() * (b - a);
+  const chance = (p) => Math.random() < p;
+  // A band with zig-zag edges all round, y0..y1 by x0..x1 (percentages).
+  const pt = (x, y) => x.toFixed(1) + '% ' + y.toFixed(1) + '%';
+  const jag = (y0, y1, x0, x1) => {
+    const n = 3 + Math.floor(Math.random() * 6), top = [], bottom = [], mid = (y0 + y1) / 2;
+    for (let i = 0; i <= n; i++) {
+      const x = x0 + ((x1 - x0) * i) / n;
+      top.push(pt(x, y0 + rand(-5, 5)));
+      bottom.unshift(pt(x, y1 + rand(-5, 5)));
+    }
+    return 'polygon(' + [...top, pt(x1 + rand(-6, 6), mid), ...bottom, pt(x0 + rand(-6, 6), mid)].join(', ') + ')';
+  };
+  const band = (min, max) => {
+    const h = rand(min, max), y = rand(-4, 100 - h), x0 = chance(0.6) ? -2 : rand(-2, 45);
+    return jag(y, y + h, x0, x0 < 0 ? 102 : rand(x0 + 35, 102));
+  };
+  const set = (el, clip, dx) => {
+    el.style.clipPath = clip;
+    el.style.transform = dx ? 'translateX(' + dx.toFixed(0) + 'px)' : '';
+  };
+  const reset = () => {
+    [voidEl, ...shards, ...slips].forEach((el) => set(el, NONE));
+    scan.classList.remove('bust-on');
+  };
+  const has3d = () => scan.classList.contains('has-3d');
+  const bust = (ms, depth) => {
+    scan.classList.add('bust-on');
+    scan.dispatchEvent(new CustomEvent('bust', { detail: { ms, depth } }));
+  };
+  let run = 0;   // bumped when the photo leaves the screen, which cancels the running beat
+  const wait = (ms, id) => new Promise((ok, stop) => setTimeout(() => (id === run ? ok() : stop()), ms));
+  const tear = async (id, frames) => {
+    for (let k = 0; k < frames; k++) {
+      slips.forEach((el) => set(el, chance(0.75) ? band(3, 14) : NONE, rand(-16, 16)));
+      set(shards[k % shards.length], chance(0.5) ? band(4, 18) : NONE);
+      await wait(rand(40, 100), id);
+    }
+    [...shards, ...slips].forEach((el) => set(el, NONE));
+  };
+  const beats = {
+    async block(id) {
+      const xray = has3d() && chance(0.45), hold = rand(700, 2200);
+      const shapes = Array.from({ length: 1 + Math.floor(Math.random() * 3) }, () => band(8, xray ? 45 : 30));
+      const els = xray ? [voidEl, ...shards] : shards;
+      const show = (on) => shapes.forEach((clip, i) => set(els[i], on ? clip : NONE));
+      if (xray) bust(hold + 600, rand(0.4, 1));
+      for (const on of [true, false, true]) { show(on); await wait(rand(45, 110), id); }
+      await wait(hold / 2, id);
+      if (chance(0.5)) { shapes[0] = band(8, 30); show(true); }
+      await wait(hold / 2, id);
+      for (const on of [false, true, false]) { show(on); await wait(rand(45, 100), id); }
+      reset();
+    },
+    async slip(id) {
+      await tear(id, 3 + Math.floor(Math.random() * 4));
+    },
+    async deep(id) {
+      const ms = rand(3200, 4600);
+      await tear(id, 2 + Math.floor(Math.random() * 2));
+      set(voidEl, band(30, 60));
+      await wait(rand(50, 90), id);
+      set(voidEl, 'none');
+      bust(ms, rand(0.8, 1));
+      await wait(ms, id);
+      set(voidEl, band(40, 70));
+      await wait(rand(50, 90), id);
+      set(voidEl, band(15, 35));
+      await wait(rand(50, 90), id);
+      reset();
+      await tear(id, 2);
+    },
+  };
+  let last = '';
+  const loop = async (id) => {
+    await wait(rand(500, 1400), id);
+    for (;;) {
+      const r = Math.random();
+      let name = has3d() && r < 0.35 ? 'deep' : r < 0.75 ? 'block' : 'slip';
+      if (name === last && name !== 'block') name = 'block';
+      last = name;
+      await beats[name](id);
+      await wait(rand(1600, 5200), id);
+    }
+  };
+  new IntersectionObserver(([e]) => {
+    run++;
+    reset();
+    scan.classList.toggle('live', e.isIntersecting);
+    if (e.isIntersecting) loop(run).catch(() => {});
+  }).observe(scan);
+}
+
 // Magnetic buttons and tilting media
 if (canHover && !reduce) {
   document.querySelectorAll('[data-magnet]').forEach((el) => {
