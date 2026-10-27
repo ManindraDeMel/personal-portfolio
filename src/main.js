@@ -242,7 +242,7 @@ if (canHover && !reduce) {
 
 // Portrait glitch: while the photo is on screen, every few seconds it plays one beat
 // picked at random: jagged black blocks over part of the photo (sometimes a window onto
-// the 3D bust), a quick slip of grayscale slices, or a cut to black where the bust
+// the wireframe bust), a quick slip of grayscale slices, or a cut to black where the bust
 // (scenes.js) simplifies and refines. Shapes, timings and order are all random.
 const scan = document.querySelector('.scan');
 if (scan && !reduce && 'IntersectionObserver' in window) {
@@ -275,7 +275,7 @@ if (scan && !reduce && 'IntersectionObserver' in window) {
     [voidEl, ...shards, ...slips].forEach((el) => set(el, NONE));
     scan.classList.remove('bust-on');
   };
-  const has3d = () => scan.classList.contains('has-3d');
+  const hasBust = () => scan.classList.contains('has-bust');
   const bust = (ms, depth) => {
     scan.classList.add('bust-on');
     scan.dispatchEvent(new CustomEvent('bust', { detail: { ms, depth } }));
@@ -292,7 +292,7 @@ if (scan && !reduce && 'IntersectionObserver' in window) {
   };
   const beats = {
     async block(id) {
-      const xray = has3d() && chance(0.45), hold = rand(700, 2200);
+      const xray = hasBust() && chance(0.45), hold = rand(700, 2200);
       const shapes = Array.from({ length: 1 + Math.floor(Math.random() * 3) }, () => band(8, xray ? 45 : 30));
       const els = xray ? [voidEl, ...shards] : shards;
       const show = (on) => shapes.forEach((clip, i) => set(els[i], on ? clip : NONE));
@@ -328,7 +328,7 @@ if (scan && !reduce && 'IntersectionObserver' in window) {
     await wait(rand(500, 1400), id);
     for (;;) {
       const r = Math.random();
-      let name = has3d() && r < 0.35 ? 'deep' : r < 0.75 ? 'block' : 'slip';
+      let name = hasBust() && r < 0.35 ? 'deep' : r < 0.75 ? 'block' : 'slip';
       if (name === last && name !== 'block') name = 'block';
       last = name;
       await beats[name](id);

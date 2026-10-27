@@ -256,6 +256,20 @@
       </div>
     </div>
 
+    <figure class="model" id="model">
+      <figcaption class="model-head">BioCLIP 2.5 ViT-H/14</figcaption>
+      <div class="model-gl" id="modelGl" role="img" aria-label="Animated diagram of the model. A 224 or 336 pixel quadrat tile is cut into 14 pixel patches, 16 by 16 or 24 by 24, which pass with the CLS token through 32 transformer blocks: the lower 28 frozen, the last 4 fine-tuned. The 1,024-dimensional CLS embedding feeds three heads with one output per class: 181 families, 1,446 genera and 7,806 species.">
+        <canvas></canvas>
+        <span class="mt" data-at="tile" aria-hidden="true">224 px, 16 × 16 patches</span>
+        <span class="mt" data-at="frozen" aria-hidden="true">28 frozen blocks</span>
+        <span class="mt" data-at="tuned" aria-hidden="true">4 fine-tuned</span>
+        <span class="mt" data-at="cls" aria-hidden="true">CLS, 1,024-d</span>
+        <span class="mt" data-at="family" aria-hidden="true">Family 181</span>
+        <span class="mt" data-at="genus" aria-hidden="true">Genus 1,446</span>
+        <span class="mt" data-at="species" aria-hidden="true">Species 7,806</span>
+      </div>
+    </figure>
+
     <div class="stats">
       <div class="stat"><b class="num" data-count="0.418" data-dec="3">0.418</b><span data-decode>Macro F1</span></div>
       <div class="stat"><b data-count="7" data-suf="th">7th</b><span data-decode>Leaderboard</span></div>
