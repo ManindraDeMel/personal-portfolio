@@ -10,6 +10,12 @@ xelatex resume.tex
 
 Run twice if you change anchors/refs. Output: `resume.pdf`.
 
+Without a TeX install, [Tectonic](https://tectonic-typesetting.github.io/) (`brew install tectonic`) builds the same PDF and reruns as needed:
+
+```
+tectonic -X compile resume.tex
+```
+
 ## Fonts
 
 The preamble tries Helvetica Neue → Helvetica → Inter → Arial → Segoe UI for the display face, and JetBrains Mono → DejaVu Sans Mono → Consolas → Courier New for the mono face. Whichever exists on the host machine wins. To match the website most closely, install Helvetica Neue and JetBrains Mono.
